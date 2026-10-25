@@ -139,8 +139,12 @@ document.getElementById('form-register').addEventListener('submit', async (e) =>
     // Open OTP Overlay
     document.getElementById('otp-overlay').classList.add('active');
     
-    // Notify the user about the mock OTP generated on backend
-    alert(`Saitrack Security Verification Code sent to +91 ${phone}! Check console or enter the following pre-generated OTP: ${data.mock_otp}`);
+    // Notify user about verification code
+    if (data.mock_otp) {
+      alert(`Saitrack / CampusRide Test Verification Code: ${data.mock_otp}\n(Notice: Automated testing mode enabled)`);
+    } else {
+      alert(`Verification code dispatched to +91 ${phone}.\nIn local development mode, please inspect the server terminal console logs.`);
+    }
     
     // Start OTP Countdown timer (10 mins)
     startOTPTimer(600);

@@ -2,135 +2,190 @@ const express = require('express');
 const http = require('http');
 const WebSocket = require('ws');
 const path = require('path');
+const jwt = require('jsonwebtoken');
+const config = require('./config');
 const db = require('./db');
+const { ROUTE_GEOMETRIES, getRouteGeometry } = require('./routes-geometry');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = config.PORT;
 
 // Middleware
-app.use(express.json());
+app.use(express.json({ limit: '1mb' }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Simple mock OTP and Token database in-memory
-const activeOTPs = {}; // Format: { email: { code, expiresAt } }
-const activeTokens = new Set();
+// In-memory registration OTP store: { [email]: { code, expiresAt, userData } }
+const activeOTPs = {};
 
-// Base64 Token helper (replicates JWT behavior statelessly and safely)
-const TokenHelper = {
-  sign(payload) {
-    const header = Buffer.from(JSON.stringify({ alg: 'HS256', typ: 'JWT' })).toString('base64');
-    const data = Buffer.from(JSON.stringify(payload)).toString('base64');
-    const signature = Buffer.from(header + '.' + data + 'saitrack_secret_key').toString('base64').substring(0, 20);
-    return `${header}.${data}.${signature}`;
-  },
-  verify(token) {
-    if (!token) return null;
-    const parts = token.split('.');
-    if (parts.length !== 3) return null;
-    try {
-      const payload = JSON.parse(Buffer.from(parts[1], 'base64').toString('utf8'));
-      const expectedSig = Buffer.from(parts[0] + '.' + parts[1] + 'saitrack_secret_key').toString('base64').substring(0, 20);
-      if (parts[2] !== expectedSig) return null;
-      return payload;
-    } catch (err) {
-      return null;
-    }
-  }
-};
+// ----------------------------------------------------
+// AUTHENTICATION & SECURITY MIDDLEWARE
+// ----------------------------------------------------
 
-// Authentication Middleware
+/**
+ * Standard JWT verification middleware using jsonwebtoken
+ */
 function authenticateToken(req, res, next) {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
-  
-  if (!token) return res.status(401).json({ error: 'Access token required' });
-  
-  const user = TokenHelper.verify(token);
-  if (!user) return res.status(403).json({ error: 'Invalid or expired token' });
-  
-  req.user = user;
-  next();
+
+  if (!token) {
+    return res.status(401).json({ error: 'Authentication required: access token missing' });
+  }
+
+  jwt.verify(token, config.JWT_SECRET, (err, user) => {
+    if (err) {
+      return res.status(403).json({ error: 'Invalid or expired session token' });
+    }
+    req.user = user;
+    next();
+  });
+}
+
+/**
+ * Role-based authorization middleware
+ */
+function requireRole(allowedRoles) {
+  const roles = Array.isArray(allowedRoles) ? allowedRoles : [allowedRoles];
+  return (req, res, next) => {
+    if (!req.user || !roles.includes(req.user.role)) {
+      return res.status(403).json({
+        error: `Access forbidden: requires one of the following roles: [${roles.join(', ')}]`
+      });
+    }
+    next();
+  };
 }
 
 // ----------------------------------------------------
-// REST ENDPOINTS
+// PUBLIC & AUTHENTICATION ENDPOINTS
 // ----------------------------------------------------
 
-// public register endpoint
+// Server Configuration & Campus metadata for frontend
+app.get('/api/config', (req, res) => {
+  res.json({
+    campus: config.CAMPUS,
+    demoMode: config.DEMO_MODE,
+    simulationEnabled: simulationRunning,
+    map: config.MAP
+  });
+});
+
+// Route Road Geometry Endpoint
+app.get('/api/routes/:id/geometry', (req, res) => {
+  const routeId = req.params.id;
+  const geometry = getRouteGeometry(routeId);
+  if (!geometry) {
+    // Fallback: collect stop coordinates
+    const stops = db.getStops().filter(s => s.route_id === routeId).sort((a,b) => a.sequence_order - b.sequence_order);
+    return res.json({
+      routeId,
+      geometry: stops.map(s => [s.latitude, s.longitude]),
+      source: 'stops_fallback'
+    });
+  }
+  res.json({
+    routeId,
+    geometry,
+    source: 'verified_road_waypoints'
+  });
+});
+
+// Register Account Request (Sends OTP)
 app.post('/api/auth/register', (req, res) => {
   const { name, email, phone, password, role } = req.body;
   if (!name || !email || !phone || !password || !role) {
-    return res.status(400).json({ error: 'All fields are required' });
+    return res.status(400).json({ error: 'All fields (name, email, phone, password, role) are required' });
+  }
+
+  // Validate email format
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    return res.status(400).json({ error: 'Invalid email address format' });
+  }
+
+  // Restrict self-registration to student or parent
+  if (!['student', 'parent'].includes(role)) {
+    return res.status(400).json({ error: 'Self-registration is only allowed for Student and Parent roles' });
   }
 
   // Check if user exists
   const existing = db.findUserByEmail(email);
   if (existing) {
-    return res.status(400).json({ error: 'Email already registered' });
+    return res.status(400).json({ error: 'Email is already registered' });
   }
 
-  // Generate simulated OTP (6 digit)
+  // Generate 6-digit OTP
   const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
-  activeOTPs[email] = {
+  activeOTPs[email.toLowerCase()] = {
     code: otpCode,
     expiresAt: Date.now() + 600000, // 10 minutes
-    userData: { name, email, phone, password, role }
+    userData: { name, email: email.toLowerCase(), phone, password, role }
   };
 
-  // Simulate sending SMS/Email by logging it in the console
-  console.log(`\n--- [SMS/EMAIL OTP GATEWAY] ---`);
+  console.log(`\n--- [SMS/EMAIL OTP GATEWAY SIMULATOR] ---`);
   console.log(`To: ${phone} (${name})`);
-  console.log(`Your Saitrack Verification OTP code is: ${otpCode}`);
-  console.log(`---------------------------------\n`);
+  console.log(`Saitrack / CampusRide Verification OTP: ${otpCode}`);
+  console.log(`Notice: Simulated SMS channel. Production deployments require Twilio/AWS SNS integration.`);
+  console.log(`-----------------------------------------\n`);
 
-  res.json({ message: 'OTP sent successfully to your device', email, mock_otp: otpCode });
+  const responsePayload = {
+    message: 'Verification code dispatched to registered mobile number',
+    email: email.toLowerCase()
+  };
+
+  // Only expose OTP directly in response if explicitly enabled for local test scripts
+  if (config.EXPOSE_MOCK_OTP) {
+    responsePayload.mock_otp = otpCode;
+  }
+
+  res.json(responsePayload);
 });
 
-// Verify OTP & create account
+// Verify OTP & Activate Account
 app.post('/api/auth/verify-otp', (req, res) => {
   const { email, code } = req.body;
   if (!email || !code) {
-    return res.status(400).json({ error: 'Email and OTP code are required' });
+    return res.status(400).json({ error: 'Email and OTP verification code are required' });
   }
 
-  const storedOtp = activeOTPs[email];
+  const storedOtp = activeOTPs[email.toLowerCase()];
   if (!storedOtp) {
-    return res.status(400).json({ error: 'No active registration found. Please register again.' });
+    return res.status(400).json({ error: 'No active registration found. Please request a new verification code.' });
   }
 
   if (storedOtp.expiresAt < Date.now()) {
-    delete activeOTPs[email];
-    return res.status(400).json({ error: 'OTP code expired. Please register again.' });
+    delete activeOTPs[email.toLowerCase()];
+    return res.status(400).json({ error: 'Verification code expired. Please request a new code.' });
   }
 
-  if (storedOtp.code !== code) {
-    return res.status(400).json({ error: 'Incorrect OTP verification code.' });
+  if (storedOtp.code !== code.toString().trim()) {
+    return res.status(400).json({ error: 'Incorrect verification code. Please check and try again.' });
   }
 
   const u = storedOtp.userData;
   const userId = `usr_${Date.now()}`;
-  
-  // Insert core user
+
+  // Insert core user with salted Bcrypt password hash
   const newUser = db.insertUser({
     id: userId,
     name: u.name,
     email: u.email,
-    password_hash: u.password, // Dev simplicity
+    password_hash: db.hashPassword(u.password),
     role: u.role,
     phone: u.phone,
     created_at: new Date().toISOString()
   });
 
-  // Role-specific setups
+  // Role-specific setup
   if (u.role === 'student') {
     db.insertStudent({
       user_id: userId,
+      rfid_tag: `RFID_SEC_${Date.now().toString().slice(-4)}`,
       class_grade: "1st Year",
       route_id: "route_1",
-      boarding_stop_id: "stop_1_1" // Default Yeshwanthpur stop
+      boarding_stop_id: "stop_1_1"
     });
 
-    // Seed default pending payment for new students
     db.insertPayment({
       id: `pay_${Date.now()}`,
       student_id: userId,
@@ -138,33 +193,34 @@ app.post('/api/auth/verify-otp', (req, res) => {
       currency: "INR",
       gpay_token: null,
       status: "pending",
+      simulated: true,
       timestamp: new Date().toISOString()
     });
   } else if (u.role === 'parent') {
-    db.insertParent({
-      user_id: userId
-    });
-    // Automatically link to our pre-seeded student for demonstration!
-    db.linkParentStudent(userId, "usr_student_1");
+    db.insertParent({ user_id: userId });
+    // Link to pre-seeded student for demonstration if available
+    const demoStudent = db.findUserById('usr_student_1');
+    if (demoStudent) {
+      db.linkParentStudent(userId, "usr_student_1");
+    }
   }
 
-  delete activeOTPs[email];
-  res.json({ message: 'Verification successful! Account activated.', role: u.role });
+  delete activeOTPs[email.toLowerCase()];
+  res.json({ message: 'Verification successful! Your account is activated.', role: u.role });
 });
 
-// Secure Login
+// User Login (Bcrypt verified + JWT issued)
 app.post('/api/auth/login', (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
-    return res.status(400).json({ error: 'Email and password required' });
+    return res.status(400).json({ error: 'Email and password are required' });
   }
 
   const user = db.findUserByEmail(email);
-  if (!user || user.password_hash !== password) {
+  if (!user || !db.verifyPassword(user, password)) {
     return res.status(400).json({ error: 'Invalid email or password' });
   }
 
-  // Create JWT claim
   const payload = {
     id: user.id,
     name: user.name,
@@ -173,8 +229,7 @@ app.post('/api/auth/login', (req, res) => {
     phone: user.phone
   };
 
-  const token = TokenHelper.sign(payload);
-  activeTokens.add(token);
+  const token = jwt.sign(payload, config.JWT_SECRET, { expiresIn: config.JWT_EXPIRES_IN });
 
   res.json({
     message: 'Login successful',
@@ -183,85 +238,84 @@ app.post('/api/auth/login', (req, res) => {
   });
 });
 
-// Student Dashboard Info
-app.get('/api/student/dashboard', authenticateToken, (req, res) => {
-  if (req.user.role !== 'student') return res.status(403).json({ error: 'Student only access' });
-  
+// ----------------------------------------------------
+// STUDENT DASHBOARD ENDPOINTS
+// ----------------------------------------------------
+
+app.get('/api/student/dashboard', authenticateToken, requireRole('student'), (req, res) => {
   const details = db.getStudentDetails(req.user.id);
   if (!details) return res.status(404).json({ error: 'Student profile not found' });
-  
-  // Get active payments
+
   const payments = db.getPayments().filter(p => p.student_id === req.user.id);
-  
-  // Get attendance logs
   const attendance = db.getAttendance().filter(a => a.student_id === req.user.id);
-  
-  // Get stops on route
   const stops = db.getStops().filter(s => s.route_id === details.route_id);
 
-  // Get coRiders (all students, enriched with route/stop names and today's status)
+  // Co-riders on the same route
   const todayStr = new Date().toISOString().split('T')[0];
-  const coRiders = db.getStudents().map(st => {
-    const u = db.findUserById(st.user_id);
-    if (!u) return null;
-    const route = db.getRoutes().find(r => r.id === st.route_id);
-    const stop = db.getStops().find(s => s.id === st.boarding_stop_id);
-    const todayAtt = db.getAttendance().find(a => a.student_id === st.user_id && a.date === todayStr);
-    return {
-      student_id: st.user_id,
-      name: u.name,
-      class_grade: st.class_grade,
-      route_id: st.route_id,
-      routeName: route ? route.name : 'Unassigned',
-      boarding_stop_id: st.boarding_stop_id,
-      stopName: stop ? stop.name : 'Unassigned Stop',
-      status: todayAtt ? todayAtt.status : -1, // -1: Unmarked, 1: Present, 0: Absent
-      marked_by: todayAtt ? todayAtt.marked_by : null,
-      timestamp: todayAtt ? todayAtt.timestamp : null
-    };
-  }).filter(Boolean);
+  const coRiders = db.getStudents()
+    .filter(st => st.route_id === details.route_id)
+    .map(st => {
+      const u = db.findUserById(st.user_id);
+      if (!u) return null;
+      const route = db.getRoutes().find(r => r.id === st.route_id);
+      const stop = db.getStops().find(s => s.id === st.boarding_stop_id);
+      const todayAtt = db.getAttendance().find(a => a.student_id === st.user_id && a.date === todayStr);
+      return {
+        student_id: st.user_id,
+        name: u.name,
+        class_grade: st.class_grade,
+        route_id: st.route_id,
+        routeName: route ? route.name : 'Unassigned',
+        boarding_stop_id: st.boarding_stop_id,
+        stopName: stop ? stop.name : 'Unassigned Stop',
+        status: todayAtt ? todayAtt.status : -1,
+        marked_by: todayAtt ? todayAtt.marked_by : null,
+        timestamp: todayAtt ? todayAtt.timestamp : null
+      };
+    })
+    .filter(Boolean);
 
   res.json({
     profile: details,
     stops,
     payments,
     attendance,
-    coRiders
+    coRiders,
+    campus: config.CAMPUS
   });
 });
 
-// Student Boarding stop selector
-app.post('/api/student/boarding', authenticateToken, (req, res) => {
-  if (req.user.role !== 'student') return res.status(403).json({ error: 'Student only access' });
+app.post('/api/student/boarding', authenticateToken, requireRole('student'), (req, res) => {
   const { stopId } = req.body;
   if (!stopId) return res.status(400).json({ error: 'stopId is required' });
 
+  // Verify stop exists
+  const stop = db.getStops().find(s => s.id === stopId);
+  if (!stop) return res.status(404).json({ error: 'Specified stop does not exist' });
+
   const success = db.updateStudentStop(req.user.id, stopId);
   if (success) {
-    res.json({ message: 'Boarding point updated successfully' });
+    res.json({ message: 'Boarding point updated successfully', stop });
   } else {
     res.status(500).json({ error: 'Failed to update boarding stop' });
   }
 });
 
-// Student manual RFID ID card tap simulator
-app.post('/api/student/rfid-tap', authenticateToken, (req, res) => {
-  if (req.user.role !== 'student') return res.status(403).json({ error: 'Student only access' });
-
+// Student Manual RFID Demo Tap
+app.post('/api/student/rfid-tap', authenticateToken, requireRole('student'), (req, res) => {
   const studentId = req.user.id;
   const details = db.getStudentDetails(studentId);
   if (!details) return res.status(404).json({ error: 'Student profile not found' });
 
   const todayStr = new Date().toISOString().split('T')[0];
-  
-  // Mark present
   const existingIdx = db.data.attendance.findIndex(a => a.student_id === studentId && a.date === todayStr);
+
   const record = {
     id: existingIdx !== -1 ? db.data.attendance[existingIdx].id : `att_${studentId}_rfid_${Date.now().toString(36)}`,
     student_id: studentId,
     date: todayStr,
     status: 1, // Present
-    marked_by: 'Student_Manual_RFID_Tap',
+    marked_by: 'Student_Manual_RFID_Demo_Tap',
     timestamp: new Date().toISOString()
   };
 
@@ -272,41 +326,63 @@ app.post('/api/student/rfid-tap', authenticateToken, (req, res) => {
   }
   db.save();
 
-  // Broadcast to WS
+  // Broadcast WebSocket notification to parents, admins, and student
   broadcastSocketMessage({
     type: 'rfid_boarded',
     studentId: studentId,
     studentName: details.name,
-    busNumber: details.busNumber || 'Route Bus',
+    busNumber: details.busNumber || 'College Bus',
     stopName: details.stopName || 'Boarding stop',
     timestamp: record.timestamp,
-    status: 1
+    status: 1,
+    is_demo: true,
+    channel: 'websocket_in_app'
   });
 
   res.json({
-    message: 'ID Card scanned successfully. Status logged as Present.',
-    record
+    message: 'ID Card simulation scanned successfully. Attendance logged as Present.',
+    record,
+    is_demo: true
   });
 });
 
-// Trigger emergency alert
+// Student Panic Emergency Dispatch
 app.post('/api/student/panic', authenticateToken, (req, res) => {
-  const { latitude, longitude, message, type } = req.body;
+  const { latitude, longitude, message, type, location_type } = req.body;
   
+  // Validate coordinates if provided
+  let lat = parseFloat(latitude);
+  let lng = parseFloat(longitude);
+  let resolvedLocationType = location_type || 'browser_gps';
+
+  if (isNaN(lat) || isNaN(lng) || lat < -90 || lat > 90 || lng < -180 || lng > 180) {
+    // Fallback to student boarding stop coordinates
+    const details = db.getStudentDetails(req.user.id);
+    if (details && details.boardingStop) {
+      lat = details.boardingStop.latitude;
+      lng = details.boardingStop.longitude;
+      resolvedLocationType = 'stop_fallback';
+    } else {
+      lat = config.CAMPUS.latitude;
+      lng = config.CAMPUS.longitude;
+      resolvedLocationType = 'campus_fallback';
+    }
+  }
+
   const alertId = `alert_${Date.now()}`;
   const alert = db.insertAlert({
     id: alertId,
     user_id: req.user.id,
     type: type || 'student_panic',
     message: message || `Emergency Panic Triggered by ${req.user.name}`,
-    latitude: latitude || 12.996,
-    longitude: longitude || 77.572,
+    latitude: lat,
+    longitude: lng,
+    location_type: resolvedLocationType,
     status: 'active',
     resolved_by: null,
     timestamp: new Date().toISOString()
   });
 
-  // Broadcast through WebSocket to all connected admins/parents
   broadcastSocketMessage({
     type: 'emergency_alert',
     alert: {
@@ -317,14 +393,18 @@ app.post('/api/student/panic', authenticateToken, (req, res) => {
     }
   });
 
-  res.json({ message: 'Emergency dispatch logged. Help is on the way.', alertId });
+  res.json({
+    message: 'Emergency alert logged and broadcast to campus administration and family.',
+    alertId,
+    coordinates: { lat, lng, location_type: resolvedLocationType }
+  });
 });
 
-// Parent details & children list
-app.get('/api/parent/children', authenticateToken, (req, res) => {
-  if (req.user.role !== 'parent') return res.status(403).json({ error: 'Parent only access' });
+// ----------------------------------------------------
+// PARENT DASHBOARD ENDPOINTS
+// ----------------------------------------------------
 
-  // Find linked students
+app.get('/api/parent/children', authenticateToken, requireRole('parent'), (req, res) => {
   const links = db.getParentStudents().filter(ps => ps.parent_id === req.user.id);
   const children = links.map(link => {
     const details = db.getStudentDetails(link.student_id);
@@ -332,35 +412,211 @@ app.get('/api/parent/children', authenticateToken, (req, res) => {
 
     const payments = db.getPayments().filter(p => p.student_id === link.student_id);
     const attendance = db.getAttendance().filter(a => a.student_id === link.student_id);
-    
+    const route = db.getRoutes().find(r => r.id === details.route_id);
+    const stops = db.getStops().filter(s => s.route_id === details.route_id);
+
     return {
       profile: details,
+      route,
+      stops,
       payments,
       attendance
     };
   }).filter(Boolean);
 
-  res.json({ children });
+  res.json({ children, campus: config.CAMPUS });
 });
 
-// Payments APIs
-app.post('/api/payments/create', authenticateToken, (req, res) => {
-  const { amount, paymentId } = req.body;
-  if (!amount || !paymentId) return res.status(400).json({ error: 'amount and paymentId are required' });
+// ----------------------------------------------------
+// REAL HARDWARE INGEST ENDPOINTS (GPS & UHF RFID)
+// ----------------------------------------------------
+
+/**
+ * Driver / GPS Device Location Ingest Endpoint
+ * Allows physical GPS tracking hardware or authenticated drivers to update location.
+ */
+app.post('/api/driver/location', (req, res) => {
+  // Allow authentication either via Bearer Token (driver/admin) or X-Device-Key
+  const authHeader = req.headers['authorization'];
+  const deviceKey = req.headers['x-device-key'];
+  let authorized = false;
+
+  if (deviceKey && deviceKey === config.GPS_DEVICE_API_KEY) {
+    authorized = true;
+  } else if (authHeader) {
+    const token = authHeader.split(' ')[1];
+    try {
+      const decoded = jwt.verify(token, config.JWT_SECRET);
+      if (['driver', 'admin'].includes(decoded.role)) {
+        authorized = true;
+      }
+    } catch (err) {}
+  }
+
+  if (!authorized) {
+    return res.status(403).json({ error: 'Unauthorized: valid driver credentials or device key required' });
+  }
+
+  const { busId, latitude, longitude, speed, heading, timestamp } = req.body;
+  if (!busId || latitude === undefined || longitude === undefined) {
+    return res.status(400).json({ error: 'busId, latitude, and longitude are required' });
+  }
+
+  const lat = parseFloat(latitude);
+  const lng = parseFloat(longitude);
+  if (isNaN(lat) || isNaN(lng) || lat < -90 || lat > 90 || lng < -180 || lng > 180) {
+    return res.status(400).json({ error: 'Invalid latitude or longitude coordinates' });
+  }
+
+  const bus = db.updateBusLocation(busId, lat, lng, speed, heading, false);
+  if (!bus) {
+    return res.status(404).json({ error: `Bus not found for ID: ${busId}` });
+  }
+
+  // Broadcast real GPS coordinates to connected users
+  broadcastSocketMessage({
+    type: 'bus_location',
+    busId: bus.id,
+    busNumber: bus.bus_number,
+    lat,
+    lng,
+    speed: bus.speed_kmh || 0,
+    heading: bus.heading || 0,
+    timestamp: bus.last_update,
+    is_simulated: false,
+    status: 'live'
+  });
 
   res.json({
-    message: 'Google Pay session initialized',
-    gatewayToken: `gpay_sess_${Date.now()}`
+    message: 'Bus location updated successfully via live GPS telemetry',
+    bus: {
+      id: bus.id,
+      bus_number: bus.bus_number,
+      latitude: bus.latitude,
+      longitude: bus.longitude,
+      speed_kmh: bus.speed_kmh,
+      last_update: bus.last_update,
+      is_simulated: false
+    }
+  });
+});
+
+/**
+ * UHF RFID Reader Ingest Endpoint (Physical Bus Scanners)
+ */
+app.post('/api/rfid/scan', (req, res) => {
+  const readerKey = req.headers['x-reader-key'];
+  const authHeader = req.headers['authorization'];
+  let authorized = false;
+
+  if (readerKey && readerKey === config.RFID_READER_API_KEY) {
+    authorized = true;
+  } else if (authHeader) {
+    const token = authHeader.split(' ')[1];
+    try {
+      const decoded = jwt.verify(token, config.JWT_SECRET);
+      if (['driver', 'admin'].includes(decoded.role)) authorized = true;
+    } catch (e) {}
+  }
+
+  if (!authorized) {
+    return res.status(403).json({ error: 'Unauthorized: valid RFID reader API key or staff token required' });
+  }
+
+  const { rfid_tag, bus_id, reader_id, timestamp } = req.body;
+  if (!rfid_tag || !bus_id) {
+    return res.status(400).json({ error: 'rfid_tag and bus_id are required' });
+  }
+
+  const bus = db.getBuses().find(b => b.id === bus_id);
+  if (!bus) {
+    return res.status(404).json({ error: `Bus not found for ID: ${bus_id}` });
+  }
+
+  const scanResult = db.recordRFIDScan({
+    rfid_tag,
+    bus_id,
+    reader_id,
+    timestamp
+  });
+
+  if (!scanResult.success) {
+    return res.status(404).json({ error: scanResult.error });
+  }
+
+  if (scanResult.duplicate) {
+    return res.status(200).json({
+      status: 'ignored',
+      message: scanResult.message,
+      lastScanTime: scanResult.lastScanTime
+    });
+  }
+
+  const studentUser = db.findUserById(scanResult.student.user_id);
+  const stop = db.getStops().find(s => s.id === scanResult.student.boarding_stop_id);
+
+  console.log(`\n--- [💳 UHF RFID PHYSICAL GATE EVENT] ---`);
+  console.log(`Student: ${studentUser ? studentUser.name : scanResult.student.user_id}`);
+  console.log(`RFID Tag: ${rfid_tag}`);
+  console.log(`Bus: ${bus.bus_number}`);
+  console.log(`Status: PRESENT logged.`);
+  console.log(`-----------------------------------------\n`);
+
+  // Broadcast WebSocket event
+  broadcastSocketMessage({
+    type: 'rfid_boarded',
+    studentId: scanResult.student.user_id,
+    studentName: studentUser ? studentUser.name : 'Student',
+    busNumber: bus.bus_number,
+    stopName: stop ? stop.name : 'Assigned Stop',
+    timestamp: scanResult.record.timestamp,
+    status: 1,
+    is_hardware_rfid: true,
+    channel: 'websocket_in_app'
+  });
+
+  res.json({
+    message: 'RFID scan validated and attendance logged',
+    record: scanResult.record,
+    student: {
+      id: scanResult.student.user_id,
+      name: studentUser ? studentUser.name : ''
+    }
+  });
+});
+
+// ----------------------------------------------------
+// PAYMENTS APIS (WITH CLEAR SIMULATION DISCLAIMERS)
+// ----------------------------------------------------
+
+app.post('/api/payments/create', authenticateToken, (req, res) => {
+  const { amount, paymentId } = req.body;
+  if (!amount || !paymentId) {
+    return res.status(400).json({ error: 'amount and paymentId are required' });
+  }
+
+  res.json({
+    message: 'Google Pay transaction initialized (Sandbox / Test Mode)',
+    gatewayToken: `gpay_sess_${Date.now()}`,
+    simulated: true,
+    notice: 'Demonstration payment channel - No real bank charges will occur.'
   });
 });
 
 app.post('/api/payments/confirm', authenticateToken, (req, res) => {
   const { paymentId, gpayToken } = req.body;
-  if (!paymentId || !gpayToken) return res.status(400).json({ error: 'paymentId and gpayToken required' });
+  if (!paymentId || !gpayToken) {
+    return res.status(400).json({ error: 'paymentId and gpayToken required' });
+  }
 
   const updated = db.updatePaymentStatus(paymentId, 'completed', gpayToken);
   if (updated) {
-    res.json({ message: 'Payment successfully processed via Google Pay', payment: updated });
+    res.json({
+      message: 'Payment verified and receipt registered (Simulated)',
+      payment: updated,
+      simulated: true,
+      notice: 'Demonstration invoice auto-logged.'
+    });
   } else {
     res.status(404).json({ error: 'Payment record not found' });
   }
@@ -369,19 +625,18 @@ app.post('/api/payments/confirm', authenticateToken, (req, res) => {
 // ----------------------------------------------------
 // ADMIN ENDPOINTS
 // ----------------------------------------------------
-app.get('/api/admin/attendance', authenticateToken, (req, res) => {
-  if (req.user.role !== 'admin') return res.status(403).json({ error: 'Admin only' });
+
+app.get('/api/admin/attendance', authenticateToken, requireRole('admin'), (req, res) => {
   res.json({ attendance: db.getAttendance(), students: db.getStudents(), users: db.getUsers() });
 });
 
-app.post('/api/admin/attendance/mark', authenticateToken, (req, res) => {
-  if (req.user.role !== 'admin') return res.status(403).json({ error: 'Admin only' });
-  const { records } = req.body; // Array: [{ student_id, date, status }]
-  if (!records || !Array.isArray(records)) return res.status(400).json({ error: 'records array required' });
+app.post('/api/admin/attendance/mark', authenticateToken, requireRole('admin'), (req, res) => {
+  const { records } = req.body;
+  if (!records || !Array.isArray(records)) {
+    return res.status(400).json({ error: 'records array required' });
+  }
 
   const results = db.bulkMarkAttendance(records, req.user.id);
-
-  // Broadcast override to all connected clients
   broadcastSocketMessage({
     type: 'attendance_override',
     records: results,
@@ -391,35 +646,34 @@ app.post('/api/admin/attendance/mark', authenticateToken, (req, res) => {
   res.json({ message: 'Attendance records updated successfully', records: results });
 });
 
-app.get('/api/admin/routes', authenticateToken, (req, res) => {
-  if (req.user.role !== 'admin') return res.status(403).json({ error: 'Admin only' });
+app.get('/api/admin/routes', authenticateToken, requireRole('admin'), (req, res) => {
   res.json({
     routes: db.getRoutes(),
     stops: db.getStops(),
-    buses: db.getBuses()
+    buses: db.getBuses(),
+    campus: config.CAMPUS
   });
 });
 
-app.post('/api/admin/routes/create', authenticateToken, (req, res) => {
-  if (req.user.role !== 'admin') return res.status(403).json({ error: 'Admin only' });
+app.post('/api/admin/routes/create', authenticateToken, requireRole('admin'), (req, res) => {
   const { name, description } = req.body;
   if (!name) return res.status(400).json({ error: 'Route name is required' });
 
   const routeId = `route_${Date.now()}`;
   db.data.routes.push({ id: routeId, name, description });
   db.save();
-  
+
   res.json({ message: 'Route created successfully', routeId });
 });
 
-app.post('/api/admin/stops/create', authenticateToken, (req, res) => {
-  if (req.user.role !== 'admin') return res.status(403).json({ error: 'Admin only' });
-  const { routeId, stops } = req.body; // stops: Array of { name, lat, lng }
-  if (!routeId || !stops || !Array.isArray(stops)) return res.status(400).json({ error: 'routeId and stops array required' });
+app.post('/api/admin/stops/create', authenticateToken, requireRole('admin'), (req, res) => {
+  const { routeId, stops } = req.body;
+  if (!routeId || !stops || !Array.isArray(stops)) {
+    return res.status(400).json({ error: 'routeId and stops array required' });
+  }
 
-  // Filter out existing stops for this route and replace
   db.data.stops = db.data.stops.filter(s => s.route_id !== routeId);
-  
+
   stops.forEach((s, idx) => {
     db.data.stops.push({
       id: `stop_${Date.now()}_${idx}`,
@@ -435,10 +689,7 @@ app.post('/api/admin/stops/create', authenticateToken, (req, res) => {
   res.json({ message: 'Route stops updated successfully' });
 });
 
-app.get('/api/admin/alerts', authenticateToken, (req, res) => {
-  if (req.user.role !== 'admin') return res.status(403).json({ error: 'Admin only' });
-  
-  // Format alerts with student names
+app.get('/api/admin/alerts', authenticateToken, requireRole('admin'), (req, res) => {
   const allAlerts = db.getAlerts().map(a => {
     const usr = db.findUserById(a.user_id);
     return {
@@ -450,9 +701,8 @@ app.get('/api/admin/alerts', authenticateToken, (req, res) => {
   res.json({ alerts: allAlerts });
 });
 
-app.post('/api/admin/alerts/action', authenticateToken, (req, res) => {
-  if (req.user.role !== 'admin') return res.status(403).json({ error: 'Admin only' });
-  const { alertId, action } = req.body; // action = 'acknowledge' or 'resolve'
+app.post('/api/admin/alerts/action', authenticateToken, requireRole('admin'), (req, res) => {
+  const { alertId, action } = req.body;
   if (!alertId || !action) return res.status(400).json({ error: 'alertId and action are required' });
 
   let updated;
@@ -470,17 +720,14 @@ app.post('/api/admin/alerts/action', authenticateToken, (req, res) => {
   }
 });
 
-// Admin User CRUD APIs
-app.get('/api/admin/users', authenticateToken, (req, res) => {
-  if (req.user.role !== 'admin') return res.status(403).json({ error: 'Admin only' });
-  
-  // Enrich student records
+app.get('/api/admin/users', authenticateToken, requireRole('admin'), (req, res) => {
   const enrichedStudents = db.getStudents().map(s => {
     const usr = db.findUserById(s.user_id);
     const rt = db.getRoutes().find(r => r.id === s.route_id);
     const st = db.getStops().find(stop => stop.id === s.boarding_stop_id);
     return {
       user_id: s.user_id,
+      rfid_tag: s.rfid_tag || 'N/A',
       class_grade: s.class_grade,
       route_id: s.route_id,
       routeName: rt ? rt.name : 'None',
@@ -495,14 +742,15 @@ app.get('/api/admin/users', authenticateToken, (req, res) => {
 
   res.json({
     students: enrichedStudents,
-    users: db.getUsers().filter(u => u.role !== 'admin') // exclude admins for safety
+    users: db.getUsers().filter(u => u.role !== 'admin')
   });
 });
 
-app.post('/api/admin/users/create', authenticateToken, (req, res) => {
-  if (req.user.role !== 'admin') return res.status(403).json({ error: 'Admin only' });
-  const { name, email, phone, password, role, class_grade, route_id, boarding_stop_id } = req.body;
-  if (!name || !email || !phone || !password || !role) return res.status(400).json({ error: 'Required fields missing' });
+app.post('/api/admin/users/create', authenticateToken, requireRole('admin'), (req, res) => {
+  const { name, email, phone, password, role, class_grade, route_id, boarding_stop_id, rfid_tag } = req.body;
+  if (!name || !email || !phone || !password || !role) {
+    return res.status(400).json({ error: 'Required fields missing' });
+  }
 
   const existing = db.findUserByEmail(email);
   if (existing) return res.status(400).json({ error: 'Email already registered' });
@@ -512,7 +760,7 @@ app.post('/api/admin/users/create', authenticateToken, (req, res) => {
     id: userId,
     name,
     email,
-    password_hash: password,
+    password_hash: db.hashPassword(password),
     role,
     phone,
     created_at: new Date().toISOString()
@@ -521,6 +769,7 @@ app.post('/api/admin/users/create', authenticateToken, (req, res) => {
   if (role === 'student') {
     db.insertStudent({
       user_id: userId,
+      rfid_tag: rfid_tag || `RFID_SEC_${Date.now().toString().slice(-4)}`,
       class_grade: class_grade || 'Unassigned',
       route_id: route_id || 'route_1',
       boarding_stop_id: boarding_stop_id || 'stop_1_1'
@@ -530,25 +779,23 @@ app.post('/api/admin/users/create', authenticateToken, (req, res) => {
   res.json({ message: 'User created successfully', userId });
 });
 
-app.post('/api/admin/users/update', authenticateToken, (req, res) => {
-  if (req.user.role !== 'admin') return res.status(403).json({ error: 'Admin only' });
-  const { user_id, name, email, phone, class_grade, route_id, boarding_stop_id } = req.body;
-  
+app.post('/api/admin/users/update', authenticateToken, requireRole('admin'), (req, res) => {
+  const { user_id, name, email, phone, class_grade, route_id, boarding_stop_id, rfid_tag } = req.body;
+
   const user = db.findUserById(user_id);
   if (!user) return res.status(404).json({ error: 'User not found' });
 
-  // Update core user
   if (name) user.name = name;
   if (email) user.email = email;
   if (phone) user.phone = phone;
 
-  // If student, update details
   if (user.role === 'student') {
     const student = db.getStudents().find(s => s.user_id === user_id);
     if (student) {
       if (class_grade) student.class_grade = class_grade;
       if (route_id) student.route_id = route_id;
       if (boarding_stop_id) student.boarding_stop_id = boarding_stop_id;
+      if (rfid_tag) student.rfid_tag = rfid_tag;
     }
   }
   db.save();
@@ -556,8 +803,7 @@ app.post('/api/admin/users/update', authenticateToken, (req, res) => {
   res.json({ message: 'User profile updated successfully' });
 });
 
-app.post('/api/admin/users/delete', authenticateToken, (req, res) => {
-  if (req.user.role !== 'admin') return res.status(403).json({ error: 'Admin only' });
+app.post('/api/admin/users/delete', authenticateToken, requireRole('admin'), (req, res) => {
   const { user_id } = req.body;
   if (!user_id) return res.status(400).json({ error: 'user_id is required' });
 
@@ -570,18 +816,13 @@ app.post('/api/admin/users/delete', authenticateToken, (req, res) => {
   res.json({ message: 'User deleted successfully' });
 });
 
-// Admin dashboard reports
-app.get('/api/admin/reports', authenticateToken, (req, res) => {
-  if (req.user.role !== 'admin') return res.status(403).json({ error: 'Admin only' });
-
+app.get('/api/admin/reports', authenticateToken, requireRole('admin'), (req, res) => {
   const payments = db.getPayments();
   const attendance = db.getAttendance();
 
-  // Total earnings vs dues
   const collected = payments.filter(p => p.status === 'completed').reduce((sum, p) => sum + p.amount, 0);
   const outstanding = payments.filter(p => p.status === 'pending').reduce((sum, p) => sum + p.amount, 0);
 
-  // Present/Absent distributions
   const totalAtt = attendance.length;
   const present = attendance.filter(a => a.status === 1).length;
   const absent = totalAtt - present;
@@ -596,14 +837,21 @@ app.get('/api/admin/reports', authenticateToken, (req, res) => {
   });
 });
 
+// Admin simulation toggle endpoint
+app.post('/api/admin/simulation/toggle', authenticateToken, requireRole('admin'), (req, res) => {
+  simulationRunning = !simulationRunning;
+  res.json({
+    message: `Virtual GPS simulation is now ${simulationRunning ? 'ACTIVE' : 'STOPPED'}`,
+    simulationRunning
+  });
+});
 
 // ----------------------------------------------------
-// WEBSOCKET SERVER & SIMULATION LAYER
+// WEBSOCKET SERVER & REAL-TIME PROTOCOL
 // ----------------------------------------------------
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 
-// All active WebSocket clients
 const socketClients = new Set();
 
 wss.on('connection', (ws) => {
@@ -613,11 +861,25 @@ wss.on('connection', (ws) => {
   ws.on('message', (message) => {
     try {
       const data = JSON.parse(message);
-      
-      // Driver publishes coordinates
+
+      // Authenticated driver publishes coordinates over WebSocket
       if (data.type === 'driver_update') {
-        const { busId, lat, lon } = data;
-        const bus = db.updateBusLocation(busId, lat, lon);
+        const { busId, lat, lon, speed, heading, token } = data;
+        
+        // Verify driver JWT
+        let isAuthorized = false;
+        if (token) {
+          try {
+            const decoded = jwt.verify(token, config.JWT_SECRET);
+            if (['driver', 'admin'].includes(decoded.role)) isAuthorized = true;
+          } catch (e) {}
+        }
+
+        if (!isAuthorized) {
+          return ws.send(JSON.stringify({ type: 'error', message: 'Unauthorized driver location update' }));
+        }
+
+        const bus = db.updateBusLocation(busId, lat, lon, speed, heading, false);
         if (bus) {
           broadcastSocketMessage({
             type: 'bus_location',
@@ -625,12 +887,16 @@ wss.on('connection', (ws) => {
             busNumber: bus.bus_number,
             lat,
             lng: lon,
-            speed: bus.speed_kmh
+            speed: bus.speed_kmh,
+            heading: bus.heading,
+            timestamp: bus.last_update,
+            is_simulated: false,
+            status: 'live'
           });
         }
       }
     } catch (err) {
-      console.error('Failed to parse socket message:', err);
+      console.error('Failed to parse WebSocket message:', err);
     }
   });
 
@@ -649,153 +915,60 @@ function broadcastSocketMessage(obj) {
   });
 }
 
-// Pre-seeded high resolution paths for Bus 1 and Bus 2 to loop around
-const BUS_PATHS = {
-  bus_1: [
-    { lat: 13.0230, lng: 77.5500 }, // Stop 1: Yeshwanthpur
-    { lat: 13.0210, lng: 77.5550 },
-    { lat: 13.0185, lng: 77.5610 },
-    { lat: 13.0160, lng: 77.5640 }, // Stop 2: Ramaiah Gate
-    { lat: 13.0100, lng: 77.5635 },
-    { lat: 13.0040, lng: 77.5630 },
-    { lat: 12.9980, lng: 77.5630 }, // Stop 3: Malleshwaram 18th Cross
-    { lat: 12.9985, lng: 77.5670 },
-    { lat: 12.9990, lng: 77.5710 }, // Stop 4: IISc East Gate
-    { lat: 13.0070, lng: 77.5660 },
-    { lat: 13.0150, lng: 77.5580 },
-    { lat: 13.0200, lng: 77.5530 }
-  ],
-  bus_2: [
-    { lat: 13.0350, lng: 77.5970 }, // Stop 1: Hebbal
-    { lat: 13.0295, lng: 77.5950 },
-    { lat: 13.0240, lng: 77.5940 }, // Stop 2: RT Nagar
-    { lat: 13.0180, lng: 77.5930 },
-    { lat: 13.0145, lng: 77.5880 },
-    { lat: 13.0110, lng: 77.5840 },
-    { lat: 13.0070, lng: 77.5800 }, // Stop 3: Sadashivanagar
-    { lat: 13.0015, lng: 77.5760 },
-    { lat: 12.9960, lng: 77.5720 }, // Stop 4: IISc Main Gate
-    { lat: 13.0090, lng: 77.5815 },
-    { lat: 13.0220, lng: 77.5890 },
-    { lat: 13.0285, lng: 77.5935 }
-  ]
-};
-
+// ----------------------------------------------------
+// OPTIONAL VIRTUAL DRIVER SIMULATION LAYER
+// Only runs if SIMULATION_ENABLED is true in config or toggled by admin
+// ----------------------------------------------------
+let simulationRunning = config.SIMULATION_ENABLED;
 const busPathIndexes = { bus_1: 0, bus_2: 0 };
 
-// Main Virtual Driver coordinates loop (Simulates a driving bus update every 2.5 seconds)
 setInterval(() => {
-  const activeBuses = db.getBuses();
-  
-  activeBuses.forEach(bus => {
-    const path = BUS_PATHS[bus.id];
-    if (!path) return;
+  if (!simulationRunning) return;
 
-    let nextIdx = (busPathIndexes[bus.id] + 1) % path.length;
+  const activeBuses = db.getBuses();
+
+  activeBuses.forEach(bus => {
+    const geometry = ROUTE_GEOMETRIES[bus.route_id];
+    if (!geometry || geometry.length === 0) return;
+
+    let nextIdx = (busPathIndexes[bus.id] + 1) % geometry.length;
     busPathIndexes[bus.id] = nextIdx;
 
-    const nextCoord = path[nextIdx];
-    
-    // Update database
-    db.updateBusLocation(bus.id, nextCoord.lat, nextCoord.lng);
+    const [nextLat, nextLng] = geometry[nextIdx];
+    const speed = 32 + Math.round(Math.random() * 8);
 
-    // Automatic RFID Boarding Detection
-    let activeStopId = null;
-    if (bus.id === 'bus_1') {
-      if (nextIdx === 0) activeStopId = 'stop_1_1';
-      else if (nextIdx === 3) activeStopId = 'stop_1_2';
-      else if (nextIdx === 6) activeStopId = 'stop_1_3';
-      else if (nextIdx === 8) activeStopId = 'stop_1_4';
-    } else if (bus.id === 'bus_2') {
-      if (nextIdx === 0) activeStopId = 'stop_2_1';
-      else if (nextIdx === 3) activeStopId = 'stop_2_2';
-      else if (nextIdx === 6) activeStopId = 'stop_2_3';
-      else if (nextIdx === 8) activeStopId = 'stop_2_4';
-    }
+    // Update database (explicitly tagged as simulated)
+    db.updateBusLocation(bus.id, nextLat, nextLng, speed, 0, true);
 
-    if (activeStopId) {
-      const stop = db.getStops().find(s => s.id === activeStopId);
-      if (stop) {
-        const assignedStudents = db.getStudents().filter(s => s.boarding_stop_id === activeStopId);
-        const todayStr = new Date().toISOString().split('T')[0];
+    // Calculate approximate ETA to final stop (Sri Sairam College Campus Gate)
+    const stopsLeft = Math.abs((geometry.length - 1) - nextIdx);
+    const etaMin = Math.max(1, Math.round(stopsLeft * 1.8));
 
-        assignedStudents.forEach(student => {
-          const existing = db.getAttendance().find(a => a.student_id === student.user_id && a.date === todayStr);
-          if (!existing) {
-            const user = db.findUserById(student.user_id);
-            if (user) {
-              const record = {
-                id: `att_${student.user_id}_rfid_${Date.now().toString(36)}`,
-                student_id: student.user_id,
-                date: todayStr,
-                status: 1, // Present
-                marked_by: 'RFID_Scanner_Bus_Device',
-                timestamp: new Date().toISOString()
-              };
-              db.insertAttendance(record);
-
-              console.log(`\n--- [💳 RFID AUTO-BOARDING DETECTION] ---`);
-              console.log(`Student ${user.name} boarded Bus ${bus.bus_number} at Stop: ${stop.name}`);
-              console.log(`ID Card scanned successfully. Status: PRESENT logged.`);
-              console.log(`-----------------------------------------\n`);
-
-              broadcastSocketMessage({
-                type: 'rfid_boarded',
-                studentId: student.user_id,
-                studentName: user.name,
-                busNumber: bus.bus_number,
-                stopName: stop.name,
-                timestamp: record.timestamp,
-                status: 1
-              });
-            }
-          }
-        });
-      }
-    }
-
-    // Calculate dynamic ETA to next stops (simulated distance math)
-    const speed = bus.speed_kmh || 30;
-    // Calculate simulated minutes ETA to the final campus gate stop (the last stop on the route)
-    // If route_1, Campus Stop is index 8 (IISc East Gate)
-    // If route_2, Campus Stop is index 8 (IISc Main Campus)
-    let stopsLeft = 0;
-    if (bus.id === 'bus_1') {
-      stopsLeft = Math.abs(8 - nextIdx);
-    } else {
-      stopsLeft = Math.abs(8 - nextIdx);
-    }
-    const etaMin = Math.max(1, Math.round(stopsLeft * 1.5));
-    
-    // Broadcast location
+    // Broadcast simulated coordinates with explicit simulation flag
     broadcastSocketMessage({
       type: 'bus_location',
       busId: bus.id,
       busNumber: bus.bus_number,
-      lat: nextCoord.lat,
-      lng: nextCoord.lng,
-      speed: speed + Math.round(Math.random() * 8 - 4), // slightly vary speed
-      etaMin: etaMin
+      lat: nextLat,
+      lng: nextLng,
+      speed: speed,
+      etaMin: etaMin,
+      timestamp: new Date().toISOString(),
+      is_simulated: true, // EXPLICIT SIMULATION NOTICE
+      status: 'simulated'
     });
-
-    // Check geofence proximity alerts: if the bus gets close to our seeded student's stop (stop_1_2 at [13.0160, 77.5640])
-    // If bus_1 is at index 3 (Ramaiah Gate) or index 2 (1 step away), trigger proximity alert!
-    if (bus.id === 'bus_1' && (nextIdx === 2 || nextIdx === 3)) {
-      console.log(`\n--- [PROXIMITY ALERTS TRIGGERS] ---`);
-      console.log(`Bus ${bus.bus_number} is nearing Stop: Ramaiah Hospital Gate!`);
-      console.log(`Sending alerts to Parents of assigned Students...`);
-      console.log(`------------------------------------\n`);
-
-      broadcastSocketMessage({
-        type: 'proximity_alert',
-        studentId: 'usr_student_1',
-        message: `Saitrack Alert: Bus ${bus.bus_number} is 1 minute away from your boarding stop: Ramaiah Hospital Gate! Please prepare.`
-      });
-    }
   });
-}, 2500);
+}, 3000);
 
-// Start Server
+// Start HTTP Server
 server.listen(PORT, () => {
-  console.log(`Saitrack (RYTT) Server is active on http://localhost:${PORT}`);
+  console.log(`\n======================================================`);
+  console.log(` SaiTrack / CampusRide Server Active`);
+  console.log(` URL: http://localhost:${PORT}`);
+  console.log(` Campus: ${config.CAMPUS.name} (${config.CAMPUS.latitude}, ${config.CAMPUS.longitude})`);
+  console.log(` Mode: ${config.DEMO_MODE ? 'Demonstration Mode' : 'Production Mode'}`);
+  console.log(` GPS Simulation: ${simulationRunning ? 'Running' : 'Disabled (Awaiting live GPS hardware)'}`);
+  console.log(`======================================================\n`);
 });
+
+module.exports = { app, server };

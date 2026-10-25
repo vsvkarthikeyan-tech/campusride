@@ -5,10 +5,14 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "node server.js"
+    "dev": "node server.js",
+    "test": "node test/suite.js"
   },
   "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "dotenv": "^18.0.9",
     "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.3",
     "ws": "^8.16.0"
   },
   "author": "Antigravity",

@@ -931,3 +931,164 @@ tr:hover td {
   0% { opacity: 0.3; }
   100% { opacity: 1; }
 }
+
+/* ----------------------------------------------------
+   REAL LEAFLET MAP INTEGRATION & LEGENDS (TASK 1 & 2)
+   ---------------------------------------------------- */
+.map-legend-box {
+  background: rgba(16, 22, 42, 0.94);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border-glass);
+  border-radius: 10px;
+  padding: 10px 14px;
+  color: var(--text-main);
+  font-size: 0.78rem;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+  line-height: 1.5;
+  pointer-events: auto;
+  min-width: 170px;
+}
+.map-legend-box h4 {
+  margin: 0 0 6px 0;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--accent-indigo);
+  border-bottom: 1px solid var(--border-glass);
+  padding-bottom: 4px;
+}
+.map-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 5px;
+}
+.map-legend-item:last-child {
+  margin-bottom: 0;
+}
+.legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+  border: 2px solid #fff;
+}
+.legend-line {
+  width: 18px;
+  height: 4px;
+  display: inline-block;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+/* Custom Marker Styles */
+.custom-campus-marker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.campus-marker-pin {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: #fff;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  box-shadow: 0 0 15px rgba(245, 158, 11, 0.7);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+.campus-marker-pin:hover {
+  transform: scale(1.15);
+}
+
+.custom-stop-marker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.stop-marker-pin {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+.stop-marker-pin:hover {
+  transform: scale(1.2);
+}
+
+.custom-bus-marker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.bus-marker-pin {
+  background: linear-gradient(135deg, #6366f1, #3b82f6);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  box-shadow: 0 0 15px rgba(99, 102, 241, 0.7);
+  transition: transform 0.3s ease;
+}
+
+/* Demo Mode Badge */
+.demo-mode-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background: rgba(245, 158, 11, 0.15);
+  border: 1px solid rgba(245, 158, 11, 0.35);
+  color: #fbbf24;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* Leaflet Dark Popup Styles */
+.leaflet-popup-content-wrapper {
+  background: rgba(16, 22, 42, 0.96) !important;
+  color: #f1f5f9 !important;
+  border: 1px solid rgba(99, 102, 241, 0.35) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6) !important;
+}
+.leaflet-popup-tip {
+  background: rgba(16, 22, 42, 0.96) !important;
+  border: 1px solid rgba(99, 102, 241, 0.35) !important;
+}
+.leaflet-popup-content {
+  margin: 12px 14px !important;
+  line-height: 1.4 !important;
+}
+.leaflet-popup-content h4 {
+  margin: 0 0 4px 0;
+  font-size: 0.95rem;
+  color: #fff;
+}
+.leaflet-popup-content p {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #94a3b8;
+}
+

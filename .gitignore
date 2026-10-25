@@ -2,3 +2,7 @@ node_modules/
 .system_generated/
 *.log
 .DS_Store
+.tools-npm/
+.tools-git/
+.env
+db.backup.json

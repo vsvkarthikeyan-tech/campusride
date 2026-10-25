@@ -4,7 +4,7 @@
       "id": "usr_student_1",
       "name": "Rahul Kumar",
       "email": "student@saitrack.com",
-      "password_hash": "student123",
+      "password_hash": "$2b$10$IkgEfgI/evU/nlJFeAb/JeNV0PQQ9EJUkvBHC290Zg6ifOClrZY4m",
       "role": "student",
       "phone": "+919876543210",
       "created_at": "2026-05-20T13:13:23.384Z"
@@ -13,7 +13,7 @@
       "id": "usr_student_2",
       "name": "Aditya Sharma",
       "email": "aditya@saitrack.com",
-      "password_hash": "student123",
+      "password_hash": "$2b$10$g4vzLDg3e4YZM/L42mAsbumI2.kolq.i62gOLwDaFl6jyio8Brh/i",
       "role": "student",
       "phone": "+919876543220",
       "created_at": "2026-05-20T13:13:23.385Z"
@@ -22,7 +22,7 @@
       "id": "usr_student_3",
       "name": "Neha Patel",
       "email": "neha@saitrack.com",
-      "password_hash": "student123",
+      "password_hash": "$2b$10$VQwa3.JbSyEnpkBjq2GOk.sJ9LGlYB/tsMFWDl9/VmLs/Snn2vFaq",
       "role": "student",
       "phone": "+919876543230",
       "created_at": "2026-05-20T13:13:23.385Z"
@@ -31,7 +31,7 @@
       "id": "usr_student_4",
       "name": "Priya Nair",
       "email": "priya@saitrack.com",
-      "password_hash": "student123",
+      "password_hash": "$2b$10$p6RAXrfhce0Vt.UDQ5Q3h.NlKm59AA1A/zqbktjCgciOg6e1qJjn2",
       "role": "student",
       "phone": "+919876543240",
       "created_at": "2026-05-20T13:13:23.385Z"
@@ -40,7 +40,7 @@
       "id": "usr_parent_1",
       "name": "Sanjay Kumar",
       "email": "parent@saitrack.com",
-      "password_hash": "parent123",
+      "password_hash": "$2b$10$A90KCKJYhwhi19L3P34.m.kD1vSp699OzzpZom1ZwacJNRJ0eFzFK",
       "role": "parent",
       "phone": "+919876543211",
       "created_at": "2026-05-20T13:13:23.385Z"
@@ -49,7 +49,7 @@
       "id": "usr_parent_2",
       "name": "Meera Nair",
       "email": "parent2@saitrack.com",
-      "password_hash": "parent123",
+      "password_hash": "$2b$10$xbOEIQOx44rZWQGwENIiDuL3JWegmJjGcwGp5U3q4pXGNcWeW8vFm",
       "role": "parent",
       "phone": "+919876543221",
       "created_at": "2026-05-20T13:13:23.385Z"
@@ -58,7 +58,7 @@
       "id": "usr_admin_1",
       "name": "Principal Mehra",
       "email": "admin@saitrack.com",
-      "password_hash": "admin123",
+      "password_hash": "$2b$10$hhjKKL3m9LDDn2Ou3ZJ/KOc7Qndn/PMI4vdnAuufFHL.yUVIzSG6S",
       "role": "admin",
       "phone": "+919876543212",
       "created_at": "2026-05-20T13:13:23.385Z"
@@ -67,8 +67,8 @@
       "id": "usr_driver_1",
       "name": "Ramesh Singh",
       "email": "ramesh@saitrack.com",
-      "password_hash": "driver123",
-      "role": "student",
+      "password_hash": "$2b$10$mzwDUwAT.OcIDwqS.k0BiO7gPSw/ddvMy/pVOBDRWFmgYEEZOveFm",
+      "role": "driver",
       "phone": "+919876543213",
       "created_at": "2026-05-20T13:13:23.385Z"
     },
@@ -76,10 +76,46 @@
       "id": "usr_driver_2",
       "name": "Gopal Prasad",
       "email": "gopal@saitrack.com",
-      "password_hash": "driver456",
-      "role": "student",
+      "password_hash": "$2b$10$HvLCwhpi3hyoG/Xe7gHGM.EZv27enfRkNRimzx76s/icgMrSKlfJe",
+      "role": "driver",
       "phone": "+919876543214",
       "created_at": "2026-05-20T13:13:23.386Z"
+    },
+    {
+      "id": "usr_1792933707823",
+      "name": "Test Cadet",
+      "email": "test_1792933707819@saitrack.com",
+      "password_hash": "$2b$10$vwZSCZYZCIEHHj1a0Cl/f.2Fk0wg3N0EcUDRmRp8T1vtJ0wc3EIC6",
+      "role": "student",
+      "phone": "+919876549999",
+      "created_at": "2026-10-25T13:08:27.889Z"
+    },
+    {
+      "id": "usr_1792933764976",
+      "name": "Test Cadet",
+      "email": "test_1792933764974@saitrack.com",
+      "password_hash": "$2b$10$sqVWLDbdb1qa1j.JEbgqiORIz7gOgwkuiUqRTjpbzMbMxp9uYr8qK",
+      "role": "student",
+      "phone": "+919876549999",
+      "created_at": "2026-10-25T13:09:25.042Z"
+    },
+    {
+      "id": "usr_1792933816947",
+      "name": "Test Cadet",
+      "email": "test_1792933816945@saitrack.com",
+      "password_hash": "$2b$10$LVAVwfxjQ8t.hVp4NkAUa.uSxNlT2Ng3tz7I5PRU2quRSZ2lKqwbm",
+      "role": "student",
+      "phone": "+919876549999",
+      "created_at": "2026-10-25T13:10:17.014Z"
+    },
+    {
+      "id": "usr_1792933833503",
+      "name": "Test Cadet",
+      "email": "test_1792933833501@saitrack.com",
+      "password_hash": "$2b$10$yc0m2pNuKzTZEFVymQYPgOvZ0rUlNkr1evExufb0cr0v1m9Oc.rw.",
+      "role": "student",
+      "phone": "+919876549999",
+      "created_at": "2026-10-25T13:10:33.567Z"
     }
   ],
   "students": [
@@ -87,25 +123,57 @@
       "user_id": "usr_student_1",
       "class_grade": "10th Grade A",
       "route_id": "route_1",
-      "boarding_stop_id": "stop_1_2"
+      "boarding_stop_id": "stop_1_3",
+      "rfid_tag": "RFID_SEC_001"
     },
     {
       "user_id": "usr_student_2",
       "class_grade": "12th Grade B",
       "route_id": "route_1",
-      "boarding_stop_id": "stop_1_1"
+      "boarding_stop_id": "stop_1_1",
+      "rfid_tag": "RFID_SEC_002"
     },
     {
       "user_id": "usr_student_3",
       "class_grade": "9th Grade C",
       "route_id": "route_2",
-      "boarding_stop_id": "stop_2_2"
+      "boarding_stop_id": "stop_2_2",
+      "rfid_tag": "RFID_SEC_003"
     },
     {
       "user_id": "usr_student_4",
       "class_grade": "11th Grade A",
       "route_id": "route_2",
-      "boarding_stop_id": "stop_2_3"
+      "boarding_stop_id": "stop_2_3",
+      "rfid_tag": "RFID_SEC_004"
+    },
+    {
+      "user_id": "usr_1792933707823",
+      "rfid_tag": "RFID_SEC_7891",
+      "class_grade": "1st Year",
+      "route_id": "route_1",
+      "boarding_stop_id": "stop_1_1"
+    },
+    {
+      "user_id": "usr_1792933764976",
+      "rfid_tag": "RFID_SEC_5044",
+      "class_grade": "1st Year",
+      "route_id": "route_1",
+      "boarding_stop_id": "stop_1_1"
+    },
+    {
+      "user_id": "usr_1792933816947",
+      "rfid_tag": "RFID_SEC_7015",
+      "class_grade": "1st Year",
+      "route_id": "route_1",
+      "boarding_stop_id": "stop_1_1"
+    },
+    {
+      "user_id": "usr_1792933833503",
+      "rfid_tag": "RFID_SEC_3569",
+      "class_grade": "1st Year",
+      "route_id": "route_1",
+      "boarding_stop_id": "stop_1_1"
     }
   ],
   "parents": [
@@ -870,111 +938,181 @@
       "status": 1,
       "marked_by": "usr_admin_1",
       "timestamp": "2026-05-20T13:13:23.386Z"
+    },
+    {
+      "id": "att_usr_student_1_rfid_mvnufr17",
+      "student_id": "usr_student_1",
+      "date": "2026-10-25",
+      "status": 1,
+      "marked_by": "UHF_RFID_Reader_UHF_Bus1_Door",
+      "timestamp": "2026-10-25T13:10:33.609Z"
     }
   ],
   "routes": [
     {
       "id": "route_1",
-      "name": "Greenfield Campus Express (Route 1)",
-      "description": "Services the eastern sector, Yeshwanthpur, and Malleshwaram regions."
+      "name": "Route 1 — Guindy to Sri Sairam Campus (GST Corridor)",
+      "description": "Services Guindy Kathipara, Pallavaram, Chromepet, and West Tambaram to Sai Leo Nagar."
     },
     {
       "id": "route_2",
-      "name": "Metro Connector Loop (Route 2)",
-      "description": "Links Hebbal, RT Nagar, and Mathikere to the main campus gates."
+      "name": "Route 2 — Koyambedu to Sri Sairam Campus (Porur / Kundrathur Loop)",
+      "description": "Services Koyambedu CMBT, Porur Toll, Kundrathur, and Somangalam to Sai Leo Nagar."
     }
   ],
   "stops": [
     {
       "id": "stop_1_1",
       "route_id": "route_1",
-      "name": "Yeshwanthpur Metro Hub",
-      "latitude": 13.023,
-      "longitude": 77.55,
+      "name": "Guindy Kathipara Hub",
+      "latitude": 13.0067,
+      "longitude": 80.2025,
       "sequence_order": 1
     },
     {
       "id": "stop_1_2",
       "route_id": "route_1",
-      "name": "Ramaiah Hospital Gate",
-      "latitude": 13.016,
-      "longitude": 77.564,
+      "name": "Pallavaram Bus Stand",
+      "latitude": 12.968,
+      "longitude": 80.149,
       "sequence_order": 2
     },
     {
       "id": "stop_1_3",
       "route_id": "route_1",
-      "name": "Malleshwaram 18th Cross",
-      "latitude": 12.998,
-      "longitude": 77.563,
+      "name": "Chromepet MIT Gate",
+      "latitude": 12.9516,
+      "longitude": 80.1408,
       "sequence_order": 3
     },
     {
       "id": "stop_1_4",
       "route_id": "route_1",
-      "name": "IISc East Gate Gatehouse",
-      "latitude": 12.999,
-      "longitude": 77.571,
+      "name": "Tambaram West Bus Terminus",
+      "latitude": 12.9249,
+      "longitude": 80.1,
       "sequence_order": 4
+    },
+    {
+      "id": "stop_1_5",
+      "route_id": "route_1",
+      "name": "Sri Sairam Engineering College Main Gate",
+      "latitude": 12.9601,
+      "longitude": 80.0574,
+      "sequence_order": 5,
+      "is_campus": true
     },
     {
       "id": "stop_2_1",
       "route_id": "route_2",
-      "name": "Hebbal Flyover Junction",
-      "latitude": 13.035,
-      "longitude": 77.597,
+      "name": "Koyambedu CMBT Metro",
+      "latitude": 13.0674,
+      "longitude": 80.2057,
       "sequence_order": 1
     },
     {
       "id": "stop_2_2",
       "route_id": "route_2",
-      "name": "RT Nagar Post Office",
-      "latitude": 13.018,
-      "longitude": 77.593,
+      "name": "Porur Toll Junction",
+      "latitude": 13.0336,
+      "longitude": 80.1585,
       "sequence_order": 2
     },
     {
       "id": "stop_2_3",
       "route_id": "route_2",
-      "name": "Sadashivanagar Police Station",
-      "latitude": 13.007,
-      "longitude": 77.58,
+      "name": "Kundrathur Murugan Temple Gate",
+      "latitude": 12.9976,
+      "longitude": 80.0964,
       "sequence_order": 3
     },
     {
       "id": "stop_2_4",
       "route_id": "route_2",
-      "name": "IISc Main Campus Gate",
-      "latitude": 12.996,
-      "longitude": 77.572,
+      "name": "Somangalam Junction",
+      "latitude": 12.9723,
+      "longitude": 80.0732,
       "sequence_order": 4
+    },
+    {
+      "id": "stop_2_5",
+      "route_id": "route_2",
+      "name": "Sri Sairam Engineering College Main Gate",
+      "latitude": 12.9601,
+      "longitude": 80.0574,
+      "sequence_order": 5,
+      "is_campus": true
     }
   ],
   "buses": [
     {
       "id": "bus_1",
-      "bus_number": "KA-04-AB-1234",
+      "bus_number": "TN-11-AB-1234",
       "driver_id": "usr_driver_1",
       "route_id": "route_1",
-      "latitude": 13.007,
-      "longitude": 77.566,
-      "last_update": "2026-05-20T13:24:31.533Z",
-      "speed_kmh": 35,
-      "status": "active"
+      "latitude": 12.936,
+      "longitude": 80.126,
+      "last_update": "2026-10-25T13:10:33.606Z",
+      "speed_kmh": 40,
+      "status": "active",
+      "is_simulated": false,
+      "heading": 215
     },
     {
       "id": "bus_2",
-      "bus_number": "KA-04-CD-5678",
+      "bus_number": "TN-11-CD-5678",
       "driver_id": "usr_driver_2",
       "route_id": "route_2",
-      "latitude": 13.009,
-      "longitude": 77.5815,
-      "last_update": "2026-05-20T13:24:31.535Z",
-      "speed_kmh": 40,
-      "status": "active"
+      "latitude": 13.013,
+      "longitude": 80.121,
+      "last_update": "2026-10-25T13:10:33.595Z",
+      "speed_kmh": 44,
+      "status": "active",
+      "is_simulated": false,
+      "heading": 230
     }
   ],
   "payments": [
+    {
+      "id": "pay_1792933833570",
+      "student_id": "usr_1792933833503",
+      "amount": 2500,
+      "currency": "INR",
+      "gpay_token": null,
+      "status": "pending",
+      "simulated": true,
+      "timestamp": "2026-10-25T13:10:33.570Z"
+    },
+    {
+      "id": "pay_1792933817016",
+      "student_id": "usr_1792933816947",
+      "amount": 2500,
+      "currency": "INR",
+      "gpay_token": null,
+      "status": "pending",
+      "simulated": true,
+      "timestamp": "2026-10-25T13:10:17.016Z"
+    },
+    {
+      "id": "pay_1792933765044",
+      "student_id": "usr_1792933764976",
+      "amount": 2500,
+      "currency": "INR",
+      "gpay_token": null,
+      "status": "pending",
+      "simulated": true,
+      "timestamp": "2026-10-25T13:09:25.044Z"
+    },
+    {
+      "id": "pay_1792933707892",
+      "student_id": "usr_1792933707823",
+      "amount": 2500,
+      "currency": "INR",
+      "gpay_token": null,
+      "status": "pending",
+      "simulated": true,
+      "timestamp": "2026-10-25T13:08:27.892Z"
+    },
     {
       "id": "pay_due_usr_student_1_mpe31hoa",
       "student_id": "usr_student_1",
@@ -1122,6 +1260,58 @@
   ],
   "alerts": [
     {
+      "id": "alert_1792933833619",
+      "user_id": "usr_student_1",
+      "type": "student_panic",
+      "message": "Urgent: Student requested emergency assistance",
+      "latitude": 12.9516,
+      "longitude": 80.1408,
+      "location_type": "browser_gps",
+      "status": "resolved",
+      "resolved_by": "usr_admin_1",
+      "timestamp": "2026-10-25T13:10:33.619Z",
+      "resolved_timestamp": "2026-10-25T13:10:33.622Z"
+    },
+    {
+      "id": "alert_1792933817063",
+      "user_id": "usr_student_1",
+      "type": "student_panic",
+      "message": "Urgent: Student requested emergency assistance",
+      "latitude": 12.9516,
+      "longitude": 80.1408,
+      "location_type": "browser_gps",
+      "status": "resolved",
+      "resolved_by": "usr_admin_1",
+      "timestamp": "2026-10-25T13:10:17.063Z",
+      "resolved_timestamp": "2026-10-25T13:10:17.065Z"
+    },
+    {
+      "id": "alert_1792933765084",
+      "user_id": "usr_student_1",
+      "type": "student_panic",
+      "message": "Urgent: Student requested emergency assistance",
+      "latitude": 12.9516,
+      "longitude": 80.1408,
+      "location_type": "browser_gps",
+      "status": "resolved",
+      "resolved_by": "usr_admin_1",
+      "timestamp": "2026-10-25T13:09:25.084Z",
+      "resolved_timestamp": "2026-10-25T13:09:25.086Z"
+    },
+    {
+      "id": "alert_1792933707938",
+      "user_id": "usr_student_1",
+      "type": "student_panic",
+      "message": "Urgent: Student requested emergency assistance",
+      "latitude": 12.9516,
+      "longitude": 80.1408,
+      "location_type": "browser_gps",
+      "status": "resolved",
+      "resolved_by": "usr_admin_1",
+      "timestamp": "2026-10-25T13:08:27.938Z",
+      "resolved_timestamp": "2026-10-25T13:08:27.941Z"
+    },
+    {
       "id": "alert_1779283075160",
       "user_id": "usr_student_1",
       "type": "student_panic",
@@ -1143,6 +1333,16 @@
       "resolved_by": "usr_admin_1",
       "timestamp": "2026-05-19T13:13:23.387Z",
       "resolved_timestamp": "2026-05-19T13:25:23.387Z"
+    }
+  ],
+  "rfid_scans": [
+    {
+      "id": "scan_1792933833611_0r87",
+      "rfid_tag": "RFID_SEC_001",
+      "student_id": "usr_student_1",
+      "bus_id": "bus_1",
+      "reader_id": "UHF_Bus1_Door",
+      "timestamp": "2026-10-25T13:10:33.609Z"
     }
   ]
 }
