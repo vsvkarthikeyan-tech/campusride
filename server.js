@@ -501,6 +501,94 @@ app.get('/api/parent/children', authenticateToken, requireRole('parent'), (req, 
 });
 
 // ----------------------------------------------------
+// DRIVER DASHBOARD & TRIP TELEMETRY (MODULE 1)
+// ----------------------------------------------------
+
+app.get('/api/driver/dashboard', authenticateToken, requireRole('driver'), (req, res) => {
+  const buses = db.getBuses();
+  const bus = buses.find(b => b.driver_id === req.user.id) || buses[0];
+  let route = null;
+  let stops = [];
+  let studentCount = 0;
+
+  if (bus) {
+    if (bus.route_id) {
+      route = db.findRouteById(bus.route_id);
+      stops = db.getStops().filter(s => s.route_id === bus.route_id).sort((a, b) => a.sequence_order - b.sequence_order);
+    }
+    studentCount = db.getBusStudentCount(bus.id);
+  }
+
+  res.json({
+    driver: {
+      id: req.user.id,
+      name: req.user.name,
+      email: req.user.email,
+      phone: req.user.phone,
+      licenseNumber: req.user.licenseNumber || 'TN-05-Verified'
+    },
+    bus: bus || null,
+    route: route || null,
+    stops: stops,
+    student_count: studentCount,
+    trip_status: (bus && bus.trip_status) || 'idle',
+    campus: config.CAMPUS
+  });
+});
+
+app.post('/api/driver/trip/start', authenticateToken, requireRole('driver'), (req, res) => {
+  const bus = db.getBuses().find(b => b.driver_id === req.user.id) || db.getBuses()[0];
+  if (!bus) return res.status(404).json({ error: 'No bus assigned to driver.' });
+
+  bus.trip_status = 'in_progress';
+  bus.trip_started_at = new Date().toISOString();
+  db.save();
+
+  broadcastSocketMessage({
+    type: 'trip_started',
+    busId: bus.id,
+    busNumber: bus.bus_number,
+    driverName: req.user.name,
+    timestamp: bus.trip_started_at
+  });
+
+  db.logAudit({
+    event: 'DRIVER_TRIP_STARTED',
+    user_id: req.user.id,
+    bus_id: bus.id,
+    timestamp: bus.trip_started_at
+  });
+
+  res.json({ success: true, message: `Trip started on Bus ${bus.bus_number}.`, trip_status: 'in_progress', bus });
+});
+
+app.post('/api/driver/trip/end', authenticateToken, requireRole('driver'), (req, res) => {
+  const bus = db.getBuses().find(b => b.driver_id === req.user.id) || db.getBuses()[0];
+  if (!bus) return res.status(404).json({ error: 'No bus assigned to driver.' });
+
+  bus.trip_status = 'completed';
+  bus.trip_ended_at = new Date().toISOString();
+  db.save();
+
+  broadcastSocketMessage({
+    type: 'trip_ended',
+    busId: bus.id,
+    busNumber: bus.bus_number,
+    driverName: req.user.name,
+    timestamp: bus.trip_ended_at
+  });
+
+  db.logAudit({
+    event: 'DRIVER_TRIP_ENDED',
+    user_id: req.user.id,
+    bus_id: bus.id,
+    timestamp: bus.trip_ended_at
+  });
+
+  res.json({ success: true, message: `Trip completed for Bus ${bus.bus_number}.`, trip_status: 'completed', bus });
+});
+
+// ----------------------------------------------------
 // REAL HARDWARE INGEST ENDPOINTS (GPS & UHF RFID)
 // ----------------------------------------------------
 

@@ -367,6 +367,90 @@
       </div>
     </main>
 
+    <!-- 3. DRIVER PORTAL VIEW (MODULE 1) -->
+    <main id="view-driver" class="portal-view" style="display: none; padding: 25px 35px;">
+      <!-- Driver Top Header -->
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 15px;">
+        <div>
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <h1 style="font-size: 1.8rem; font-weight: 800; color: #fff;">
+              👨‍✈️ Driver Dashboard — <span id="driver-welcome-name">Ramesh Singh</span>
+            </h1>
+            <span id="driver-license-badge" class="user-badge" style="background: rgba(99, 102, 241, 0.15); color: var(--accent-indigo); border: 1px solid rgba(99, 102, 241, 0.3);">
+              TN-05-Verified
+            </span>
+          </div>
+          <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 4px;">
+            Sri Sairam Engineering College Transport Fleet • Bus Operations Control
+          </p>
+        </div>
+
+        <!-- Trip Status Pill & Action Buttons -->
+        <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+          <span id="driver-trip-status-badge" class="status-pill status-pill-pending">SCHEDULED / IDLE</span>
+          <button id="btn-driver-start-trip" class="btn btn-primary" onclick="startDriverTrip()" style="box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);">
+            <span>🚀</span> Start Trip
+          </button>
+          <button id="btn-driver-end-trip" class="btn btn-danger" onclick="endDriverTrip()" style="display: none;">
+            <span>🏁</span> End Trip
+          </button>
+          <button id="btn-driver-toggle-gps" class="btn btn-secondary" onclick="toggleDriverGPS()" style="border-color: rgba(99, 102, 241, 0.3);">
+            <span>📍</span> Start Sharing Live GPS
+          </button>
+        </div>
+      </div>
+
+      <!-- Live Telemetry & Bus Info Cards -->
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 25px;">
+        <div class="glass-panel" style="padding: 20px;">
+          <div style="font-size: 0.78rem; text-transform: uppercase; color: var(--text-muted); font-weight: 600; letter-spacing: 0.5px;">Assigned Bus</div>
+          <div id="driver-bus-num" style="font-size: 1.4rem; font-weight: 800; color: #fff; margin-top: 4px;">TN-11-AB-1234</div>
+          <div id="driver-bus-capacity" style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">Capacity: 50 Seats</div>
+        </div>
+
+        <div class="glass-panel" style="padding: 20px;">
+          <div style="font-size: 0.78rem; text-transform: uppercase; color: var(--text-muted); font-weight: 600; letter-spacing: 0.5px;">Assigned Route</div>
+          <div id="driver-route-name" style="font-size: 1.15rem; font-weight: 700; color: #fff; margin-top: 4px;">R-01: Valasaravakkam – Porur</div>
+          <div style="font-size: 0.8rem; color: var(--secondary); margin-top: 4px;">Terminus: Sri Sairam Engg College</div>
+        </div>
+
+        <div class="glass-panel" style="padding: 20px;">
+          <div style="font-size: 0.78rem; text-transform: uppercase; color: var(--text-muted); font-weight: 600; letter-spacing: 0.5px;">Passengers Enrolled</div>
+          <div id="driver-student-count" style="font-size: 1.4rem; font-weight: 800; color: var(--accent-indigo); margin-top: 4px;">25 Students Assigned</div>
+          <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">UHF RFID Card Checked</div>
+        </div>
+
+        <div class="glass-panel" style="padding: 20px;">
+          <div style="font-size: 0.78rem; text-transform: uppercase; color: var(--text-muted); font-weight: 600; letter-spacing: 0.5px;">Live GPS & Speed</div>
+          <div id="driver-live-speed-val" style="font-size: 1.4rem; font-weight: 800; color: var(--success); margin-top: 4px;">0 km/h</div>
+          <div id="driver-gps-live-status" style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">GPS Broadcasting Paused</div>
+        </div>
+      </div>
+
+      <!-- Interactive Map & Stops Section -->
+      <div style="display: grid; grid-template-columns: 8fr 4fr; gap: 20px;">
+        <!-- Left: Leaflet Route Map -->
+        <div class="glass-panel" style="padding: 20px; display: flex; flex-direction: column;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+            <h3 style="font-size: 1.05rem; font-weight: 700; color: #fff;">🗺️ Route Navigation & Live Telemetry</h3>
+            <span style="font-size: 0.8rem; color: var(--text-muted);">OpenStreetMap Real Waypoints</span>
+          </div>
+          <div id="driver-map" style="width: 100%; height: 480px; border-radius: 12px; border: 1px solid var(--border-glass);"></div>
+        </div>
+
+        <!-- Right: Ordered Boarding Stops Checklist -->
+        <div class="glass-panel" style="padding: 20px; display: flex; flex-direction: column;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+            <h3 style="font-size: 1.05rem; font-weight: 700; color: #fff;">🚏 Scheduled Boarding Stops</h3>
+            <span style="font-size: 0.75rem; color: var(--secondary); background: rgba(16,185,129,0.1); padding: 2px 8px; border-radius: 4px; font-weight: 600;">Verified Sequence</span>
+          </div>
+          <div id="driver-stops-list" style="overflow-y: auto; max-height: 480px; padding-right: 4px;">
+            <div style="text-align: center; color: var(--text-muted); padding: 30px;">Loading route stops...</div>
+          </div>
+        </div>
+      </div>
+    </main>
+
     <!-- 4. ADMIN PORTAL VIEW -->
     <main id="view-admin" class="dashboard-view">
       
@@ -1596,6 +1680,7 @@
   <script src="js/auth.js"></script>
   <script src="js/student.js"></script>
   <script src="js/parent.js"></script>
+  <script src="js/driver.js"></script>
   <script src="js/admin.js"></script>
   <script src="js/app.js"></script>
 </body>

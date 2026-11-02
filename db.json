@@ -10,7 +10,7 @@
       "created_at": "2026-05-20T13:13:23.384Z",
       "status": "active",
       "must_change_password": false,
-      "last_login_at": "2026-11-02T14:45:53.623Z"
+      "last_login_at": "2026-11-02T15:25:14.251Z"
     },
     {
       "id": "usr_student_2",
@@ -58,7 +58,7 @@
       "created_at": "2026-05-20T13:13:23.385Z",
       "status": "active",
       "must_change_password": false,
-      "last_login_at": "2026-11-02T14:45:53.692Z"
+      "last_login_at": "2026-11-02T15:27:17.018Z"
     },
     {
       "id": "usr_parent_2",
@@ -82,7 +82,7 @@
       "created_at": "2026-05-20T13:13:23.385Z",
       "status": "active",
       "must_change_password": false,
-      "last_login_at": "2026-11-02T15:14:05.405Z"
+      "last_login_at": "2026-11-02T15:35:56.256Z"
     },
     {
       "id": "usr_driver_1",
@@ -94,7 +94,7 @@
       "created_at": "2026-05-20T13:13:23.385Z",
       "status": "active",
       "must_change_password": false,
-      "last_login_at": "2026-11-02T14:45:53.758Z"
+      "last_login_at": "2026-11-02T15:35:00.075Z"
     },
     {
       "id": "usr_driver_2",
@@ -2163,7 +2163,9 @@
       "status": "active",
       "is_simulated": false,
       "heading": 215,
-      "capacity": 50
+      "capacity": 50,
+      "trip_status": "in_progress",
+      "trip_started_at": "2026-11-02T15:35:00.099Z"
     },
     {
       "id": "bus_2",
@@ -5433,6 +5435,184 @@
       "admin_name": "Principal Mehra",
       "details": {
         "user_id": "usr_admin_mvzeg4nz",
+        "name": "Prof. Anitha Transport Officer",
+        "role": "admin"
+      }
+    },
+    {
+      "id": "aud_1793633700102_thva",
+      "timestamp": "2026-11-02T15:35:00.099Z",
+      "event": "DRIVER_TRIP_STARTED",
+      "user_id": "usr_driver_1",
+      "bus_id": "bus_1"
+    },
+    {
+      "id": "aud_1793633756370_a7ox",
+      "timestamp": "2026-11-02T15:35:56.370Z",
+      "event": "USER_CREATED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_student_mvzf87sw",
+        "name": "Gowtham Ramesh",
+        "email": "gowtham.1793633756267@sairam.edu.in",
+        "role": "student"
+      }
+    },
+    {
+      "id": "aud_1793633756453_ius1",
+      "timestamp": "2026-11-02T15:35:56.453Z",
+      "event": "USER_CREATED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_driver_mvzf87vd",
+        "name": "Murugan K",
+        "email": "murugan.1793633756267@sairam.edu.in",
+        "role": "driver"
+      }
+    },
+    {
+      "id": "aud_1793633756541_wxl5",
+      "timestamp": "2026-11-02T15:35:56.541Z",
+      "event": "USER_CREATED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_parent_mvzf87xn",
+        "name": "Ramesh Sundaram (Parent)",
+        "email": "ramesh.1793633756267@sairam.edu.in",
+        "role": "parent"
+      }
+    },
+    {
+      "id": "aud_1793633756616_vmxu",
+      "timestamp": "2026-11-02T15:35:56.616Z",
+      "event": "USER_CREATED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_admin_mvzf8802",
+        "name": "Prof. Anitha Transport Officer",
+        "email": "anitha.1793633756267@sairam.edu.in",
+        "role": "admin"
+      }
+    },
+    {
+      "id": "aud_1793633756636_9a8k",
+      "timestamp": "2026-11-02T15:35:56.636Z",
+      "event": "USER_STATUS_CHANGED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_student_mvzf87sw",
+        "status": "inactive"
+      }
+    },
+    {
+      "id": "aud_1793633756647_ij1y",
+      "timestamp": "2026-11-02T15:35:56.647Z",
+      "event": "USER_STATUS_CHANGED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_student_mvzf87sw",
+        "status": "active"
+      }
+    },
+    {
+      "id": "aud_1793633756724_347h",
+      "timestamp": "2026-11-02T15:35:56.724Z",
+      "event": "PASSWORD_RESET_BY_ADMIN",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_student_mvzf87sw",
+        "email": "gowtham.1793633756267@sairam.edu.in"
+      }
+    },
+    {
+      "id": "aud_1793633756852_yfjh",
+      "timestamp": "2026-11-02T15:35:56.852Z",
+      "event": "STUDENT_ASSIGNMENT_CHANGED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_student_mvzf87sw",
+        "route_id": "route_1",
+        "bus_id": "bus_1",
+        "boarding_stop_id": "stop_1_1"
+      }
+    },
+    {
+      "id": "aud_1793633756932_2jcf",
+      "timestamp": "2026-11-02T15:35:56.932Z",
+      "event": "USER_CREATED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_student_mvzf888t",
+        "name": "Overflow Student Test",
+        "email": "overflow.1793633756267@sairam.edu.in",
+        "role": "student"
+      }
+    },
+    {
+      "id": "aud_1793633756952_f7xr",
+      "timestamp": "2026-11-02T15:35:56.952Z",
+      "event": "USER_DELETED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_student_mvzf87sw",
+        "name": "Gowtham Ramesh",
+        "role": "student"
+      }
+    },
+    {
+      "id": "aud_1793633756960_jcgc",
+      "timestamp": "2026-11-02T15:35:56.960Z",
+      "event": "USER_DELETED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_student_mvzf888t",
+        "name": "Overflow Student Test",
+        "role": "student"
+      }
+    },
+    {
+      "id": "aud_1793633756967_5fhh",
+      "timestamp": "2026-11-02T15:35:56.967Z",
+      "event": "USER_DELETED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_driver_mvzf87vd",
+        "name": "Murugan K",
+        "role": "driver"
+      }
+    },
+    {
+      "id": "aud_1793633756974_xl18",
+      "timestamp": "2026-11-02T15:35:56.974Z",
+      "event": "USER_DELETED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_parent_mvzf87xn",
+        "name": "Ramesh Sundaram (Parent)",
+        "role": "parent"
+      }
+    },
+    {
+      "id": "aud_1793633756980_92q3",
+      "timestamp": "2026-11-02T15:35:56.980Z",
+      "event": "USER_DELETED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_admin_mvzf8802",
         "name": "Prof. Anitha Transport Officer",
         "role": "admin"
       }

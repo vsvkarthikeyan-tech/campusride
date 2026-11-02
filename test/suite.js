@@ -240,6 +240,21 @@ async function runTests() {
     }, { 'Authorization': `Bearer ${driverToken}` });
     assert(invalidCoords.status === 400, 'Invalid GPS coordinates rejected with HTTP 400');
 
+    // Driver Dashboard & Trip Management
+    const driverDash = await request('GET', '/api/driver/dashboard', null, { 'Authorization': `Bearer ${driverToken}` });
+    assert(driverDash.status === 200, 'Driver dashboard retrieved with HTTP 200');
+    assert(driverDash.data.driver && driverDash.data.driver.name === 'Ramesh Singh', 'Driver profile identified');
+    assert(driverDash.data.bus && driverDash.data.bus.bus_number, 'Driver assigned bus returned');
+    assert(Array.isArray(driverDash.data.stops), 'Driver assigned route stops list returned');
+
+    const tripStart = await request('POST', '/api/driver/trip/start', null, { 'Authorization': `Bearer ${driverToken}` });
+    assert(tripStart.status === 200, 'Driver trip start responds with HTTP 200');
+    assert(tripStart.data.trip_status === 'in_progress', 'Trip status is in_progress');
+
+    const tripEnd = await request('POST', '/api/driver/trip/end', null, { 'Authorization': `Bearer ${driverToken}` });
+    assert(tripEnd.status === 200, 'Driver trip end responds with HTTP 200');
+    assert(tripEnd.data.trip_status === 'completed', 'Trip status is completed');
+
     // ----------------------------------------------------
     // TEST 7: WebSocket Telemetry Broadcast
     // ----------------------------------------------------

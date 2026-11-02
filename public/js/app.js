@@ -75,18 +75,21 @@ function routeToView(viewName) {
   const viewStudent = document.getElementById('view-student');
   const viewParent = document.getElementById('view-parent');
   const viewAdmin = document.getElementById('view-admin');
+  const viewDriver = document.getElementById('view-driver');
 
   // Hide all
   if (viewAuth) viewAuth.style.display = 'none';
   if (viewStudent) viewStudent.style.display = 'none';
   if (viewParent) viewParent.style.display = 'none';
   if (viewAdmin) viewAdmin.style.display = 'none';
+  if (viewDriver) viewDriver.style.display = 'none';
 
   // Clean maps to prevent Leaflet container overlap
   if (studentMap) { studentMap.remove(); studentMap = null; }
   if (parentMap) { parentMap.remove(); parentMap = null; }
   if (adminFleetMap) { adminFleetMap.remove(); adminFleetMap = null; }
   if (adminDesignerMap) { adminDesignerMap.remove(); adminDesignerMap = null; }
+  if (typeof driverMap !== 'undefined' && driverMap) { driverMap.remove(); driverMap = null; }
 
   // Show active view and trigger bootstrap loaders
   if (viewName === 'auth') {
@@ -101,6 +104,11 @@ function routeToView(viewName) {
       viewParent.style.display = 'block';
       initParentDashboard();
     }
+  } else if (viewName === 'driver') {
+    if (viewDriver) {
+      viewDriver.style.display = 'block';
+      if (typeof initDriverDashboard === 'function') initDriverDashboard();
+    }
   } else if (viewName === 'admin') {
     if (viewAdmin) {
       viewAdmin.style.display = 'block';
@@ -111,6 +119,7 @@ function routeToView(viewName) {
   // Allow layout calculation then invalidate map sizes
   setTimeout(() => {
     debounceMapResize();
+    if (typeof driverMap !== 'undefined' && driverMap) driverMap.invalidateSize();
   }, 350);
 }
 
