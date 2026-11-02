@@ -2,39 +2,51 @@
   "users": [
     {
       "id": "usr_student_1",
-      "name": "Rahul Kumar",
+      "name": "Arun Kumar",
       "email": "student@saitrack.com",
       "password_hash": "$2b$10$IkgEfgI/evU/nlJFeAb/JeNV0PQQ9EJUkvBHC290Zg6ifOClrZY4m",
       "role": "student",
       "phone": "+919876543210",
-      "created_at": "2026-05-20T13:13:23.384Z"
+      "created_at": "2026-05-20T13:13:23.384Z",
+      "status": "active",
+      "must_change_password": false,
+      "last_login_at": "2026-11-02T14:45:53.623Z"
     },
     {
       "id": "usr_student_2",
-      "name": "Aditya Sharma",
+      "name": "Priya S",
       "email": "aditya@saitrack.com",
       "password_hash": "$2b$10$g4vzLDg3e4YZM/L42mAsbumI2.kolq.i62gOLwDaFl6jyio8Brh/i",
       "role": "student",
       "phone": "+919876543220",
-      "created_at": "2026-05-20T13:13:23.385Z"
+      "created_at": "2026-05-20T13:13:23.385Z",
+      "status": "active",
+      "must_change_password": false,
+      "last_login_at": null
     },
     {
       "id": "usr_student_3",
-      "name": "Neha Patel",
+      "name": "Karthik R",
       "email": "neha@saitrack.com",
       "password_hash": "$2b$10$VQwa3.JbSyEnpkBjq2GOk.sJ9LGlYB/tsMFWDl9/VmLs/Snn2vFaq",
       "role": "student",
       "phone": "+919876543230",
-      "created_at": "2026-05-20T13:13:23.385Z"
+      "created_at": "2026-05-20T13:13:23.385Z",
+      "status": "active",
+      "must_change_password": false,
+      "last_login_at": null
     },
     {
       "id": "usr_student_4",
-      "name": "Priya Nair",
+      "name": "Rahul Kumar",
       "email": "priya@saitrack.com",
       "password_hash": "$2b$10$p6RAXrfhce0Vt.UDQ5Q3h.NlKm59AA1A/zqbktjCgciOg6e1qJjn2",
       "role": "student",
       "phone": "+919876543240",
-      "created_at": "2026-05-20T13:13:23.385Z"
+      "created_at": "2026-05-20T13:13:23.385Z",
+      "status": "active",
+      "must_change_password": false,
+      "last_login_at": null
     },
     {
       "id": "usr_parent_1",
@@ -43,7 +55,10 @@
       "password_hash": "$2b$10$A90KCKJYhwhi19L3P34.m.kD1vSp699OzzpZom1ZwacJNRJ0eFzFK",
       "role": "parent",
       "phone": "+919876543211",
-      "created_at": "2026-05-20T13:13:23.385Z"
+      "created_at": "2026-05-20T13:13:23.385Z",
+      "status": "active",
+      "must_change_password": false,
+      "last_login_at": "2026-11-02T14:45:53.692Z"
     },
     {
       "id": "usr_parent_2",
@@ -52,7 +67,10 @@
       "password_hash": "$2b$10$xbOEIQOx44rZWQGwENIiDuL3JWegmJjGcwGp5U3q4pXGNcWeW8vFm",
       "role": "parent",
       "phone": "+919876543221",
-      "created_at": "2026-05-20T13:13:23.385Z"
+      "created_at": "2026-05-20T13:13:23.385Z",
+      "status": "active",
+      "must_change_password": false,
+      "last_login_at": null
     },
     {
       "id": "usr_admin_1",
@@ -61,7 +79,10 @@
       "password_hash": "$2b$10$hhjKKL3m9LDDn2Ou3ZJ/KOc7Qndn/PMI4vdnAuufFHL.yUVIzSG6S",
       "role": "admin",
       "phone": "+919876543212",
-      "created_at": "2026-05-20T13:13:23.385Z"
+      "created_at": "2026-05-20T13:13:23.385Z",
+      "status": "active",
+      "must_change_password": false,
+      "last_login_at": "2026-11-02T15:14:05.405Z"
     },
     {
       "id": "usr_driver_1",
@@ -70,7 +91,10 @@
       "password_hash": "$2b$10$mzwDUwAT.OcIDwqS.k0BiO7gPSw/ddvMy/pVOBDRWFmgYEEZOveFm",
       "role": "driver",
       "phone": "+919876543213",
-      "created_at": "2026-05-20T13:13:23.385Z"
+      "created_at": "2026-05-20T13:13:23.385Z",
+      "status": "active",
+      "must_change_password": false,
+      "last_login_at": "2026-11-02T14:45:53.758Z"
     },
     {
       "id": "usr_driver_2",
@@ -79,100 +103,853 @@
       "password_hash": "$2b$10$HvLCwhpi3hyoG/Xe7gHGM.EZv27enfRkNRimzx76s/icgMrSKlfJe",
       "role": "driver",
       "phone": "+919876543214",
-      "created_at": "2026-05-20T13:13:23.386Z"
+      "created_at": "2026-05-20T13:13:23.386Z",
+      "status": "active",
+      "must_change_password": false,
+      "last_login_at": null
     },
     {
       "id": "usr_1792933707823",
-      "name": "Test Cadet",
+      "name": "Aakash Verma",
       "email": "test_1792933707819@saitrack.com",
       "password_hash": "$2b$10$vwZSCZYZCIEHHj1a0Cl/f.2Fk0wg3N0EcUDRmRp8T1vtJ0wc3EIC6",
       "role": "student",
       "phone": "+919876549999",
-      "created_at": "2026-10-25T13:08:27.889Z"
+      "created_at": "2026-10-25T13:08:27.889Z",
+      "status": "active",
+      "must_change_password": false,
+      "last_login_at": null
     },
     {
       "id": "usr_1792933764976",
-      "name": "Test Cadet",
+      "name": "Sneha Patel",
       "email": "test_1792933764974@saitrack.com",
       "password_hash": "$2b$10$sqVWLDbdb1qa1j.JEbgqiORIz7gOgwkuiUqRTjpbzMbMxp9uYr8qK",
       "role": "student",
       "phone": "+919876549999",
-      "created_at": "2026-10-25T13:09:25.042Z"
+      "created_at": "2026-10-25T13:09:25.042Z",
+      "status": "active",
+      "must_change_password": false,
+      "last_login_at": null
     },
     {
       "id": "usr_1792933816947",
-      "name": "Test Cadet",
+      "name": "Rohan Sharma",
       "email": "test_1792933816945@saitrack.com",
       "password_hash": "$2b$10$LVAVwfxjQ8t.hVp4NkAUa.uSxNlT2Ng3tz7I5PRU2quRSZ2lKqwbm",
       "role": "student",
       "phone": "+919876549999",
-      "created_at": "2026-10-25T13:10:17.014Z"
+      "created_at": "2026-10-25T13:10:17.014Z",
+      "status": "active",
+      "must_change_password": false,
+      "last_login_at": null
     },
     {
       "id": "usr_1792933833503",
-      "name": "Test Cadet",
+      "name": "Ananya Iyer",
       "email": "test_1792933833501@saitrack.com",
       "password_hash": "$2b$10$yc0m2pNuKzTZEFVymQYPgOvZ0rUlNkr1evExufb0cr0v1m9Oc.rw.",
       "role": "student",
       "phone": "+919876549999",
-      "created_at": "2026-10-25T13:10:33.567Z"
+      "created_at": "2026-10-25T13:10:33.567Z",
+      "status": "active",
+      "must_change_password": false,
+      "last_login_at": null
+    },
+    {
+      "id": "usr_1793033408413",
+      "name": "Manish Reddy",
+      "email": "test_1793033408408@saitrack.com",
+      "password_hash": "$2b$10$lTUQMP3kilVT/HyLFbjG7OpHpLrMBxfmewL8q4F2K5JLRBnINugZe",
+      "role": "student",
+      "phone": "+919876549999",
+      "created_at": "2026-10-26T16:50:08.508Z",
+      "status": "active",
+      "must_change_password": false,
+      "last_login_at": null
+    },
+    {
+      "id": "usr_1793622483574",
+      "name": "Kavita Nair",
+      "email": "test_1793622483567@saitrack.com",
+      "password_hash": "$2b$10$z/jkc3JboEFm8smEYolfAuTFKp2RRMglObcgpc6mMWJAzl3/fF55.",
+      "role": "student",
+      "phone": "+919876549999",
+      "created_at": "2026-11-02T12:28:03.681Z",
+      "status": "active",
+      "must_change_password": false,
+      "last_login_at": null
+    },
+    {
+      "id": "usr_1793623397352",
+      "name": "Deepak Joshi",
+      "email": "test_1793623397347@saitrack.com",
+      "password_hash": "$2b$10$tPKea9HFcgliCPeGXW3K/ePHZWLIAsUNbsMm9RUSyZdepKvi0wSdS",
+      "role": "student",
+      "phone": "+919876549999",
+      "created_at": "2026-11-02T12:43:17.414Z",
+      "status": "active",
+      "must_change_password": false,
+      "last_login_at": null
+    },
+    {
+      "id": "usr_1793623531131",
+      "name": "Swati Mukherjee",
+      "email": "test_1793623531124@saitrack.com",
+      "password_hash": "$2b$10$mzEzqlmlRJ9p5S0G04PAmel1.CRj9ePhxbd3OFnnKJv4f7XFsI2RG",
+      "role": "student",
+      "phone": "+919876549999",
+      "created_at": "2026-11-02T12:45:31.193Z",
+      "status": "active",
+      "must_change_password": false,
+      "last_login_at": null
+    },
+    {
+      "id": "usr_1793624159902",
+      "name": "Vikram Malhotra",
+      "email": "test_1793624159898@saitrack.com",
+      "password_hash": "$2b$10$RcGD7qIPD1262fuXmzJ3M.KeTVyLli/4dfULm0Damg03Pld5GwTBO",
+      "role": "student",
+      "phone": "+919876549999",
+      "created_at": "2026-11-02T12:55:59.963Z",
+      "status": "active",
+      "must_change_password": false,
+      "last_login_at": null
+    },
+    {
+      "id": "usr_1793624202337",
+      "name": "Pooja Das",
+      "email": "test_1793624202333@saitrack.com",
+      "password_hash": "$2b$10$7Yf9MU648pH5va66qZaLrOJUWuGyrIHJDwW7OiJOL1VkUj/I2dTC2",
+      "role": "student",
+      "phone": "+919876549999",
+      "created_at": "2026-11-02T12:56:42.400Z",
+      "status": "active",
+      "must_change_password": false,
+      "last_login_at": null
+    },
+    {
+      "id": "usr_demo_1",
+      "name": "Arun Kumar",
+      "email": "demo1@saitrack.com",
+      "password_hash": "$2b$10$mdHq4uhqTllNOnlRMihT7.jnWL3hpLAIXenZFg1eYdypTrpHepg3C",
+      "role": "student",
+      "phone": "+919876543100",
+      "created_at": "2026-11-02T13:10:28.522Z",
+      "status": "active",
+      "must_change_password": false,
+      "last_login_at": null
+    },
+    {
+      "id": "usr_demo_2",
+      "name": "Priya S",
+      "email": "demo2@saitrack.com",
+      "password_hash": "$2b$10$258rw5eiO7jrXCJjgQeOTO2tSonpnTN5WvZbwSxVoaFsOVoKj3xPe",
+      "role": "student",
+      "phone": "+919876543101",
+      "created_at": "2026-11-02T13:10:28.590Z",
+      "status": "active",
+      "must_change_password": false,
+      "last_login_at": null
+    },
+    {
+      "id": "usr_demo_3",
+      "name": "Karthik R",
+      "email": "demo3@saitrack.com",
+      "password_hash": "$2b$10$6LJ0WPNzEVWdvflWH.QDee/kKfCVkcAC6Idl4xW6nhi5jSfnmY5Mi",
+      "role": "student",
+      "phone": "+919876543102",
+      "created_at": "2026-11-02T13:10:28.652Z",
+      "status": "active",
+      "must_change_password": false,
+      "last_login_at": null
+    },
+    {
+      "id": "usr_demo_4",
+      "name": "Divya M",
+      "email": "demo4@saitrack.com",
+      "password_hash": "$2b$10$SHYYBa6pUaJT3rp7l2HQk.l/AHGUmrXUAmTIbhxjscMlCsgSAeeL2",
+      "role": "student",
+      "phone": "+919876543103",
+      "created_at": "2026-11-02T13:10:28.717Z",
+      "status": "active",
+      "must_change_password": false,
+      "last_login_at": null
+    },
+    {
+      "id": "usr_demo_5",
+      "name": "Rahul S",
+      "email": "demo5@saitrack.com",
+      "password_hash": "$2b$10$.1XbabwZAwHNC9tyhE4O1.eZQuwoblzRSez1njG75YWSLBoiCJ302",
+      "role": "student",
+      "phone": "+919876543104",
+      "created_at": "2026-11-02T13:10:28.798Z",
+      "status": "active",
+      "must_change_password": false,
+      "last_login_at": null
+    },
+    {
+      "id": "usr_demo_6",
+      "name": "Nisha P",
+      "email": "demo6@saitrack.com",
+      "password_hash": "$2b$10$WB3Z1R9Rguo0rf1IxDGXm.ru.bnLpndxFwSRQEt2.COuEvnP9X4oW",
+      "role": "student",
+      "phone": "+919876543105",
+      "created_at": "2026-11-02T13:10:28.864Z",
+      "status": "active",
+      "must_change_password": false,
+      "last_login_at": null
+    },
+    {
+      "id": "usr_demo_7",
+      "name": "Vignesh K",
+      "email": "demo7@saitrack.com",
+      "password_hash": "$2b$10$oFLT7hU/r/S9CErqfjmR5eV.AKnSzpsnyiKNGoNWnTxuazXHmmp5C",
+      "role": "student",
+      "phone": "+919876543106",
+      "created_at": "2026-11-02T13:10:28.922Z",
+      "status": "active",
+      "must_change_password": false,
+      "last_login_at": null
+    },
+    {
+      "id": "usr_demo_8",
+      "name": "Meena R",
+      "email": "demo8@saitrack.com",
+      "password_hash": "$2b$10$7CQY88CEOREvXnQdI3mJT.V06QEeXkQbpBHbaefI1BeOxbgUEBaYG",
+      "role": "student",
+      "phone": "+919876543107",
+      "created_at": "2026-11-02T13:10:28.981Z",
+      "status": "active",
+      "must_change_password": false,
+      "last_login_at": null
+    },
+    {
+      "id": "usr_demo_9",
+      "name": "Sanjay V",
+      "email": "demo9@saitrack.com",
+      "password_hash": "$2b$10$1NJyqHaXW.LACl4R2KJ07uRmkWr.7w4B9NhLmOg/fSMU6TxDIlcy6",
+      "role": "student",
+      "phone": "+919876543108",
+      "created_at": "2026-11-02T13:10:29.040Z",
+      "status": "active",
+      "must_change_password": false,
+      "last_login_at": null
+    },
+    {
+      "id": "usr_demo_10",
+      "name": "Harini T",
+      "email": "demo10@saitrack.com",
+      "password_hash": "$2b$10$d5V96aSYEd58DFeGd/C.5uD/ZSDq4B1ApJEpdDS3HP9v6MqUHfX4q",
+      "role": "student",
+      "phone": "+919876543109",
+      "created_at": "2026-11-02T13:10:29.099Z",
+      "status": "active",
+      "must_change_password": false,
+      "last_login_at": null
+    },
+    {
+      "id": "usr_1793625360660",
+      "name": "Aditya Rao",
+      "email": "test_1793625360655@saitrack.com",
+      "password_hash": "$2b$10$46JfGyB5l62BOKW./PqnTO5i0LDISUVh.TvYbM8woswfJNrhjz0w.",
+      "role": "student",
+      "phone": "+919876549999",
+      "created_at": "2026-11-02T13:16:00.723Z",
+      "status": "active",
+      "must_change_password": false,
+      "last_login_at": null
+    },
+    {
+      "id": "usr_1793626040581",
+      "name": "Aakash Verma",
+      "email": "test_1793626040577@saitrack.com",
+      "password_hash": "$2b$10$tt6/zw0tt1c4Zs9GSOltJeu.ynEy0ePaDf2TfmRJjL0H07g2NoExS",
+      "role": "student",
+      "phone": "+919876549999",
+      "created_at": "2026-11-02T13:27:20.641Z",
+      "status": "active",
+      "must_change_password": false,
+      "last_login_at": null
+    },
+    {
+      "id": "usr_driver_3",
+      "name": "Murugan K",
+      "email": "murugan@saitrack.com",
+      "phone": "+919876543215",
+      "password_hash": "$2b$10$S6Z2Dasw1OBFl/vl/NGWI.EbVqY/Jdgt3mN6EW..UdOQw8NXdzMhC",
+      "role": "driver",
+      "status": "active",
+      "must_change_password": false,
+      "created_at": "2026-11-02T13:46:53.762Z",
+      "last_login_at": null
+    },
+    {
+      "id": "usr_driver_4",
+      "name": "Senthil Nathan",
+      "email": "senthil@saitrack.com",
+      "phone": "+919876543216",
+      "password_hash": "$2b$10$apzLKGkug43KZp1n1BpDkesv4ZTJGqbqhR0ocQJEU8tv12fE6Rvx6",
+      "role": "driver",
+      "status": "active",
+      "must_change_password": false,
+      "created_at": "2026-11-02T13:46:53.834Z",
+      "last_login_at": null
+    },
+    {
+      "id": "usr_driver_5",
+      "name": "Rajesh Kumar",
+      "email": "rajesh@saitrack.com",
+      "phone": "+919876543217",
+      "password_hash": "$2b$10$QgGLd4mTDOIvG7zSMc4EE.qQ6J8w1GXy6Hd6Ya3XJ5ddqvwTXHph6",
+      "role": "driver",
+      "status": "active",
+      "must_change_password": false,
+      "created_at": "2026-11-02T13:46:53.901Z",
+      "last_login_at": null
+    },
+    {
+      "id": "usr_student_mvzdpzuo",
+      "name": "Gowtham Ramesh",
+      "email": "gowtham.r@sairam.edu.in",
+      "phone": "9876543210",
+      "role": "student",
+      "password_hash": "$2b$10$E5zZi/HFOrRAlO.8t2Vd/e5g1CmHXNB/12RjMGerMfMBk5W2R0FrK",
+      "status": "active",
+      "must_change_password": true,
+      "created_at": "2026-11-02T14:53:46.623Z",
+      "last_login_at": null
+    },
+    {
+      "id": "usr_student_mvzdz67i",
+      "name": "Gowtham Ramesh",
+      "email": "gowtham.1793631654686@sairam.edu.in",
+      "phone": "9876543210",
+      "role": "student",
+      "password_hash": "$2b$10$SdEK9gtfPwweWcFbcgKNT.kxmMKDI9.53wm8RVGOtKsSb6ZtazHTy",
+      "status": "active",
+      "must_change_password": true,
+      "created_at": "2026-11-02T15:00:54.783Z",
+      "last_login_at": null
+    },
+    {
+      "id": "usr_driver_mvzdz6a8",
+      "name": "Murugan K",
+      "email": "murugan.1793631654686@sairam.edu.in",
+      "phone": "9840123456",
+      "role": "driver",
+      "password_hash": "$2b$10$jDatleiPoh3yRL3mQMGz7Oj.J0F4yO035KLO1IejYhFk9yNOnr4B.",
+      "status": "active",
+      "must_change_password": true,
+      "created_at": "2026-11-02T15:00:54.859Z",
+      "last_login_at": null
+    },
+    {
+      "id": "usr_student_mvze3xb0",
+      "name": "Gowtham Ramesh",
+      "email": "gowtham.1793631876433@sairam.edu.in",
+      "phone": "9876543210",
+      "role": "student",
+      "password_hash": "$2b$10$biZWDK33BAqAjre4Sth92.Ln8EBK7LVVXRJrSj3sI46zGFDh7J6jC",
+      "status": "active",
+      "must_change_password": true,
+      "created_at": "2026-11-02T15:04:36.511Z",
+      "last_login_at": null
+    },
+    {
+      "id": "usr_driver_mvze3xd4",
+      "name": "Murugan K",
+      "email": "murugan.1793631876433@sairam.edu.in",
+      "phone": "9840123456",
+      "role": "driver",
+      "password_hash": "$2b$10$3WeypuljA.7meW8hZO2H..L2J25ZA6IxWyDuuRdd99oD/Tqwbn4iW",
+      "status": "active",
+      "must_change_password": true,
+      "created_at": "2026-11-02T15:04:36.581Z",
+      "last_login_at": null
+    },
+    {
+      "id": "usr_parent_mvze3xf2",
+      "name": "Ramesh Sundaram (Parent)",
+      "email": "ramesh.1793631876433@sairam.edu.in",
+      "phone": "9840998877",
+      "role": "parent",
+      "password_hash": "$2b$10$p/BxCwgiIXkT/iZgBqNHxuhtgei./McCKcF8PSOUrUTgLC0B4IgHC",
+      "status": "active",
+      "must_change_password": true,
+      "created_at": "2026-11-02T15:04:36.652Z",
+      "last_login_at": null
+    },
+    {
+      "id": "usr_admin_mvze3xh4",
+      "name": "Prof. Anitha Transport Officer",
+      "email": "anitha.1793631876433@sairam.edu.in",
+      "phone": "9444001122",
+      "role": "admin",
+      "password_hash": "$2b$10$Lma.QFM8slUwhVsW93MfVOakn.r6dA4BnGeVd6UhxsrGOOn4lF4Ay",
+      "status": "active",
+      "must_change_password": true,
+      "created_at": "2026-11-02T15:04:36.727Z",
+      "last_login_at": null
+    },
+    {
+      "id": "usr_student_mvze92dp",
+      "name": "Gowtham Ramesh",
+      "email": "gowtham.1793632116289@sairam.edu.in",
+      "phone": "9876543210",
+      "role": "student",
+      "password_hash": "$2b$10$hr3OXhz8D5itkToyBFh80eYBdc.TMSlP0BEruGcTEr8S1unZfrhYi",
+      "status": "active",
+      "must_change_password": true,
+      "created_at": "2026-11-02T15:08:36.369Z",
+      "last_login_at": null
+    },
+    {
+      "id": "usr_driver_mvze92g3",
+      "name": "Murugan K",
+      "email": "murugan.1793632116289@sairam.edu.in",
+      "phone": "9840123456",
+      "role": "driver",
+      "password_hash": "$2b$10$l228u0.WqT8BWlv2MQdhtu1vYYR9AVgn.ydgiJLcRE0w.3xRHQ2JS",
+      "status": "active",
+      "must_change_password": true,
+      "created_at": "2026-11-02T15:08:36.447Z",
+      "last_login_at": null
+    },
+    {
+      "id": "usr_parent_mvze92i0",
+      "name": "Ramesh Sundaram (Parent)",
+      "email": "ramesh.1793632116289@sairam.edu.in",
+      "phone": "9840998877",
+      "role": "parent",
+      "password_hash": "$2b$10$Yz3YwVsrzR4IZIvHzU1NW.ZpjEjM6sWqqGHcM7U4d898ZYtNUbyYq",
+      "status": "active",
+      "must_change_password": true,
+      "created_at": "2026-11-02T15:08:36.518Z",
+      "last_login_at": null
+    },
+    {
+      "id": "usr_admin_mvze92ke",
+      "name": "Prof. Anitha Transport Officer",
+      "email": "anitha.1793632116289@sairam.edu.in",
+      "phone": "9444001122",
+      "role": "admin",
+      "password_hash": "$2b$10$46vP96WWj3FM4VD8S14T/.ulx4Pk13v0M.m6/mwfUjHyjWrvfOvCa",
+      "status": "active",
+      "must_change_password": true,
+      "created_at": "2026-11-02T15:08:36.606Z",
+      "last_login_at": null
+    },
+    {
+      "id": "usr_student_mvze9rlm",
+      "name": "Gowtham Ramesh",
+      "email": "gowtham.1793632148974@sairam.edu.in",
+      "phone": "9876543210",
+      "role": "student",
+      "password_hash": "$2b$10$LEIJ8gXjZ26tEYV4AcoF0.5uGLalKb3csTHjycvEAlEv6ngTsKBo2",
+      "status": "active",
+      "must_change_password": true,
+      "created_at": "2026-11-02T15:09:09.046Z",
+      "last_login_at": null
+    },
+    {
+      "id": "usr_driver_mvze9rnn",
+      "name": "Murugan K",
+      "email": "murugan.1793632148974@sairam.edu.in",
+      "phone": "9840123456",
+      "role": "driver",
+      "password_hash": "$2b$10$job8NBP1hFP1ue7S01rmlOkBpoWuCS.Xh3OsHrVFrxy45H0R5/ZD6",
+      "status": "active",
+      "must_change_password": true,
+      "created_at": "2026-11-02T15:09:09.122Z",
+      "last_login_at": null
+    },
+    {
+      "id": "usr_parent_mvze9rpo",
+      "name": "Ramesh Sundaram (Parent)",
+      "email": "ramesh.1793632148974@sairam.edu.in",
+      "phone": "9840998877",
+      "role": "parent",
+      "password_hash": "$2b$10$eOz/Gx0I9il5nxdKMYUztu8YFy78a7vmkacKRHkRZG0a/3GW5tDze",
+      "status": "active",
+      "must_change_password": true,
+      "created_at": "2026-11-02T15:09:09.196Z",
+      "last_login_at": null
+    },
+    {
+      "id": "usr_admin_mvze9rry",
+      "name": "Prof. Anitha Transport Officer",
+      "email": "anitha.1793632148974@sairam.edu.in",
+      "phone": "9444001122",
+      "role": "admin",
+      "password_hash": "$2b$10$grJNaQmSvb3.dDPSicifaexpnlIBCyv.E8/UEi2Ta270HrB9zOvFO",
+      "status": "active",
+      "must_change_password": true,
+      "created_at": "2026-11-02T15:09:09.284Z",
+      "last_login_at": null
+    },
+    {
+      "id": "usr_student_mvze9rzr",
+      "name": "Overflow Student Test",
+      "email": "overflow.1793632148974@sairam.edu.in",
+      "phone": "",
+      "role": "student",
+      "password_hash": "$2b$10$/inIdc0S37Qx8ZL3doEeJO9E/GlQ8YEJMKOtJCS2T566tKY1jSyRm",
+      "status": "active",
+      "must_change_password": true,
+      "created_at": "2026-11-02T15:09:09.560Z",
+      "last_login_at": null
     }
   ],
   "students": [
     {
       "user_id": "usr_student_1",
-      "class_grade": "10th Grade A",
+      "class_grade": "4th Year",
       "route_id": "route_1",
       "boarding_stop_id": "stop_1_3",
-      "rfid_tag": "RFID_SEC_001"
+      "rfid_tag": "RFID_SEC_001",
+      "student_id": "ST001",
+      "department": "CCE",
+      "year": 4,
+      "bus_id": "bus_1"
     },
     {
       "user_id": "usr_student_2",
-      "class_grade": "12th Grade B",
+      "class_grade": "3rd Year",
       "route_id": "route_1",
       "boarding_stop_id": "stop_1_1",
-      "rfid_tag": "RFID_SEC_002"
+      "rfid_tag": "RFID_SEC_002",
+      "student_id": "ST002",
+      "department": "CSE",
+      "year": 3,
+      "bus_id": "bus_1"
     },
     {
       "user_id": "usr_student_3",
-      "class_grade": "9th Grade C",
+      "class_grade": "2nd Year",
       "route_id": "route_2",
       "boarding_stop_id": "stop_2_2",
-      "rfid_tag": "RFID_SEC_003"
+      "rfid_tag": "RFID_SEC_003",
+      "student_id": "ST003",
+      "department": "ECE",
+      "year": 2,
+      "bus_id": "bus_2"
     },
     {
       "user_id": "usr_student_4",
-      "class_grade": "11th Grade A",
+      "class_grade": "1st Year",
       "route_id": "route_2",
       "boarding_stop_id": "stop_2_3",
-      "rfid_tag": "RFID_SEC_004"
+      "rfid_tag": "RFID_SEC_004",
+      "student_id": "ST004",
+      "department": "MECH",
+      "year": 1,
+      "bus_id": "bus_2"
     },
     {
       "user_id": "usr_1792933707823",
       "rfid_tag": "RFID_SEC_7891",
       "class_grade": "1st Year",
       "route_id": "route_1",
-      "boarding_stop_id": "stop_1_1"
+      "boarding_stop_id": "stop_1_1",
+      "student_id": "ST005",
+      "department": "CSE",
+      "year": 1,
+      "bus_id": "bus_1"
     },
     {
       "user_id": "usr_1792933764976",
       "rfid_tag": "RFID_SEC_5044",
       "class_grade": "1st Year",
       "route_id": "route_1",
-      "boarding_stop_id": "stop_1_1"
+      "boarding_stop_id": "stop_1_1",
+      "student_id": "ST006",
+      "department": "CSE",
+      "year": 1,
+      "bus_id": "bus_1"
     },
     {
       "user_id": "usr_1792933816947",
       "rfid_tag": "RFID_SEC_7015",
       "class_grade": "1st Year",
       "route_id": "route_1",
-      "boarding_stop_id": "stop_1_1"
+      "boarding_stop_id": "stop_1_1",
+      "student_id": "ST007",
+      "department": "CSE",
+      "year": 1,
+      "bus_id": "bus_1"
     },
     {
       "user_id": "usr_1792933833503",
       "rfid_tag": "RFID_SEC_3569",
       "class_grade": "1st Year",
       "route_id": "route_1",
+      "boarding_stop_id": "stop_1_1",
+      "student_id": "ST008",
+      "department": "CSE",
+      "year": 1,
+      "bus_id": "bus_1"
+    },
+    {
+      "user_id": "usr_1793033408413",
+      "rfid_tag": "RFID_SEC_8512",
+      "class_grade": "1st Year",
+      "route_id": "route_1",
+      "boarding_stop_id": "stop_1_1",
+      "student_id": "ST009",
+      "department": "CSE",
+      "year": 1,
+      "bus_id": "bus_1"
+    },
+    {
+      "user_id": "usr_1793622483574",
+      "rfid_tag": "RFID_SEC_3685",
+      "class_grade": "1st Year",
+      "route_id": "route_1",
+      "boarding_stop_id": "stop_1_1",
+      "student_id": "ST0010",
+      "department": "CSE",
+      "year": 1,
+      "bus_id": "bus_1"
+    },
+    {
+      "user_id": "usr_1793623397352",
+      "rfid_tag": "RFID_SEC_7416",
+      "class_grade": "1st Year",
+      "route_id": "route_1",
+      "boarding_stop_id": "stop_1_1",
+      "student_id": "ST0011",
+      "department": "CSE",
+      "year": 1,
+      "bus_id": "bus_1"
+    },
+    {
+      "user_id": "usr_1793623531131",
+      "rfid_tag": "RFID_SEC_1195",
+      "class_grade": "1st Year",
+      "route_id": "route_1",
+      "boarding_stop_id": "stop_1_1",
+      "student_id": "ST0012",
+      "department": "CSE",
+      "year": 1,
+      "bus_id": "bus_1"
+    },
+    {
+      "user_id": "usr_1793624159902",
+      "rfid_tag": "RFID_SEC_9966",
+      "class_grade": "1st Year",
+      "route_id": "route_1",
+      "boarding_stop_id": "stop_1_1",
+      "student_id": "ST0013",
+      "department": "CSE",
+      "year": 1,
+      "bus_id": "bus_1"
+    },
+    {
+      "user_id": "usr_1793624202337",
+      "rfid_tag": "RFID_SEC_2403",
+      "class_grade": "1st Year",
+      "route_id": "route_1",
+      "boarding_stop_id": "stop_1_1",
+      "student_id": "ST0014",
+      "department": "CSE",
+      "year": 1,
+      "bus_id": "bus_1"
+    },
+    {
+      "user_id": "usr_demo_1",
+      "student_id": "DEMO-ST001",
+      "department": "CCE",
+      "year": 4,
+      "class_grade": "4th Year",
+      "route_id": "route_1",
+      "boarding_stop_id": "stop_1_1",
+      "rfid_tag": "RFID_DEMO_01",
+      "bus_id": "bus_1"
+    },
+    {
+      "user_id": "usr_demo_2",
+      "student_id": "DEMO-ST002",
+      "department": "CSE",
+      "year": 3,
+      "class_grade": "3rd Year",
+      "route_id": "route_2",
+      "boarding_stop_id": "stop_2_1",
+      "rfid_tag": "RFID_DEMO_02",
+      "bus_id": "bus_2"
+    },
+    {
+      "user_id": "usr_demo_3",
+      "student_id": "DEMO-ST003",
+      "department": "ECE",
+      "year": 2,
+      "class_grade": "2nd Year",
+      "route_id": "route_1",
+      "boarding_stop_id": "stop_1_1",
+      "rfid_tag": "RFID_DEMO_03",
+      "bus_id": "bus_1"
+    },
+    {
+      "user_id": "usr_demo_4",
+      "student_id": "DEMO-ST004",
+      "department": "IT",
+      "year": 4,
+      "class_grade": "4th Year",
+      "route_id": "route_2",
+      "boarding_stop_id": "stop_2_1",
+      "rfid_tag": "RFID_DEMO_04",
+      "bus_id": "bus_2"
+    },
+    {
+      "user_id": "usr_demo_5",
+      "student_id": "DEMO-ST005",
+      "department": "EEE",
+      "year": 3,
+      "class_grade": "3rd Year",
+      "route_id": "route_1",
+      "boarding_stop_id": "stop_1_1",
+      "rfid_tag": "RFID_DEMO_05",
+      "bus_id": "bus_1"
+    },
+    {
+      "user_id": "usr_demo_6",
+      "student_id": "DEMO-ST006",
+      "department": "CCE",
+      "year": 2,
+      "class_grade": "2nd Year",
+      "route_id": "route_2",
+      "boarding_stop_id": "stop_2_1",
+      "rfid_tag": "RFID_DEMO_06",
+      "bus_id": "bus_2"
+    },
+    {
+      "user_id": "usr_demo_7",
+      "student_id": "DEMO-ST007",
+      "department": "CSE",
+      "year": 1,
+      "class_grade": "1st Year",
+      "route_id": "route_1",
+      "boarding_stop_id": "stop_1_1",
+      "rfid_tag": "RFID_DEMO_07",
+      "bus_id": "bus_1"
+    },
+    {
+      "user_id": "usr_demo_8",
+      "student_id": "DEMO-ST008",
+      "department": "AIDS",
+      "year": 3,
+      "class_grade": "3rd Year",
+      "route_id": "route_2",
+      "boarding_stop_id": "stop_2_1",
+      "rfid_tag": "RFID_DEMO_08",
+      "bus_id": "bus_2"
+    },
+    {
+      "user_id": "usr_demo_9",
+      "student_id": "DEMO-ST009",
+      "department": "ECE",
+      "year": 4,
+      "class_grade": "4th Year",
+      "route_id": "route_1",
+      "boarding_stop_id": "stop_1_1",
+      "rfid_tag": "RFID_DEMO_09",
+      "bus_id": "bus_1"
+    },
+    {
+      "user_id": "usr_demo_10",
+      "student_id": "DEMO-ST010",
+      "department": "IT",
+      "year": 2,
+      "class_grade": "2nd Year",
+      "route_id": "route_2",
+      "boarding_stop_id": "stop_2_1",
+      "rfid_tag": "RFID_DEMO_010",
+      "bus_id": "bus_2"
+    },
+    {
+      "user_id": "usr_1793625360660",
+      "rfid_tag": "RFID_SEC_0725",
+      "class_grade": "1st Year",
+      "route_id": "route_1",
+      "boarding_stop_id": "stop_1_1",
+      "student_id": "ST0025",
+      "year": 1,
+      "bus_id": "bus_1"
+    },
+    {
+      "user_id": "usr_1793626040581",
+      "rfid_tag": "RFID_SEC_0644",
+      "class_grade": "1st Year",
+      "route_id": "route_1",
+      "boarding_stop_id": "stop_1_1",
+      "student_id": "ST0026",
+      "year": 1,
+      "bus_id": "bus_1"
+    },
+    {
+      "user_id": "usr_student_mvzdpzuo",
+      "student_id": "SEC-6625",
+      "rfid_tag": "RFID_SEC_6625",
+      "department": "AIDS",
+      "year": 3,
+      "class_grade": "3rd Year",
+      "route_id": "route_1",
+      "bus_id": "bus_1",
+      "boarding_stop_id": "stop_1_1"
+    },
+    {
+      "user_id": "usr_student_mvzdz67i",
+      "student_id": "SEC-4791",
+      "rfid_tag": "RFID_SEC_4792",
+      "department": "AIDS",
+      "year": 3,
+      "class_grade": "3rd Year",
+      "route_id": "route_1",
+      "bus_id": "bus_1",
+      "boarding_stop_id": "stop_1_1"
+    },
+    {
+      "user_id": "usr_student_mvze3xb0",
+      "student_id": "SEC-6514",
+      "rfid_tag": "RFID_SEC_6514",
+      "department": "AIDS",
+      "year": 3,
+      "class_grade": "3rd Year",
+      "route_id": "route_1",
+      "bus_id": "bus_1",
+      "boarding_stop_id": "stop_1_1"
+    },
+    {
+      "user_id": "usr_student_mvze92dp",
+      "student_id": "SEC-6377",
+      "rfid_tag": "RFID_SEC_6377",
+      "department": "AIDS",
+      "year": 3,
+      "class_grade": "3rd Year",
+      "route_id": "route_1",
+      "bus_id": "bus_1",
+      "boarding_stop_id": "stop_1_1"
+    },
+    {
+      "user_id": "usr_student_mvze9rlm",
+      "student_id": "SEC-9050",
+      "rfid_tag": "RFID_SEC_9050",
+      "department": "AIDS",
+      "year": 3,
+      "class_grade": "3rd Year",
+      "route_id": "route_1",
+      "bus_id": "bus_1",
+      "boarding_stop_id": "stop_1_1"
+    },
+    {
+      "user_id": "usr_student_mvze9rzr",
+      "student_id": "SEC-9563",
+      "rfid_tag": "RFID_SEC_9563",
+      "department": "CSE",
+      "year": 4,
+      "class_grade": "4th Year",
+      "route_id": "route_1",
+      "bus_id": "bus_1",
       "boarding_stop_id": "stop_1_1"
     }
   ],
@@ -182,6 +959,15 @@
     },
     {
       "user_id": "usr_parent_2"
+    },
+    {
+      "user_id": "usr_parent_mvze3xf2"
+    },
+    {
+      "user_id": "usr_parent_mvze92i0"
+    },
+    {
+      "user_id": "usr_parent_mvze9rpo"
     }
   ],
   "parent_student": [
@@ -200,6 +986,18 @@
     {
       "parent_id": "usr_parent_2",
       "student_id": "usr_student_4"
+    },
+    {
+      "parent_id": "usr_parent_mvze3xf2",
+      "student_id": "usr_student_mvze3xb0"
+    },
+    {
+      "parent_id": "usr_parent_mvze92i0",
+      "student_id": "usr_student_mvze92dp"
+    },
+    {
+      "parent_id": "usr_parent_mvze9rpo",
+      "student_id": "usr_student_mvze9rlm"
     }
   ],
   "attendance": [
@@ -946,102 +1744,410 @@
       "status": 1,
       "marked_by": "UHF_RFID_Reader_UHF_Bus1_Door",
       "timestamp": "2026-10-25T13:10:33.609Z"
+    },
+    {
+      "id": "att_usr_student_1_rfid_mvphsok5",
+      "student_id": "usr_student_1",
+      "date": "2026-10-26",
+      "status": 1,
+      "marked_by": "UHF_RFID_Reader_UHF_Bus1_Door",
+      "timestamp": "2026-10-26T16:50:08.595Z"
+    },
+    {
+      "id": "att_usr_student_1_rfid_mvz8ilv3",
+      "student_id": "usr_student_1",
+      "date": "2026-11-02",
+      "session": "Full Day",
+      "status": 1,
+      "source": "RFID",
+      "marked_by": "UHF_RFID_Reader_UHF_Bus1_Door",
+      "timestamp": "2026-11-02T14:45:53.952Z"
+    },
+    {
+      "id": "att_usr_student_1_rfid_mvz9gp2h",
+      "student_id": "usr_student_1",
+      "date": "2026-11-25",
+      "session": "Full Day",
+      "status": 1,
+      "source": "RFID",
+      "marked_by": "UHF_RFID_Reader_Bus_Gate_Reader_Test",
+      "timestamp": "2026-11-25T08:15:00.000Z"
+    },
+    {
+      "id": "att_1793624074222_xf7ov",
+      "student_id": "usr_student_2",
+      "date": "2026-11-25",
+      "session": "Full Day",
+      "status": 1,
+      "source": "MANUAL",
+      "marked_by": "usr_admin_1",
+      "timestamp": "2026-11-02T13:27:23.444Z",
+      "modified_after_upload": false
     }
   ],
   "routes": [
     {
       "id": "route_1",
-      "name": "Route 1 — Guindy to Sri Sairam Campus (GST Corridor)",
-      "description": "Services Guindy Kathipara, Pallavaram, Chromepet, and West Tambaram to Sai Leo Nagar."
+      "name": "Route 1: Valasaravakkam – Porur – Kundrathur",
+      "description": "Services Valasaravakkam, Porur, Karampakkam, Kovur, and Kundrathur to Sai Leo Nagar.",
+      "route_number": "R-01",
+      "start_location": "Valasaravakkam",
+      "destination": "Sri Sairam Engineering College",
+      "status": "active",
+      "verification_status": "DEMO – PENDING TRANSPORT OFFICE VERIFICATION",
+      "bus_id": "bus_1",
+      "driver_id": "usr_driver_1"
     },
     {
       "id": "route_2",
-      "name": "Route 2 — Koyambedu to Sri Sairam Campus (Porur / Kundrathur Loop)",
-      "description": "Services Koyambedu CMBT, Porur Toll, Kundrathur, and Somangalam to Sai Leo Nagar."
+      "name": "Route 2: Kandigai – Rathnamangalam – Vandalur",
+      "description": "Services Kandigai, Rathnamangalam, Kolapakkam, and Vandalur Zoo to Sai Leo Nagar.",
+      "route_number": "R-02",
+      "start_location": "Kandigai Police Quarters",
+      "destination": "Sri Sairam Engineering College",
+      "status": "active",
+      "verification_status": "DEMO – PENDING TRANSPORT OFFICE VERIFICATION",
+      "bus_id": "bus_2",
+      "driver_id": "usr_driver_2"
+    },
+    {
+      "id": "route_3",
+      "route_number": "R-03",
+      "name": "Route 3: Pammal – Pozhichallur – Thiruneermalai",
+      "start_location": "Pammal",
+      "destination": "Sri Sairam Engineering College",
+      "description": "Services Pammal, Pozhichallur, Nagalkeni, and Thiruneermalai to Sai Leo Nagar.",
+      "status": "active",
+      "verification_status": "DEMO – PENDING TRANSPORT OFFICE VERIFICATION",
+      "bus_id": "bus_3",
+      "driver_id": "usr_driver_3"
+    },
+    {
+      "id": "route_4",
+      "route_number": "R-04",
+      "name": "Route 4: Mappedu – Thiruvancherry",
+      "start_location": "Mappedu",
+      "destination": "Sri Sairam Engineering College",
+      "description": "Services Mappedu, Thiruvancherry, Lakshmi Ammal College area, and Bharath Univ area.",
+      "status": "active",
+      "verification_status": "DEMO – PENDING TRANSPORT OFFICE VERIFICATION",
+      "bus_id": "bus_4",
+      "driver_id": "usr_driver_4"
+    },
+    {
+      "id": "route_5",
+      "route_number": "R-05",
+      "name": "Route 5: Tambaram – Perungalathur – College",
+      "start_location": "Tambaram Railway Station area",
+      "destination": "Sri Sairam Engineering College",
+      "description": "Services Tambaram Railway Station, West Tambaram, Perungalathur, and Vandalur to Sai Leo Nagar.",
+      "status": "active",
+      "verification_status": "DEMO – PENDING TRANSPORT OFFICE VERIFICATION",
+      "bus_id": "bus_5",
+      "driver_id": "usr_driver_5"
+    },
+    {
+      "id": "route_1793632116769",
+      "route_number": "R-TEST-6765",
+      "name": "Guindy – Alandur – College",
+      "start_location": "Guindy Metro Station",
+      "destination": "Sri Sairam Engineering College",
+      "description": "Route R-TEST-6765: Guindy – Alandur – College",
+      "status": "active",
+      "verification_status": "DEMO – PENDING TRANSPORT OFFICE VERIFICATION",
+      "created_at": "2026-11-02T15:08:36.770Z"
+    },
+    {
+      "id": "route_1793632149439",
+      "route_number": "R-TEST-9431",
+      "name": "Guindy – Alandur – College",
+      "start_location": "Guindy Metro Station",
+      "destination": "Sri Sairam Engineering College",
+      "description": "Route R-TEST-9431: Guindy – Alandur – College",
+      "status": "active",
+      "verification_status": "DEMO – PENDING TRANSPORT OFFICE VERIFICATION",
+      "created_at": "2026-11-02T15:09:09.439Z"
     }
   ],
   "stops": [
     {
       "id": "stop_1_1",
       "route_id": "route_1",
-      "name": "Guindy Kathipara Hub",
-      "latitude": 13.0067,
-      "longitude": 80.2025,
-      "sequence_order": 1
+      "name": "Valasaravakkam",
+      "latitude": 13.0403,
+      "longitude": 80.1723,
+      "sequence_order": 1,
+      "pickup_time": "07:10 AM"
     },
     {
       "id": "stop_1_2",
       "route_id": "route_1",
-      "name": "Pallavaram Bus Stand",
-      "latitude": 12.968,
-      "longitude": 80.149,
-      "sequence_order": 2
+      "name": "Lakshmi Nagar, Porur",
+      "latitude": 13.0336,
+      "longitude": 80.1585,
+      "sequence_order": 2,
+      "pickup_time": "07:22 AM"
     },
     {
       "id": "stop_1_3",
       "route_id": "route_1",
-      "name": "Chromepet MIT Gate",
-      "latitude": 12.9516,
-      "longitude": 80.1408,
-      "sequence_order": 3
+      "name": "Karampakkam",
+      "latitude": 13.028,
+      "longitude": 80.147,
+      "sequence_order": 3,
+      "pickup_time": "07:30 AM"
     },
     {
       "id": "stop_1_4",
       "route_id": "route_1",
-      "name": "Tambaram West Bus Terminus",
-      "latitude": 12.9249,
-      "longitude": 80.1,
-      "sequence_order": 4
+      "name": "Pannichery",
+      "latitude": 13.018,
+      "longitude": 80.125,
+      "sequence_order": 4,
+      "pickup_time": "07:38 AM"
     },
     {
       "id": "stop_1_5",
       "route_id": "route_1",
-      "name": "Sri Sairam Engineering College Main Gate",
-      "latitude": 12.9601,
-      "longitude": 80.0574,
+      "name": "Kovur",
+      "latitude": 13.008,
+      "longitude": 80.111,
       "sequence_order": 5,
-      "is_campus": true
+      "is_campus": true,
+      "pickup_time": "07:45 AM"
     },
     {
       "id": "stop_2_1",
       "route_id": "route_2",
-      "name": "Koyambedu CMBT Metro",
-      "latitude": 13.0674,
-      "longitude": 80.2057,
-      "sequence_order": 1
+      "name": "Kandigai Police Quarters",
+      "latitude": 12.872,
+      "longitude": 80.141,
+      "sequence_order": 1,
+      "pickup_time": "07:15 AM"
     },
     {
       "id": "stop_2_2",
       "route_id": "route_2",
-      "name": "Porur Toll Junction",
-      "latitude": 13.0336,
-      "longitude": 80.1585,
-      "sequence_order": 2
+      "name": "Kandigai",
+      "latitude": 12.879,
+      "longitude": 80.1425,
+      "sequence_order": 2,
+      "pickup_time": "07:22 AM"
     },
     {
       "id": "stop_2_3",
       "route_id": "route_2",
-      "name": "Kundrathur Murugan Temple Gate",
-      "latitude": 12.9976,
-      "longitude": 80.0964,
-      "sequence_order": 3
+      "name": "Rathnamangalam",
+      "latitude": 12.868,
+      "longitude": 80.121,
+      "sequence_order": 3,
+      "pickup_time": "07:32 AM"
     },
     {
       "id": "stop_2_4",
       "route_id": "route_2",
-      "name": "Somangalam Junction",
-      "latitude": 12.9723,
-      "longitude": 80.0732,
-      "sequence_order": 4
+      "name": "Kolapakkam",
+      "latitude": 12.885,
+      "longitude": 80.098,
+      "sequence_order": 4,
+      "pickup_time": "07:42 AM"
     },
     {
       "id": "stop_2_5",
       "route_id": "route_2",
+      "name": "Vandalur Zoo",
+      "latitude": 12.88,
+      "longitude": 80.0815,
+      "sequence_order": 5,
+      "is_campus": true,
+      "pickup_time": "07:52 AM"
+    },
+    {
+      "id": "stop_1_6",
+      "route_id": "route_1",
+      "name": "Kundrathur",
+      "latitude": 12.9976,
+      "longitude": 80.0964,
+      "sequence_order": 6,
+      "pickup_time": "07:55 AM"
+    },
+    {
+      "id": "stop_1_7",
+      "route_id": "route_1",
+      "name": "Sri Sairam Engineering College Main Gate",
+      "latitude": 12.9601,
+      "longitude": 80.0574,
+      "sequence_order": 7,
+      "pickup_time": "08:15 AM",
+      "is_campus": true
+    },
+    {
+      "id": "stop_2_6",
+      "route_id": "route_2",
+      "name": "Sri Sairam Engineering College Main Gate",
+      "latitude": 12.9601,
+      "longitude": 80.0574,
+      "sequence_order": 6,
+      "pickup_time": "08:15 AM",
+      "is_campus": true
+    },
+    {
+      "id": "stop_3_1",
+      "route_id": "route_3",
+      "name": "Pammal",
+      "latitude": 12.972,
+      "longitude": 80.138,
+      "sequence_order": 1,
+      "pickup_time": "07:20 AM"
+    },
+    {
+      "id": "stop_3_2",
+      "route_id": "route_3",
+      "name": "Pozhichallur",
+      "latitude": 12.981,
+      "longitude": 80.143,
+      "sequence_order": 2,
+      "pickup_time": "07:30 AM"
+    },
+    {
+      "id": "stop_3_3",
+      "route_id": "route_3",
+      "name": "Nagalkeni",
+      "latitude": 12.962,
+      "longitude": 80.131,
+      "sequence_order": 3,
+      "pickup_time": "07:40 AM"
+    },
+    {
+      "id": "stop_3_4",
+      "route_id": "route_3",
+      "name": "Thiruneermalai",
+      "latitude": 12.957,
+      "longitude": 80.115,
+      "sequence_order": 4,
+      "pickup_time": "07:50 AM"
+    },
+    {
+      "id": "stop_3_5",
+      "route_id": "route_3",
       "name": "Sri Sairam Engineering College Main Gate",
       "latitude": 12.9601,
       "longitude": 80.0574,
       "sequence_order": 5,
+      "pickup_time": "08:15 AM",
       "is_campus": true
+    },
+    {
+      "id": "stop_4_1",
+      "route_id": "route_4",
+      "name": "Mappedu",
+      "latitude": 12.871,
+      "longitude": 80.148,
+      "sequence_order": 1,
+      "pickup_time": "07:15 AM"
+    },
+    {
+      "id": "stop_4_2",
+      "route_id": "route_4",
+      "name": "Thiruvancherry",
+      "latitude": 12.886,
+      "longitude": 80.14,
+      "sequence_order": 2,
+      "pickup_time": "07:25 AM"
+    },
+    {
+      "id": "stop_4_3",
+      "route_id": "route_4",
+      "name": "Lakshmi Ammal College area",
+      "latitude": 12.902,
+      "longitude": 80.131,
+      "sequence_order": 3,
+      "pickup_time": "07:35 AM"
+    },
+    {
+      "id": "stop_4_4",
+      "route_id": "route_4",
+      "name": "Bharath Engineering College area",
+      "latitude": 12.915,
+      "longitude": 80.125,
+      "sequence_order": 4,
+      "pickup_time": "07:45 AM"
+    },
+    {
+      "id": "stop_4_5",
+      "route_id": "route_4",
+      "name": "Sri Sairam Engineering College Main Gate",
+      "latitude": 12.9601,
+      "longitude": 80.0574,
+      "sequence_order": 5,
+      "pickup_time": "08:15 AM",
+      "is_campus": true
+    },
+    {
+      "id": "stop_5_1",
+      "route_id": "route_5",
+      "name": "Tambaram Railway Station area",
+      "latitude": 12.9255,
+      "longitude": 80.117,
+      "sequence_order": 1,
+      "pickup_time": "07:25 AM"
+    },
+    {
+      "id": "stop_5_2",
+      "route_id": "route_5",
+      "name": "Tambaram",
+      "latitude": 12.9249,
+      "longitude": 80.1,
+      "sequence_order": 2,
+      "pickup_time": "07:35 AM"
+    },
+    {
+      "id": "stop_5_3",
+      "route_id": "route_5",
+      "name": "Perungalathur",
+      "latitude": 12.905,
+      "longitude": 80.088,
+      "sequence_order": 3,
+      "pickup_time": "07:45 AM"
+    },
+    {
+      "id": "stop_5_4",
+      "route_id": "route_5",
+      "name": "Vandalur",
+      "latitude": 12.891,
+      "longitude": 80.081,
+      "sequence_order": 4,
+      "pickup_time": "07:55 AM"
+    },
+    {
+      "id": "stop_5_5",
+      "route_id": "route_5",
+      "name": "Sri Sairam Engineering College Main Gate",
+      "latitude": 12.9601,
+      "longitude": 80.0574,
+      "sequence_order": 5,
+      "pickup_time": "08:15 AM",
+      "is_campus": true
+    },
+    {
+      "id": "stop_1793632116777",
+      "route_id": "route_1793632116769",
+      "name": "Guindy Race Course Junction",
+      "stop_name": "Guindy Race Course Junction",
+      "latitude": 13.0067,
+      "longitude": 80.2206,
+      "pickup_time": "07:10 AM",
+      "sequence_order": 1
+    },
+    {
+      "id": "stop_1793632149443",
+      "route_id": "route_1793632149439",
+      "name": "Guindy Race Course Junction",
+      "stop_name": "Guindy Race Course Junction",
+      "latitude": 13.0067,
+      "longitude": 80.2206,
+      "pickup_time": "07:10 AM",
+      "sequence_order": 1
     }
   ],
   "buses": [
@@ -1052,11 +2158,12 @@
       "route_id": "route_1",
       "latitude": 12.936,
       "longitude": 80.126,
-      "last_update": "2026-10-25T13:10:33.606Z",
+      "last_update": "2026-11-02T14:45:53.947Z",
       "speed_kmh": 40,
       "status": "active",
       "is_simulated": false,
-      "heading": 215
+      "heading": 215,
+      "capacity": 50
     },
     {
       "id": "bus_2",
@@ -1065,14 +2172,137 @@
       "route_id": "route_2",
       "latitude": 13.013,
       "longitude": 80.121,
-      "last_update": "2026-10-25T13:10:33.595Z",
+      "last_update": "2026-11-02T14:45:53.935Z",
       "speed_kmh": 44,
       "status": "active",
       "is_simulated": false,
-      "heading": 230
+      "heading": 230,
+      "capacity": 50
+    },
+    {
+      "id": "bus_3",
+      "bus_number": "TN-11-EF-9012",
+      "capacity": 50,
+      "driver_id": "usr_driver_3",
+      "route_id": "route_3",
+      "latitude": 12.972,
+      "longitude": 80.138,
+      "last_update": "2026-11-02T13:46:53.901Z",
+      "speed_kmh": 35,
+      "status": "active",
+      "is_simulated": false,
+      "heading": 195
+    },
+    {
+      "id": "bus_4",
+      "bus_number": "TN-11-GH-3456",
+      "capacity": 50,
+      "driver_id": "usr_driver_4",
+      "route_id": "route_4",
+      "latitude": 12.871,
+      "longitude": 80.148,
+      "last_update": "2026-11-02T13:46:53.901Z",
+      "speed_kmh": 30,
+      "status": "active",
+      "is_simulated": false,
+      "heading": 240
+    },
+    {
+      "id": "bus_5",
+      "bus_number": "TN-11-IJ-7890",
+      "capacity": 50,
+      "driver_id": "usr_driver_5",
+      "route_id": "route_5",
+      "latitude": 12.9255,
+      "longitude": 80.117,
+      "last_update": "2026-11-02T13:46:53.901Z",
+      "speed_kmh": 40,
+      "status": "active",
+      "is_simulated": false,
+      "heading": 260
     }
   ],
   "payments": [
+    {
+      "id": "pay_1793626040645",
+      "student_id": "usr_1793626040581",
+      "amount": 2500,
+      "currency": "INR",
+      "gpay_token": null,
+      "status": "pending",
+      "simulated": true,
+      "timestamp": "2026-11-02T13:27:20.645Z"
+    },
+    {
+      "id": "pay_1793625360727",
+      "student_id": "usr_1793625360660",
+      "amount": 2500,
+      "currency": "INR",
+      "gpay_token": null,
+      "status": "pending",
+      "simulated": true,
+      "timestamp": "2026-11-02T13:16:00.727Z"
+    },
+    {
+      "id": "pay_1793624202404",
+      "student_id": "usr_1793624202337",
+      "amount": 2500,
+      "currency": "INR",
+      "gpay_token": null,
+      "status": "pending",
+      "simulated": true,
+      "timestamp": "2026-11-02T12:56:42.404Z"
+    },
+    {
+      "id": "pay_1793624159967",
+      "student_id": "usr_1793624159902",
+      "amount": 2500,
+      "currency": "INR",
+      "gpay_token": null,
+      "status": "pending",
+      "simulated": true,
+      "timestamp": "2026-11-02T12:55:59.967Z"
+    },
+    {
+      "id": "pay_1793623531196",
+      "student_id": "usr_1793623531131",
+      "amount": 2500,
+      "currency": "INR",
+      "gpay_token": null,
+      "status": "pending",
+      "simulated": true,
+      "timestamp": "2026-11-02T12:45:31.196Z"
+    },
+    {
+      "id": "pay_1793623397417",
+      "student_id": "usr_1793623397352",
+      "amount": 2500,
+      "currency": "INR",
+      "gpay_token": null,
+      "status": "pending",
+      "simulated": true,
+      "timestamp": "2026-11-02T12:43:17.417Z"
+    },
+    {
+      "id": "pay_1793622483687",
+      "student_id": "usr_1793622483574",
+      "amount": 2500,
+      "currency": "INR",
+      "gpay_token": null,
+      "status": "pending",
+      "simulated": true,
+      "timestamp": "2026-11-02T12:28:03.687Z"
+    },
+    {
+      "id": "pay_1793033408514",
+      "student_id": "usr_1793033408413",
+      "amount": 2500,
+      "currency": "INR",
+      "gpay_token": null,
+      "status": "pending",
+      "simulated": true,
+      "timestamp": "2026-10-26T16:50:08.515Z"
+    },
     {
       "id": "pay_1792933833570",
       "student_id": "usr_1792933833503",
@@ -1260,6 +2490,123 @@
   ],
   "alerts": [
     {
+      "id": "alert_1793630753963",
+      "user_id": "usr_student_1",
+      "type": "student_panic",
+      "message": "Urgent: Student requested emergency assistance",
+      "latitude": 12.9516,
+      "longitude": 80.1408,
+      "location_type": "browser_gps",
+      "status": "resolved",
+      "resolved_by": "usr_admin_1",
+      "timestamp": "2026-11-02T14:45:53.963Z",
+      "resolved_timestamp": "2026-11-02T14:45:53.972Z"
+    },
+    {
+      "id": "alert_1793626040708",
+      "user_id": "usr_student_1",
+      "type": "student_panic",
+      "message": "Urgent: Student requested emergency assistance",
+      "latitude": 12.9516,
+      "longitude": 80.1408,
+      "location_type": "browser_gps",
+      "status": "resolved",
+      "resolved_by": "usr_admin_1",
+      "timestamp": "2026-11-02T13:27:20.708Z",
+      "resolved_timestamp": "2026-11-02T13:27:20.712Z"
+    },
+    {
+      "id": "alert_1793625360788",
+      "user_id": "usr_student_1",
+      "type": "student_panic",
+      "message": "Urgent: Student requested emergency assistance",
+      "latitude": 12.9516,
+      "longitude": 80.1408,
+      "location_type": "browser_gps",
+      "status": "resolved",
+      "resolved_by": "usr_admin_1",
+      "timestamp": "2026-11-02T13:16:00.788Z",
+      "resolved_timestamp": "2026-11-02T13:16:00.792Z"
+    },
+    {
+      "id": "alert_1793624202481",
+      "user_id": "usr_student_1",
+      "type": "student_panic",
+      "message": "Urgent: Student requested emergency assistance",
+      "latitude": 12.9516,
+      "longitude": 80.1408,
+      "location_type": "browser_gps",
+      "status": "resolved",
+      "resolved_by": "usr_admin_1",
+      "timestamp": "2026-11-02T12:56:42.481Z",
+      "resolved_timestamp": "2026-11-02T12:56:42.486Z"
+    },
+    {
+      "id": "alert_1793624160041",
+      "user_id": "usr_student_1",
+      "type": "student_panic",
+      "message": "Urgent: Student requested emergency assistance",
+      "latitude": 12.9516,
+      "longitude": 80.1408,
+      "location_type": "browser_gps",
+      "status": "resolved",
+      "resolved_by": "usr_admin_1",
+      "timestamp": "2026-11-02T12:56:00.041Z",
+      "resolved_timestamp": "2026-11-02T12:56:00.048Z"
+    },
+    {
+      "id": "alert_1793623531278",
+      "user_id": "usr_student_1",
+      "type": "student_panic",
+      "message": "Urgent: Student requested emergency assistance",
+      "latitude": 12.9516,
+      "longitude": 80.1408,
+      "location_type": "browser_gps",
+      "status": "resolved",
+      "resolved_by": "usr_admin_1",
+      "timestamp": "2026-11-02T12:45:31.278Z",
+      "resolved_timestamp": "2026-11-02T12:45:31.285Z"
+    },
+    {
+      "id": "alert_1793623397478",
+      "user_id": "usr_student_1",
+      "type": "student_panic",
+      "message": "Urgent: Student requested emergency assistance",
+      "latitude": 12.9516,
+      "longitude": 80.1408,
+      "location_type": "browser_gps",
+      "status": "resolved",
+      "resolved_by": "usr_admin_1",
+      "timestamp": "2026-11-02T12:43:17.478Z",
+      "resolved_timestamp": "2026-11-02T12:43:17.484Z"
+    },
+    {
+      "id": "alert_1793622483771",
+      "user_id": "usr_student_1",
+      "type": "student_panic",
+      "message": "Urgent: Student requested emergency assistance",
+      "latitude": 12.9516,
+      "longitude": 80.1408,
+      "location_type": "browser_gps",
+      "status": "resolved",
+      "resolved_by": "usr_admin_1",
+      "timestamp": "2026-11-02T12:28:03.771Z",
+      "resolved_timestamp": "2026-11-02T12:28:03.776Z"
+    },
+    {
+      "id": "alert_1793033408606",
+      "user_id": "usr_student_1",
+      "type": "student_panic",
+      "message": "Urgent: Student requested emergency assistance",
+      "latitude": 12.9516,
+      "longitude": 80.1408,
+      "location_type": "browser_gps",
+      "status": "resolved",
+      "resolved_by": "usr_admin_1",
+      "timestamp": "2026-10-26T16:50:08.606Z",
+      "resolved_timestamp": "2026-10-26T16:50:08.610Z"
+    },
+    {
       "id": "alert_1792933833619",
       "user_id": "usr_student_1",
       "type": "student_panic",
@@ -1337,12 +2684,2775 @@
   ],
   "rfid_scans": [
     {
-      "id": "scan_1792933833611_0r87",
+      "id": "scan_1793630753954_60k5",
       "rfid_tag": "RFID_SEC_001",
       "student_id": "usr_student_1",
       "bus_id": "bus_1",
       "reader_id": "UHF_Bus1_Door",
-      "timestamp": "2026-10-25T13:10:33.609Z"
+      "timestamp": "2026-11-02T14:45:53.952Z"
+    }
+  ],
+  "attendance_uploads": [
+    {
+      "id": "upl_1793626043458_ds6y4t",
+      "filename": "bulk_preserve.xlsx",
+      "file_size": 0,
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "upload_timestamp": "2026-11-02T13:27:23.463Z",
+      "attendance_date": "2026-11-25",
+      "session": "Afternoon",
+      "total_records": 2,
+      "marked_present": 2,
+      "failed_records": 0,
+      "status": "UNDONE",
+      "details": {
+        "preview_summary": null,
+        "all_rows": [
+          {
+            "rowNumber": 2,
+            "studentId": "ST003",
+            "studentName": "Karthik R",
+            "department": "ECE",
+            "year": 2,
+            "validationStatus": "Valid",
+            "attendanceStatus": "Eligible to Mark Present",
+            "isEligible": true,
+            "failureReason": null,
+            "dbStudent": {
+              "userId": "usr_student_3",
+              "name": "Karthik R",
+              "department": "ECE",
+              "year": 2
+            }
+          },
+          {
+            "rowNumber": 3,
+            "studentId": "ST004",
+            "studentName": "Rahul Kumar",
+            "department": "MECH",
+            "year": 1,
+            "validationStatus": "Valid",
+            "attendanceStatus": "Eligible to Mark Present",
+            "isEligible": true,
+            "failureReason": null,
+            "dbStudent": {
+              "userId": "usr_student_4",
+              "name": "Rahul Kumar",
+              "department": "MECH",
+              "year": 1
+            }
+          }
+        ]
+      },
+      "rollback_info": {
+        "admin_id": "usr_admin_1",
+        "admin_name": "Principal Mehra",
+        "timestamp": "2026-11-02T13:27:23.466Z",
+        "reversed_count": 2,
+        "manual_review_count": 0,
+        "manual_review_students": []
+      }
+    },
+    {
+      "id": "upl_1793626043418_jo2f9f",
+      "filename": "upload_B.xlsx",
+      "file_size": 0,
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "upload_timestamp": "2026-11-02T13:27:23.421Z",
+      "attendance_date": "2026-11-21",
+      "session": "Morning",
+      "total_records": 2,
+      "marked_present": 2,
+      "failed_records": 0,
+      "status": "UNDONE",
+      "details": {
+        "preview_summary": null,
+        "all_rows": [
+          {
+            "rowNumber": 2,
+            "studentId": "ST003",
+            "studentName": "Karthik R",
+            "department": "ECE",
+            "year": 2,
+            "validationStatus": "Valid",
+            "attendanceStatus": "Eligible to Mark Present",
+            "isEligible": true,
+            "failureReason": null,
+            "dbStudent": {
+              "userId": "usr_student_3",
+              "name": "Karthik R",
+              "department": "ECE",
+              "year": 2
+            }
+          },
+          {
+            "rowNumber": 3,
+            "studentId": "ST004",
+            "studentName": "Rahul Kumar",
+            "department": "MECH",
+            "year": 1,
+            "validationStatus": "Valid",
+            "attendanceStatus": "Eligible to Mark Present",
+            "isEligible": true,
+            "failureReason": null,
+            "dbStudent": {
+              "userId": "usr_student_4",
+              "name": "Rahul Kumar",
+              "department": "MECH",
+              "year": 1
+            }
+          }
+        ]
+      },
+      "rollback_info": {
+        "admin_id": "usr_admin_1",
+        "admin_name": "Principal Mehra",
+        "timestamp": "2026-11-02T13:27:23.432Z",
+        "reversed_count": 2,
+        "manual_review_count": 0,
+        "manual_review_students": []
+      }
+    },
+    {
+      "id": "upl_1793626043399_kn2uc9",
+      "filename": "upload_A.xlsx",
+      "file_size": 0,
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "upload_timestamp": "2026-11-02T13:27:23.403Z",
+      "attendance_date": "2026-11-20",
+      "session": "Morning",
+      "total_records": 2,
+      "marked_present": 2,
+      "failed_records": 0,
+      "status": "UNDONE",
+      "details": {
+        "preview_summary": null,
+        "all_rows": [
+          {
+            "rowNumber": 2,
+            "studentId": "ST001",
+            "studentName": "Arun Kumar",
+            "department": "CCE",
+            "year": 4,
+            "validationStatus": "Valid",
+            "attendanceStatus": "Eligible to Mark Present",
+            "isEligible": true,
+            "failureReason": null,
+            "dbStudent": {
+              "userId": "usr_student_1",
+              "name": "Arun Kumar",
+              "department": "CCE",
+              "year": 4
+            }
+          },
+          {
+            "rowNumber": 3,
+            "studentId": "ST002",
+            "studentName": "Priya S",
+            "department": "CSE",
+            "year": 3,
+            "validationStatus": "Valid",
+            "attendanceStatus": "Eligible to Mark Present",
+            "isEligible": true,
+            "failureReason": null,
+            "dbStudent": {
+              "userId": "usr_student_2",
+              "name": "Priya S",
+              "department": "CSE",
+              "year": 3
+            }
+          }
+        ]
+      },
+      "rollback_info": {
+        "admin_id": "usr_admin_1",
+        "admin_name": "Principal Mehra",
+        "timestamp": "2026-11-02T13:27:23.426Z",
+        "reversed_count": 2,
+        "manual_review_count": 0,
+        "manual_review_students": []
+      }
+    },
+    {
+      "id": "upl_1793626043353_vvcade",
+      "filename": "valid_attendance.xlsx",
+      "file_size": 6562,
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "upload_timestamp": "2026-11-02T13:27:23.356Z",
+      "attendance_date": "2026-11-15",
+      "session": "Morning",
+      "total_records": 3,
+      "marked_present": 3,
+      "failed_records": 0,
+      "status": "UNDONE",
+      "details": {
+        "preview_summary": {
+          "total": 3,
+          "valid": 3,
+          "invalid": 0,
+          "duplicates": 0,
+          "alreadyPresent": 0
+        },
+        "all_rows": [
+          {
+            "rowNumber": 2,
+            "studentId": "ST001",
+            "studentName": "Arun Kumar",
+            "department": "CCE",
+            "year": 4,
+            "validationStatus": "Valid",
+            "attendanceStatus": "Eligible to Mark Present",
+            "isEligible": true,
+            "failureReason": null,
+            "dbStudent": {
+              "userId": "usr_student_1",
+              "name": "Arun Kumar",
+              "department": "CCE",
+              "year": 4
+            }
+          },
+          {
+            "rowNumber": 3,
+            "studentId": "ST002",
+            "studentName": "Priya S",
+            "department": "CSE",
+            "year": 3,
+            "validationStatus": "Valid",
+            "attendanceStatus": "Eligible to Mark Present",
+            "isEligible": true,
+            "failureReason": null,
+            "dbStudent": {
+              "userId": "usr_student_2",
+              "name": "Priya S",
+              "department": "CSE",
+              "year": 3
+            }
+          },
+          {
+            "rowNumber": 4,
+            "studentId": "ST003",
+            "studentName": "Karthik R",
+            "department": "ECE",
+            "year": 2,
+            "validationStatus": "Valid",
+            "attendanceStatus": "Eligible to Mark Present",
+            "isEligible": true,
+            "failureReason": null,
+            "dbStudent": {
+              "userId": "usr_student_3",
+              "name": "Karthik R",
+              "department": "ECE",
+              "year": 2
+            }
+          }
+        ]
+      },
+      "rollback_info": {
+        "admin_id": "usr_admin_1",
+        "admin_name": "Principal Mehra",
+        "timestamp": "2026-11-02T13:27:23.379Z",
+        "reversed_count": 3,
+        "manual_review_count": 0,
+        "manual_review_students": []
+      }
+    },
+    {
+      "id": "upl_1793625363506_euxleh",
+      "filename": "bulk_preserve.xlsx",
+      "file_size": 0,
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "upload_timestamp": "2026-11-02T13:16:03.509Z",
+      "attendance_date": "2026-11-25",
+      "session": "Afternoon",
+      "total_records": 2,
+      "marked_present": 2,
+      "failed_records": 0,
+      "status": "UNDONE",
+      "details": {
+        "preview_summary": null,
+        "all_rows": [
+          {
+            "rowNumber": 2,
+            "studentId": "ST003",
+            "studentName": "Karthik R",
+            "department": "ECE",
+            "year": 2,
+            "validationStatus": "Valid",
+            "attendanceStatus": "Eligible to Mark Present",
+            "isEligible": true,
+            "failureReason": null,
+            "dbStudent": {
+              "userId": "usr_student_3",
+              "name": "Karthik R",
+              "department": "ECE",
+              "year": 2
+            }
+          },
+          {
+            "rowNumber": 3,
+            "studentId": "ST004",
+            "studentName": "Rahul Kumar",
+            "department": "MECH",
+            "year": 1,
+            "validationStatus": "Valid",
+            "attendanceStatus": "Eligible to Mark Present",
+            "isEligible": true,
+            "failureReason": null,
+            "dbStudent": {
+              "userId": "usr_student_4",
+              "name": "Rahul Kumar",
+              "department": "MECH",
+              "year": 1
+            }
+          }
+        ]
+      },
+      "rollback_info": {
+        "admin_id": "usr_admin_1",
+        "admin_name": "Principal Mehra",
+        "timestamp": "2026-11-02T13:16:03.515Z",
+        "reversed_count": 2,
+        "manual_review_count": 0,
+        "manual_review_students": []
+      }
+    },
+    {
+      "id": "upl_1793625363472_x6ozfm",
+      "filename": "upload_B.xlsx",
+      "file_size": 0,
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "upload_timestamp": "2026-11-02T13:16:03.475Z",
+      "attendance_date": "2026-11-21",
+      "session": "Morning",
+      "total_records": 2,
+      "marked_present": 2,
+      "failed_records": 0,
+      "status": "UNDONE",
+      "details": {
+        "preview_summary": null,
+        "all_rows": [
+          {
+            "rowNumber": 2,
+            "studentId": "ST003",
+            "studentName": "Karthik R",
+            "department": "ECE",
+            "year": 2,
+            "validationStatus": "Valid",
+            "attendanceStatus": "Eligible to Mark Present",
+            "isEligible": true,
+            "failureReason": null,
+            "dbStudent": {
+              "userId": "usr_student_3",
+              "name": "Karthik R",
+              "department": "ECE",
+              "year": 2
+            }
+          },
+          {
+            "rowNumber": 3,
+            "studentId": "ST004",
+            "studentName": "Rahul Kumar",
+            "department": "MECH",
+            "year": 1,
+            "validationStatus": "Valid",
+            "attendanceStatus": "Eligible to Mark Present",
+            "isEligible": true,
+            "failureReason": null,
+            "dbStudent": {
+              "userId": "usr_student_4",
+              "name": "Rahul Kumar",
+              "department": "MECH",
+              "year": 1
+            }
+          }
+        ]
+      },
+      "rollback_info": {
+        "admin_id": "usr_admin_1",
+        "admin_name": "Principal Mehra",
+        "timestamp": "2026-11-02T13:16:03.484Z",
+        "reversed_count": 2,
+        "manual_review_count": 0,
+        "manual_review_students": []
+      }
+    },
+    {
+      "id": "upl_1793625363456_lpdsy6",
+      "filename": "upload_A.xlsx",
+      "file_size": 0,
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "upload_timestamp": "2026-11-02T13:16:03.460Z",
+      "attendance_date": "2026-11-20",
+      "session": "Morning",
+      "total_records": 2,
+      "marked_present": 2,
+      "failed_records": 0,
+      "status": "UNDONE",
+      "details": {
+        "preview_summary": null,
+        "all_rows": [
+          {
+            "rowNumber": 2,
+            "studentId": "ST001",
+            "studentName": "Arun Kumar",
+            "department": "CCE",
+            "year": 4,
+            "validationStatus": "Valid",
+            "attendanceStatus": "Eligible to Mark Present",
+            "isEligible": true,
+            "failureReason": null,
+            "dbStudent": {
+              "userId": "usr_student_1",
+              "name": "Arun Kumar",
+              "department": "CCE",
+              "year": 4
+            }
+          },
+          {
+            "rowNumber": 3,
+            "studentId": "ST002",
+            "studentName": "Priya S",
+            "department": "CSE",
+            "year": 3,
+            "validationStatus": "Valid",
+            "attendanceStatus": "Eligible to Mark Present",
+            "isEligible": true,
+            "failureReason": null,
+            "dbStudent": {
+              "userId": "usr_student_2",
+              "name": "Priya S",
+              "department": "CSE",
+              "year": 3
+            }
+          }
+        ]
+      },
+      "rollback_info": {
+        "admin_id": "usr_admin_1",
+        "admin_name": "Principal Mehra",
+        "timestamp": "2026-11-02T13:16:03.478Z",
+        "reversed_count": 2,
+        "manual_review_count": 0,
+        "manual_review_students": []
+      }
+    },
+    {
+      "id": "upl_1793625363407_58lip2",
+      "filename": "valid_attendance.xlsx",
+      "file_size": 6562,
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "upload_timestamp": "2026-11-02T13:16:03.411Z",
+      "attendance_date": "2026-11-15",
+      "session": "Morning",
+      "total_records": 3,
+      "marked_present": 3,
+      "failed_records": 0,
+      "status": "UNDONE",
+      "details": {
+        "preview_summary": {
+          "total": 3,
+          "valid": 3,
+          "invalid": 0,
+          "duplicates": 0,
+          "alreadyPresent": 0
+        },
+        "all_rows": [
+          {
+            "rowNumber": 2,
+            "studentId": "ST001",
+            "studentName": "Arun Kumar",
+            "department": "CCE",
+            "year": 4,
+            "validationStatus": "Valid",
+            "attendanceStatus": "Eligible to Mark Present",
+            "isEligible": true,
+            "failureReason": null,
+            "dbStudent": {
+              "userId": "usr_student_1",
+              "name": "Arun Kumar",
+              "department": "CCE",
+              "year": 4
+            }
+          },
+          {
+            "rowNumber": 3,
+            "studentId": "ST002",
+            "studentName": "Priya S",
+            "department": "CSE",
+            "year": 3,
+            "validationStatus": "Valid",
+            "attendanceStatus": "Eligible to Mark Present",
+            "isEligible": true,
+            "failureReason": null,
+            "dbStudent": {
+              "userId": "usr_student_2",
+              "name": "Priya S",
+              "department": "CSE",
+              "year": 3
+            }
+          },
+          {
+            "rowNumber": 4,
+            "studentId": "ST003",
+            "studentName": "Karthik R",
+            "department": "ECE",
+            "year": 2,
+            "validationStatus": "Valid",
+            "attendanceStatus": "Eligible to Mark Present",
+            "isEligible": true,
+            "failureReason": null,
+            "dbStudent": {
+              "userId": "usr_student_3",
+              "name": "Karthik R",
+              "department": "ECE",
+              "year": 2
+            }
+          }
+        ]
+      },
+      "rollback_info": {
+        "admin_id": "usr_admin_1",
+        "admin_name": "Principal Mehra",
+        "timestamp": "2026-11-02T13:16:03.436Z",
+        "reversed_count": 3,
+        "manual_review_count": 0,
+        "manual_review_students": []
+      }
+    },
+    {
+      "id": "upl_1793624205241_5n65i8",
+      "filename": "bulk_preserve.xlsx",
+      "file_size": 0,
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "upload_timestamp": "2026-11-02T12:56:45.244Z",
+      "attendance_date": "2026-11-25",
+      "session": "Afternoon",
+      "total_records": 2,
+      "marked_present": 2,
+      "failed_records": 0,
+      "status": "UNDONE",
+      "details": {
+        "preview_summary": null,
+        "all_rows": [
+          {
+            "rowNumber": 2,
+            "studentId": "ST003",
+            "studentName": "Karthik R",
+            "department": "ECE",
+            "year": 2,
+            "validationStatus": "Valid",
+            "attendanceStatus": "Eligible to Mark Present",
+            "isEligible": true,
+            "failureReason": null,
+            "dbStudent": {
+              "userId": "usr_student_3",
+              "name": "Karthik R",
+              "department": "ECE",
+              "year": 2
+            }
+          },
+          {
+            "rowNumber": 3,
+            "studentId": "ST004",
+            "studentName": "Rahul Kumar",
+            "department": "MECH",
+            "year": 1,
+            "validationStatus": "Valid",
+            "attendanceStatus": "Eligible to Mark Present",
+            "isEligible": true,
+            "failureReason": null,
+            "dbStudent": {
+              "userId": "usr_student_4",
+              "name": "Rahul Kumar",
+              "department": "MECH",
+              "year": 1
+            }
+          }
+        ]
+      },
+      "rollback_info": {
+        "admin_id": "usr_admin_1",
+        "admin_name": "Principal Mehra",
+        "timestamp": "2026-11-02T12:56:45.248Z",
+        "reversed_count": 2,
+        "manual_review_count": 0,
+        "manual_review_students": []
+      }
+    },
+    {
+      "id": "upl_1793624205202_hdvdd0",
+      "filename": "upload_B.xlsx",
+      "file_size": 0,
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "upload_timestamp": "2026-11-02T12:56:45.206Z",
+      "attendance_date": "2026-11-21",
+      "session": "Morning",
+      "total_records": 2,
+      "marked_present": 2,
+      "failed_records": 0,
+      "status": "UNDONE",
+      "details": {
+        "preview_summary": null,
+        "all_rows": [
+          {
+            "rowNumber": 2,
+            "studentId": "ST003",
+            "studentName": "Karthik R",
+            "department": "ECE",
+            "year": 2,
+            "validationStatus": "Valid",
+            "attendanceStatus": "Eligible to Mark Present",
+            "isEligible": true,
+            "failureReason": null,
+            "dbStudent": {
+              "userId": "usr_student_3",
+              "name": "Karthik R",
+              "department": "ECE",
+              "year": 2
+            }
+          },
+          {
+            "rowNumber": 3,
+            "studentId": "ST004",
+            "studentName": "Rahul Kumar",
+            "department": "MECH",
+            "year": 1,
+            "validationStatus": "Valid",
+            "attendanceStatus": "Eligible to Mark Present",
+            "isEligible": true,
+            "failureReason": null,
+            "dbStudent": {
+              "userId": "usr_student_4",
+              "name": "Rahul Kumar",
+              "department": "MECH",
+              "year": 1
+            }
+          }
+        ]
+      },
+      "rollback_info": {
+        "admin_id": "usr_admin_1",
+        "admin_name": "Principal Mehra",
+        "timestamp": "2026-11-02T12:56:45.216Z",
+        "reversed_count": 2,
+        "manual_review_count": 0,
+        "manual_review_students": []
+      }
+    },
+    {
+      "id": "upl_1793624205184_u4sehl",
+      "filename": "upload_A.xlsx",
+      "file_size": 0,
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "upload_timestamp": "2026-11-02T12:56:45.188Z",
+      "attendance_date": "2026-11-20",
+      "session": "Morning",
+      "total_records": 2,
+      "marked_present": 2,
+      "failed_records": 0,
+      "status": "UNDONE",
+      "details": {
+        "preview_summary": null,
+        "all_rows": [
+          {
+            "rowNumber": 2,
+            "studentId": "ST001",
+            "studentName": "Arun Kumar",
+            "department": "CCE",
+            "year": 4,
+            "validationStatus": "Valid",
+            "attendanceStatus": "Eligible to Mark Present",
+            "isEligible": true,
+            "failureReason": null,
+            "dbStudent": {
+              "userId": "usr_student_1",
+              "name": "Arun Kumar",
+              "department": "CCE",
+              "year": 4
+            }
+          },
+          {
+            "rowNumber": 3,
+            "studentId": "ST002",
+            "studentName": "Priya S",
+            "department": "CSE",
+            "year": 3,
+            "validationStatus": "Valid",
+            "attendanceStatus": "Eligible to Mark Present",
+            "isEligible": true,
+            "failureReason": null,
+            "dbStudent": {
+              "userId": "usr_student_2",
+              "name": "Priya S",
+              "department": "CSE",
+              "year": 3
+            }
+          }
+        ]
+      },
+      "rollback_info": {
+        "admin_id": "usr_admin_1",
+        "admin_name": "Principal Mehra",
+        "timestamp": "2026-11-02T12:56:45.210Z",
+        "reversed_count": 2,
+        "manual_review_count": 0,
+        "manual_review_students": []
+      }
+    },
+    {
+      "id": "upl_1793624205110_yvvzos",
+      "filename": "valid_attendance.xlsx",
+      "file_size": 6563,
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "upload_timestamp": "2026-11-02T12:56:45.114Z",
+      "attendance_date": "2026-11-15",
+      "session": "Morning",
+      "total_records": 3,
+      "marked_present": 3,
+      "failed_records": 0,
+      "status": "UNDONE",
+      "details": {
+        "preview_summary": {
+          "total": 3,
+          "valid": 3,
+          "invalid": 0,
+          "duplicates": 0,
+          "alreadyPresent": 0
+        },
+        "all_rows": [
+          {
+            "rowNumber": 2,
+            "studentId": "ST001",
+            "studentName": "Arun Kumar",
+            "department": "CCE",
+            "year": 4,
+            "validationStatus": "Valid",
+            "attendanceStatus": "Eligible to Mark Present",
+            "isEligible": true,
+            "failureReason": null,
+            "dbStudent": {
+              "userId": "usr_student_1",
+              "name": "Arun Kumar",
+              "department": "CCE",
+              "year": 4
+            }
+          },
+          {
+            "rowNumber": 3,
+            "studentId": "ST002",
+            "studentName": "Priya S",
+            "department": "CSE",
+            "year": 3,
+            "validationStatus": "Valid",
+            "attendanceStatus": "Eligible to Mark Present",
+            "isEligible": true,
+            "failureReason": null,
+            "dbStudent": {
+              "userId": "usr_student_2",
+              "name": "Priya S",
+              "department": "CSE",
+              "year": 3
+            }
+          },
+          {
+            "rowNumber": 4,
+            "studentId": "ST003",
+            "studentName": "Karthik R",
+            "department": "ECE",
+            "year": 2,
+            "validationStatus": "Valid",
+            "attendanceStatus": "Eligible to Mark Present",
+            "isEligible": true,
+            "failureReason": null,
+            "dbStudent": {
+              "userId": "usr_student_3",
+              "name": "Karthik R",
+              "department": "ECE",
+              "year": 2
+            }
+          }
+        ]
+      },
+      "rollback_info": {
+        "admin_id": "usr_admin_1",
+        "admin_name": "Principal Mehra",
+        "timestamp": "2026-11-02T12:56:45.143Z",
+        "reversed_count": 3,
+        "manual_review_count": 0,
+        "manual_review_students": []
+      }
+    },
+    {
+      "id": "upl_1793624132140_6k2ijm",
+      "filename": "bulk_preserve.xlsx",
+      "file_size": 0,
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "upload_timestamp": "2026-11-02T12:55:32.144Z",
+      "attendance_date": "2026-11-25",
+      "session": "Afternoon",
+      "total_records": 2,
+      "marked_present": 2,
+      "failed_records": 0,
+      "status": "UNDONE",
+      "details": {
+        "preview_summary": null,
+        "all_rows": [
+          {
+            "rowNumber": 2,
+            "studentId": "ST003",
+            "studentName": "Karthik R",
+            "department": "ECE",
+            "year": 2,
+            "validationStatus": "Valid",
+            "attendanceStatus": "Eligible to Mark Present",
+            "isEligible": true,
+            "failureReason": null,
+            "dbStudent": {
+              "userId": "usr_student_3",
+              "name": "Karthik R",
+              "department": "ECE",
+              "year": 2
+            }
+          },
+          {
+            "rowNumber": 3,
+            "studentId": "ST004",
+            "studentName": "Rahul Kumar",
+            "department": "MECH",
+            "year": 1,
+            "validationStatus": "Valid",
+            "attendanceStatus": "Eligible to Mark Present",
+            "isEligible": true,
+            "failureReason": null,
+            "dbStudent": {
+              "userId": "usr_student_4",
+              "name": "Rahul Kumar",
+              "department": "MECH",
+              "year": 1
+            }
+          }
+        ]
+      },
+      "rollback_info": {
+        "admin_id": "usr_admin_1",
+        "admin_name": "Principal Mehra",
+        "timestamp": "2026-11-02T12:55:32.150Z",
+        "reversed_count": 2,
+        "manual_review_count": 0,
+        "manual_review_students": []
+      }
+    },
+    {
+      "id": "upl_1793624132093_zcrlyg",
+      "filename": "upload_B.xlsx",
+      "file_size": 0,
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "upload_timestamp": "2026-11-02T12:55:32.097Z",
+      "attendance_date": "2026-11-21",
+      "session": "Morning",
+      "total_records": 2,
+      "marked_present": 2,
+      "failed_records": 0,
+      "status": "UNDONE",
+      "details": {
+        "preview_summary": null,
+        "all_rows": [
+          {
+            "rowNumber": 2,
+            "studentId": "ST003",
+            "studentName": "Karthik R",
+            "department": "ECE",
+            "year": 2,
+            "validationStatus": "Valid",
+            "attendanceStatus": "Eligible to Mark Present",
+            "isEligible": true,
+            "failureReason": null,
+            "dbStudent": {
+              "userId": "usr_student_3",
+              "name": "Karthik R",
+              "department": "ECE",
+              "year": 2
+            }
+          },
+          {
+            "rowNumber": 3,
+            "studentId": "ST004",
+            "studentName": "Rahul Kumar",
+            "department": "MECH",
+            "year": 1,
+            "validationStatus": "Valid",
+            "attendanceStatus": "Eligible to Mark Present",
+            "isEligible": true,
+            "failureReason": null,
+            "dbStudent": {
+              "userId": "usr_student_4",
+              "name": "Rahul Kumar",
+              "department": "MECH",
+              "year": 1
+            }
+          }
+        ]
+      },
+      "rollback_info": {
+        "admin_id": "usr_admin_1",
+        "admin_name": "Principal Mehra",
+        "timestamp": "2026-11-02T12:55:32.108Z",
+        "reversed_count": 2,
+        "manual_review_count": 0,
+        "manual_review_students": []
+      }
+    },
+    {
+      "id": "upl_1793624132073_abxmkv",
+      "filename": "upload_A.xlsx",
+      "file_size": 0,
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "upload_timestamp": "2026-11-02T12:55:32.076Z",
+      "attendance_date": "2026-11-20",
+      "session": "Morning",
+      "total_records": 2,
+      "marked_present": 2,
+      "failed_records": 0,
+      "status": "UNDONE",
+      "details": {
+        "preview_summary": null,
+        "all_rows": [
+          {
+            "rowNumber": 2,
+            "studentId": "ST001",
+            "studentName": "Arun Kumar",
+            "department": "CCE",
+            "year": 4,
+            "validationStatus": "Valid",
+            "attendanceStatus": "Eligible to Mark Present",
+            "isEligible": true,
+            "failureReason": null,
+            "dbStudent": {
+              "userId": "usr_student_1",
+              "name": "Arun Kumar",
+              "department": "CCE",
+              "year": 4
+            }
+          },
+          {
+            "rowNumber": 3,
+            "studentId": "ST002",
+            "studentName": "Priya S",
+            "department": "CSE",
+            "year": 3,
+            "validationStatus": "Valid",
+            "attendanceStatus": "Eligible to Mark Present",
+            "isEligible": true,
+            "failureReason": null,
+            "dbStudent": {
+              "userId": "usr_student_2",
+              "name": "Priya S",
+              "department": "CSE",
+              "year": 3
+            }
+          }
+        ]
+      },
+      "rollback_info": {
+        "admin_id": "usr_admin_1",
+        "admin_name": "Principal Mehra",
+        "timestamp": "2026-11-02T12:55:32.102Z",
+        "reversed_count": 2,
+        "manual_review_count": 0,
+        "manual_review_students": []
+      }
+    },
+    {
+      "id": "upl_1793624131990_zm01g0",
+      "filename": "valid_attendance.xlsx",
+      "file_size": 6562,
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "upload_timestamp": "2026-11-02T12:55:31.994Z",
+      "attendance_date": "2026-11-15",
+      "session": "Morning",
+      "total_records": 3,
+      "marked_present": 3,
+      "failed_records": 0,
+      "status": "UNDONE",
+      "details": {
+        "preview_summary": {
+          "total": 3,
+          "valid": 3,
+          "invalid": 0,
+          "duplicates": 0,
+          "alreadyPresent": 0
+        },
+        "all_rows": [
+          {
+            "rowNumber": 2,
+            "studentId": "ST001",
+            "studentName": "Arun Kumar",
+            "department": "CCE",
+            "year": 4,
+            "validationStatus": "Valid",
+            "attendanceStatus": "Eligible to Mark Present",
+            "isEligible": true,
+            "failureReason": null,
+            "dbStudent": {
+              "userId": "usr_student_1",
+              "name": "Arun Kumar",
+              "department": "CCE",
+              "year": 4
+            }
+          },
+          {
+            "rowNumber": 3,
+            "studentId": "ST002",
+            "studentName": "Priya S",
+            "department": "CSE",
+            "year": 3,
+            "validationStatus": "Valid",
+            "attendanceStatus": "Eligible to Mark Present",
+            "isEligible": true,
+            "failureReason": null,
+            "dbStudent": {
+              "userId": "usr_student_2",
+              "name": "Priya S",
+              "department": "CSE",
+              "year": 3
+            }
+          },
+          {
+            "rowNumber": 4,
+            "studentId": "ST003",
+            "studentName": "Karthik R",
+            "department": "ECE",
+            "year": 2,
+            "validationStatus": "Valid",
+            "attendanceStatus": "Eligible to Mark Present",
+            "isEligible": true,
+            "failureReason": null,
+            "dbStudent": {
+              "userId": "usr_student_3",
+              "name": "Karthik R",
+              "department": "ECE",
+              "year": 2
+            }
+          }
+        ]
+      },
+      "rollback_info": {
+        "admin_id": "usr_admin_1",
+        "admin_name": "Principal Mehra",
+        "timestamp": "2026-11-02T12:55:32.033Z",
+        "reversed_count": 3,
+        "manual_review_count": 0,
+        "manual_review_students": []
+      }
+    },
+    {
+      "id": "upl_1793624074238_dkyt9y",
+      "filename": "bulk_preserve.xlsx",
+      "file_size": 0,
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "upload_timestamp": "2026-11-02T12:54:34.242Z",
+      "attendance_date": "2026-11-25",
+      "session": "Afternoon",
+      "total_records": 2,
+      "marked_present": 2,
+      "failed_records": 0,
+      "status": "UNDONE",
+      "details": {
+        "preview_summary": null,
+        "all_rows": [
+          {
+            "rowNumber": 2,
+            "studentId": "ST003",
+            "studentName": "Karthik R",
+            "department": "ECE",
+            "year": 2,
+            "validationStatus": "Valid",
+            "attendanceStatus": "Eligible to Mark Present",
+            "isEligible": true,
+            "failureReason": null,
+            "dbStudent": {
+              "userId": "usr_student_3",
+              "name": "Karthik R",
+              "department": "ECE",
+              "year": 2
+            }
+          },
+          {
+            "rowNumber": 3,
+            "studentId": "ST004",
+            "studentName": "Rahul Kumar",
+            "department": "MECH",
+            "year": 1,
+            "validationStatus": "Valid",
+            "attendanceStatus": "Eligible to Mark Present",
+            "isEligible": true,
+            "failureReason": null,
+            "dbStudent": {
+              "userId": "usr_student_4",
+              "name": "Rahul Kumar",
+              "department": "MECH",
+              "year": 1
+            }
+          }
+        ]
+      },
+      "rollback_info": {
+        "admin_id": "usr_admin_1",
+        "admin_name": "Principal Mehra",
+        "timestamp": "2026-11-02T12:54:34.245Z",
+        "reversed_count": 2,
+        "manual_review_count": 0,
+        "manual_review_students": []
+      }
+    },
+    {
+      "id": "upl_1793624074197_um55fn",
+      "filename": "upload_B.xlsx",
+      "file_size": 0,
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "upload_timestamp": "2026-11-02T12:54:34.201Z",
+      "attendance_date": "2026-11-21",
+      "session": "Morning",
+      "total_records": 2,
+      "marked_present": 2,
+      "failed_records": 0,
+      "status": "UNDONE",
+      "details": {
+        "preview_summary": null,
+        "all_rows": [
+          {
+            "rowNumber": 2,
+            "studentId": "ST003",
+            "studentName": "Karthik R",
+            "department": "ECE",
+            "year": 2,
+            "validationStatus": "Valid",
+            "attendanceStatus": "Eligible to Mark Present",
+            "isEligible": true,
+            "failureReason": null,
+            "dbStudent": {
+              "userId": "usr_student_3",
+              "name": "Karthik R",
+              "department": "ECE",
+              "year": 2
+            }
+          },
+          {
+            "rowNumber": 3,
+            "studentId": "ST004",
+            "studentName": "Rahul Kumar",
+            "department": "MECH",
+            "year": 1,
+            "validationStatus": "Valid",
+            "attendanceStatus": "Eligible to Mark Present",
+            "isEligible": true,
+            "failureReason": null,
+            "dbStudent": {
+              "userId": "usr_student_4",
+              "name": "Rahul Kumar",
+              "department": "MECH",
+              "year": 1
+            }
+          }
+        ]
+      },
+      "rollback_info": {
+        "admin_id": "usr_admin_1",
+        "admin_name": "Principal Mehra",
+        "timestamp": "2026-11-02T12:54:34.211Z",
+        "reversed_count": 2,
+        "manual_review_count": 0,
+        "manual_review_students": []
+      }
+    },
+    {
+      "id": "upl_1793624074179_o57188",
+      "filename": "upload_A.xlsx",
+      "file_size": 0,
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "upload_timestamp": "2026-11-02T12:54:34.182Z",
+      "attendance_date": "2026-11-20",
+      "session": "Morning",
+      "total_records": 2,
+      "marked_present": 2,
+      "failed_records": 0,
+      "status": "UNDONE",
+      "details": {
+        "preview_summary": null,
+        "all_rows": [
+          {
+            "rowNumber": 2,
+            "studentId": "ST001",
+            "studentName": "Arun Kumar",
+            "department": "CCE",
+            "year": 4,
+            "validationStatus": "Valid",
+            "attendanceStatus": "Eligible to Mark Present",
+            "isEligible": true,
+            "failureReason": null,
+            "dbStudent": {
+              "userId": "usr_student_1",
+              "name": "Arun Kumar",
+              "department": "CCE",
+              "year": 4
+            }
+          },
+          {
+            "rowNumber": 3,
+            "studentId": "ST002",
+            "studentName": "Priya S",
+            "department": "CSE",
+            "year": 3,
+            "validationStatus": "Valid",
+            "attendanceStatus": "Eligible to Mark Present",
+            "isEligible": true,
+            "failureReason": null,
+            "dbStudent": {
+              "userId": "usr_student_2",
+              "name": "Priya S",
+              "department": "CSE",
+              "year": 3
+            }
+          }
+        ]
+      },
+      "rollback_info": {
+        "admin_id": "usr_admin_1",
+        "admin_name": "Principal Mehra",
+        "timestamp": "2026-11-02T12:54:34.205Z",
+        "reversed_count": 2,
+        "manual_review_count": 0,
+        "manual_review_students": []
+      }
+    },
+    {
+      "id": "upl_1793624074126_01njac",
+      "filename": "valid_attendance.xlsx",
+      "file_size": 6563,
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "upload_timestamp": "2026-11-02T12:54:34.130Z",
+      "attendance_date": "2026-11-15",
+      "session": "Morning",
+      "total_records": 3,
+      "marked_present": 3,
+      "failed_records": 0,
+      "status": "UNDONE",
+      "details": {
+        "preview_summary": {
+          "total": 3,
+          "valid": 3,
+          "invalid": 0,
+          "duplicates": 0,
+          "alreadyPresent": 0
+        },
+        "all_rows": [
+          {
+            "rowNumber": 2,
+            "studentId": "ST001",
+            "studentName": "Arun Kumar",
+            "department": "CCE",
+            "year": 4,
+            "validationStatus": "Valid",
+            "attendanceStatus": "Eligible to Mark Present",
+            "isEligible": true,
+            "failureReason": null,
+            "dbStudent": {
+              "userId": "usr_student_1",
+              "name": "Arun Kumar",
+              "department": "CCE",
+              "year": 4
+            }
+          },
+          {
+            "rowNumber": 3,
+            "studentId": "ST002",
+            "studentName": "Priya S",
+            "department": "CSE",
+            "year": 3,
+            "validationStatus": "Valid",
+            "attendanceStatus": "Eligible to Mark Present",
+            "isEligible": true,
+            "failureReason": null,
+            "dbStudent": {
+              "userId": "usr_student_2",
+              "name": "Priya S",
+              "department": "CSE",
+              "year": 3
+            }
+          },
+          {
+            "rowNumber": 4,
+            "studentId": "ST003",
+            "studentName": "Karthik R",
+            "department": "ECE",
+            "year": 2,
+            "validationStatus": "Valid",
+            "attendanceStatus": "Eligible to Mark Present",
+            "isEligible": true,
+            "failureReason": null,
+            "dbStudent": {
+              "userId": "usr_student_3",
+              "name": "Karthik R",
+              "department": "ECE",
+              "year": 2
+            }
+          }
+        ]
+      },
+      "rollback_info": {
+        "admin_id": "usr_admin_1",
+        "admin_name": "Principal Mehra",
+        "timestamp": "2026-11-02T12:54:34.159Z",
+        "reversed_count": 3,
+        "manual_review_count": 0,
+        "manual_review_students": []
+      }
+    }
+  ],
+  "attendance_audit_log": [
+    {
+      "id": "aud_rb_1793626043467_nxou",
+      "event": "UPLOAD_ROLLBACK",
+      "attendance_upload_id": "upl_1793626043458_ds6y4t",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "timestamp": "2026-11-02T13:27:23.467Z",
+      "details": {
+        "reversed_count": 2,
+        "manual_review_count": 0,
+        "filename": "bulk_preserve.xlsx",
+        "original_date": "2026-11-25",
+        "original_session": "Afternoon"
+      }
+    },
+    {
+      "id": "aud_bulk_1793626043458_exjf",
+      "event": "UPLOAD_CONFIRMED",
+      "attendance_upload_id": "upl_1793626043458_ds6y4t",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "timestamp": "2026-11-02T13:27:23.458Z",
+      "details": {
+        "date": "2026-11-25",
+        "session": "Afternoon",
+        "marked_present_count": 2
+      }
+    },
+    {
+      "id": "aud_rb_1793626043432_4myk",
+      "event": "UPLOAD_ROLLBACK",
+      "attendance_upload_id": "upl_1793626043418_jo2f9f",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "timestamp": "2026-11-02T13:27:23.432Z",
+      "details": {
+        "reversed_count": 2,
+        "manual_review_count": 0,
+        "filename": "upload_B.xlsx",
+        "original_date": "2026-11-21",
+        "original_session": "Morning"
+      }
+    },
+    {
+      "id": "aud_rb_1793626043426_o047",
+      "event": "UPLOAD_ROLLBACK",
+      "attendance_upload_id": "upl_1793626043399_kn2uc9",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "timestamp": "2026-11-02T13:27:23.426Z",
+      "details": {
+        "reversed_count": 2,
+        "manual_review_count": 0,
+        "filename": "upload_A.xlsx",
+        "original_date": "2026-11-20",
+        "original_session": "Morning"
+      }
+    },
+    {
+      "id": "aud_bulk_1793626043418_pnh9",
+      "event": "UPLOAD_CONFIRMED",
+      "attendance_upload_id": "upl_1793626043418_jo2f9f",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "timestamp": "2026-11-02T13:27:23.418Z",
+      "details": {
+        "date": "2026-11-21",
+        "session": "Morning",
+        "marked_present_count": 2
+      }
+    },
+    {
+      "id": "aud_bulk_1793626043399_mdei",
+      "event": "UPLOAD_CONFIRMED",
+      "attendance_upload_id": "upl_1793626043399_kn2uc9",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "timestamp": "2026-11-02T13:27:23.399Z",
+      "details": {
+        "date": "2026-11-20",
+        "session": "Morning",
+        "marked_present_count": 2
+      }
+    },
+    {
+      "id": "aud_rb_1793626043379_ihjq",
+      "event": "UPLOAD_ROLLBACK",
+      "attendance_upload_id": "upl_1793626043353_vvcade",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "timestamp": "2026-11-02T13:27:23.379Z",
+      "details": {
+        "reversed_count": 3,
+        "manual_review_count": 0,
+        "filename": "valid_attendance.xlsx",
+        "original_date": "2026-11-15",
+        "original_session": "Morning"
+      }
+    },
+    {
+      "id": "aud_bulk_1793626043353_zfv0",
+      "event": "UPLOAD_CONFIRMED",
+      "attendance_upload_id": "upl_1793626043353_vvcade",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "timestamp": "2026-11-02T13:27:23.353Z",
+      "details": {
+        "date": "2026-11-15",
+        "session": "Morning",
+        "marked_present_count": 3
+      }
+    },
+    {
+      "id": "aud_rb_1793625363515_d9w0",
+      "event": "UPLOAD_ROLLBACK",
+      "attendance_upload_id": "upl_1793625363506_euxleh",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "timestamp": "2026-11-02T13:16:03.515Z",
+      "details": {
+        "reversed_count": 2,
+        "manual_review_count": 0,
+        "filename": "bulk_preserve.xlsx",
+        "original_date": "2026-11-25",
+        "original_session": "Afternoon"
+      }
+    },
+    {
+      "id": "aud_bulk_1793625363507_ps4d",
+      "event": "UPLOAD_CONFIRMED",
+      "attendance_upload_id": "upl_1793625363506_euxleh",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "timestamp": "2026-11-02T13:16:03.507Z",
+      "details": {
+        "date": "2026-11-25",
+        "session": "Afternoon",
+        "marked_present_count": 2
+      }
+    },
+    {
+      "id": "aud_rb_1793625363484_l3ft",
+      "event": "UPLOAD_ROLLBACK",
+      "attendance_upload_id": "upl_1793625363472_x6ozfm",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "timestamp": "2026-11-02T13:16:03.484Z",
+      "details": {
+        "reversed_count": 2,
+        "manual_review_count": 0,
+        "filename": "upload_B.xlsx",
+        "original_date": "2026-11-21",
+        "original_session": "Morning"
+      }
+    },
+    {
+      "id": "aud_rb_1793625363478_p1u5",
+      "event": "UPLOAD_ROLLBACK",
+      "attendance_upload_id": "upl_1793625363456_lpdsy6",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "timestamp": "2026-11-02T13:16:03.478Z",
+      "details": {
+        "reversed_count": 2,
+        "manual_review_count": 0,
+        "filename": "upload_A.xlsx",
+        "original_date": "2026-11-20",
+        "original_session": "Morning"
+      }
+    },
+    {
+      "id": "aud_bulk_1793625363472_zgbo",
+      "event": "UPLOAD_CONFIRMED",
+      "attendance_upload_id": "upl_1793625363472_x6ozfm",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "timestamp": "2026-11-02T13:16:03.472Z",
+      "details": {
+        "date": "2026-11-21",
+        "session": "Morning",
+        "marked_present_count": 2
+      }
+    },
+    {
+      "id": "aud_bulk_1793625363456_42og",
+      "event": "UPLOAD_CONFIRMED",
+      "attendance_upload_id": "upl_1793625363456_lpdsy6",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "timestamp": "2026-11-02T13:16:03.456Z",
+      "details": {
+        "date": "2026-11-20",
+        "session": "Morning",
+        "marked_present_count": 2
+      }
+    },
+    {
+      "id": "aud_rb_1793625363436_buew",
+      "event": "UPLOAD_ROLLBACK",
+      "attendance_upload_id": "upl_1793625363407_58lip2",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "timestamp": "2026-11-02T13:16:03.436Z",
+      "details": {
+        "reversed_count": 3,
+        "manual_review_count": 0,
+        "filename": "valid_attendance.xlsx",
+        "original_date": "2026-11-15",
+        "original_session": "Morning"
+      }
+    },
+    {
+      "id": "aud_bulk_1793625363407_oks9",
+      "event": "UPLOAD_CONFIRMED",
+      "attendance_upload_id": "upl_1793625363407_58lip2",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "timestamp": "2026-11-02T13:16:03.407Z",
+      "details": {
+        "date": "2026-11-15",
+        "session": "Morning",
+        "marked_present_count": 3
+      }
+    },
+    {
+      "id": "aud_rb_1793624205248_8yci",
+      "event": "UPLOAD_ROLLBACK",
+      "attendance_upload_id": "upl_1793624205241_5n65i8",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "timestamp": "2026-11-02T12:56:45.248Z",
+      "details": {
+        "reversed_count": 2,
+        "manual_review_count": 0,
+        "filename": "bulk_preserve.xlsx",
+        "original_date": "2026-11-25",
+        "original_session": "Afternoon"
+      }
+    },
+    {
+      "id": "aud_bulk_1793624205241_x6ie",
+      "event": "UPLOAD_CONFIRMED",
+      "attendance_upload_id": "upl_1793624205241_5n65i8",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "timestamp": "2026-11-02T12:56:45.241Z",
+      "details": {
+        "date": "2026-11-25",
+        "session": "Afternoon",
+        "marked_present_count": 2
+      }
+    },
+    {
+      "id": "aud_rb_1793624205216_lt64",
+      "event": "UPLOAD_ROLLBACK",
+      "attendance_upload_id": "upl_1793624205202_hdvdd0",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "timestamp": "2026-11-02T12:56:45.216Z",
+      "details": {
+        "reversed_count": 2,
+        "manual_review_count": 0,
+        "filename": "upload_B.xlsx",
+        "original_date": "2026-11-21",
+        "original_session": "Morning"
+      }
+    },
+    {
+      "id": "aud_rb_1793624205210_bkqu",
+      "event": "UPLOAD_ROLLBACK",
+      "attendance_upload_id": "upl_1793624205184_u4sehl",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "timestamp": "2026-11-02T12:56:45.210Z",
+      "details": {
+        "reversed_count": 2,
+        "manual_review_count": 0,
+        "filename": "upload_A.xlsx",
+        "original_date": "2026-11-20",
+        "original_session": "Morning"
+      }
+    },
+    {
+      "id": "aud_bulk_1793624205202_uh10",
+      "event": "UPLOAD_CONFIRMED",
+      "attendance_upload_id": "upl_1793624205202_hdvdd0",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "timestamp": "2026-11-02T12:56:45.202Z",
+      "details": {
+        "date": "2026-11-21",
+        "session": "Morning",
+        "marked_present_count": 2
+      }
+    },
+    {
+      "id": "aud_bulk_1793624205184_hi07",
+      "event": "UPLOAD_CONFIRMED",
+      "attendance_upload_id": "upl_1793624205184_u4sehl",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "timestamp": "2026-11-02T12:56:45.184Z",
+      "details": {
+        "date": "2026-11-20",
+        "session": "Morning",
+        "marked_present_count": 2
+      }
+    },
+    {
+      "id": "aud_rb_1793624205143_csm2",
+      "event": "UPLOAD_ROLLBACK",
+      "attendance_upload_id": "upl_1793624205110_yvvzos",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "timestamp": "2026-11-02T12:56:45.143Z",
+      "details": {
+        "reversed_count": 3,
+        "manual_review_count": 0,
+        "filename": "valid_attendance.xlsx",
+        "original_date": "2026-11-15",
+        "original_session": "Morning"
+      }
+    },
+    {
+      "id": "aud_bulk_1793624205111_fmy8",
+      "event": "UPLOAD_CONFIRMED",
+      "attendance_upload_id": "upl_1793624205110_yvvzos",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "timestamp": "2026-11-02T12:56:45.111Z",
+      "details": {
+        "date": "2026-11-15",
+        "session": "Morning",
+        "marked_present_count": 3
+      }
+    },
+    {
+      "id": "aud_rb_1793624132150_x098",
+      "event": "UPLOAD_ROLLBACK",
+      "attendance_upload_id": "upl_1793624132140_6k2ijm",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "timestamp": "2026-11-02T12:55:32.150Z",
+      "details": {
+        "reversed_count": 2,
+        "manual_review_count": 0,
+        "filename": "bulk_preserve.xlsx",
+        "original_date": "2026-11-25",
+        "original_session": "Afternoon"
+      }
+    },
+    {
+      "id": "aud_bulk_1793624132140_yxcq",
+      "event": "UPLOAD_CONFIRMED",
+      "attendance_upload_id": "upl_1793624132140_6k2ijm",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "timestamp": "2026-11-02T12:55:32.140Z",
+      "details": {
+        "date": "2026-11-25",
+        "session": "Afternoon",
+        "marked_present_count": 2
+      }
+    },
+    {
+      "id": "aud_rb_1793624132108_hatf",
+      "event": "UPLOAD_ROLLBACK",
+      "attendance_upload_id": "upl_1793624132093_zcrlyg",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "timestamp": "2026-11-02T12:55:32.108Z",
+      "details": {
+        "reversed_count": 2,
+        "manual_review_count": 0,
+        "filename": "upload_B.xlsx",
+        "original_date": "2026-11-21",
+        "original_session": "Morning"
+      }
+    },
+    {
+      "id": "aud_rb_1793624132102_7hf2",
+      "event": "UPLOAD_ROLLBACK",
+      "attendance_upload_id": "upl_1793624132073_abxmkv",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "timestamp": "2026-11-02T12:55:32.102Z",
+      "details": {
+        "reversed_count": 2,
+        "manual_review_count": 0,
+        "filename": "upload_A.xlsx",
+        "original_date": "2026-11-20",
+        "original_session": "Morning"
+      }
+    },
+    {
+      "id": "aud_bulk_1793624132093_3hh6",
+      "event": "UPLOAD_CONFIRMED",
+      "attendance_upload_id": "upl_1793624132093_zcrlyg",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "timestamp": "2026-11-02T12:55:32.093Z",
+      "details": {
+        "date": "2026-11-21",
+        "session": "Morning",
+        "marked_present_count": 2
+      }
+    },
+    {
+      "id": "aud_bulk_1793624132074_4b0q",
+      "event": "UPLOAD_CONFIRMED",
+      "attendance_upload_id": "upl_1793624132073_abxmkv",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "timestamp": "2026-11-02T12:55:32.074Z",
+      "details": {
+        "date": "2026-11-20",
+        "session": "Morning",
+        "marked_present_count": 2
+      }
+    },
+    {
+      "id": "aud_rb_1793624132033_uc33",
+      "event": "UPLOAD_ROLLBACK",
+      "attendance_upload_id": "upl_1793624131990_zm01g0",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "timestamp": "2026-11-02T12:55:32.033Z",
+      "details": {
+        "reversed_count": 3,
+        "manual_review_count": 0,
+        "filename": "valid_attendance.xlsx",
+        "original_date": "2026-11-15",
+        "original_session": "Morning"
+      }
+    },
+    {
+      "id": "aud_bulk_1793624131991_q230",
+      "event": "UPLOAD_CONFIRMED",
+      "attendance_upload_id": "upl_1793624131990_zm01g0",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "timestamp": "2026-11-02T12:55:31.991Z",
+      "details": {
+        "date": "2026-11-15",
+        "session": "Morning",
+        "marked_present_count": 3
+      }
+    },
+    {
+      "id": "aud_rb_1793624074245_8cd8",
+      "event": "UPLOAD_ROLLBACK",
+      "attendance_upload_id": "upl_1793624074238_dkyt9y",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "timestamp": "2026-11-02T12:54:34.245Z",
+      "details": {
+        "reversed_count": 2,
+        "manual_review_count": 0,
+        "filename": "bulk_preserve.xlsx",
+        "original_date": "2026-11-25",
+        "original_session": "Afternoon"
+      }
+    },
+    {
+      "id": "aud_bulk_1793624074238_w1en",
+      "event": "UPLOAD_CONFIRMED",
+      "attendance_upload_id": "upl_1793624074238_dkyt9y",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "timestamp": "2026-11-02T12:54:34.238Z",
+      "details": {
+        "date": "2026-11-25",
+        "session": "Afternoon",
+        "marked_present_count": 2
+      }
+    },
+    {
+      "id": "aud_rb_1793624074211_ko37",
+      "event": "UPLOAD_ROLLBACK",
+      "attendance_upload_id": "upl_1793624074197_um55fn",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "timestamp": "2026-11-02T12:54:34.211Z",
+      "details": {
+        "reversed_count": 2,
+        "manual_review_count": 0,
+        "filename": "upload_B.xlsx",
+        "original_date": "2026-11-21",
+        "original_session": "Morning"
+      }
+    },
+    {
+      "id": "aud_rb_1793624074205_t7as",
+      "event": "UPLOAD_ROLLBACK",
+      "attendance_upload_id": "upl_1793624074179_o57188",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "timestamp": "2026-11-02T12:54:34.205Z",
+      "details": {
+        "reversed_count": 2,
+        "manual_review_count": 0,
+        "filename": "upload_A.xlsx",
+        "original_date": "2026-11-20",
+        "original_session": "Morning"
+      }
+    },
+    {
+      "id": "aud_bulk_1793624074197_dp32",
+      "event": "UPLOAD_CONFIRMED",
+      "attendance_upload_id": "upl_1793624074197_um55fn",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "timestamp": "2026-11-02T12:54:34.197Z",
+      "details": {
+        "date": "2026-11-21",
+        "session": "Morning",
+        "marked_present_count": 2
+      }
+    },
+    {
+      "id": "aud_bulk_1793624074179_80w2",
+      "event": "UPLOAD_CONFIRMED",
+      "attendance_upload_id": "upl_1793624074179_o57188",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "timestamp": "2026-11-02T12:54:34.179Z",
+      "details": {
+        "date": "2026-11-20",
+        "session": "Morning",
+        "marked_present_count": 2
+      }
+    },
+    {
+      "id": "aud_rb_1793624074159_cdf7",
+      "event": "UPLOAD_ROLLBACK",
+      "attendance_upload_id": "upl_1793624074126_01njac",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "timestamp": "2026-11-02T12:54:34.159Z",
+      "details": {
+        "reversed_count": 3,
+        "manual_review_count": 0,
+        "filename": "valid_attendance.xlsx",
+        "original_date": "2026-11-15",
+        "original_session": "Morning"
+      }
+    },
+    {
+      "id": "aud_bulk_1793624074127_iymk",
+      "event": "UPLOAD_CONFIRMED",
+      "attendance_upload_id": "upl_1793624074126_01njac",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "timestamp": "2026-11-02T12:54:34.127Z",
+      "details": {
+        "date": "2026-11-15",
+        "session": "Morning",
+        "marked_present_count": 3
+      }
+    }
+  ],
+  "attendance_audit": [
+    {
+      "id": "aud_1793631226627_iyco",
+      "timestamp": "2026-11-02T14:53:46.627Z",
+      "event": "USER_CREATED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_student_mvzdpzuo",
+        "name": "Gowtham Ramesh",
+        "email": "gowtham.r@sairam.edu.in",
+        "role": "student"
+      }
+    },
+    {
+      "id": "aud_1793631654795_y5bp",
+      "timestamp": "2026-11-02T15:00:54.795Z",
+      "event": "USER_CREATED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_student_mvzdz67i",
+        "name": "Gowtham Ramesh",
+        "email": "gowtham.1793631654686@sairam.edu.in",
+        "role": "student"
+      }
+    },
+    {
+      "id": "aud_1793631876516_hyop",
+      "timestamp": "2026-11-02T15:04:36.516Z",
+      "event": "USER_CREATED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_student_mvze3xb0",
+        "name": "Gowtham Ramesh",
+        "email": "gowtham.1793631876433@sairam.edu.in",
+        "role": "student"
+      }
+    },
+    {
+      "id": "aud_1793631876586_8n1k",
+      "timestamp": "2026-11-02T15:04:36.586Z",
+      "event": "USER_CREATED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_driver_mvze3xd4",
+        "name": "Murugan K",
+        "email": "murugan.1793631876433@sairam.edu.in",
+        "role": "driver"
+      }
+    },
+    {
+      "id": "aud_1793631876662_4kgh",
+      "timestamp": "2026-11-02T15:04:36.662Z",
+      "event": "USER_CREATED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_parent_mvze3xf2",
+        "name": "Ramesh Sundaram (Parent)",
+        "email": "ramesh.1793631876433@sairam.edu.in",
+        "role": "parent"
+      }
+    },
+    {
+      "id": "aud_1793631876730_btrw",
+      "timestamp": "2026-11-02T15:04:36.730Z",
+      "event": "USER_CREATED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_admin_mvze3xh4",
+        "name": "Prof. Anitha Transport Officer",
+        "email": "anitha.1793631876433@sairam.edu.in",
+        "role": "admin"
+      }
+    },
+    {
+      "id": "aud_1793631876744_g9iy",
+      "timestamp": "2026-11-02T15:04:36.744Z",
+      "event": "USER_STATUS_CHANGED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_student_mvze3xb0",
+        "status": "inactive"
+      }
+    },
+    {
+      "id": "aud_1793631876751_204b",
+      "timestamp": "2026-11-02T15:04:36.751Z",
+      "event": "USER_STATUS_CHANGED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_student_mvze3xb0",
+        "status": "active"
+      }
+    },
+    {
+      "id": "aud_1793631876818_a5m7",
+      "timestamp": "2026-11-02T15:04:36.818Z",
+      "event": "PASSWORD_RESET_BY_ADMIN",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_student_mvze3xb0",
+        "email": "gowtham.1793631876433@sairam.edu.in"
+      }
+    },
+    {
+      "id": "aud_1793632116381_a66o",
+      "timestamp": "2026-11-02T15:08:36.381Z",
+      "event": "USER_CREATED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_student_mvze92dp",
+        "name": "Gowtham Ramesh",
+        "email": "gowtham.1793632116289@sairam.edu.in",
+        "role": "student"
+      }
+    },
+    {
+      "id": "aud_1793632116452_ija3",
+      "timestamp": "2026-11-02T15:08:36.452Z",
+      "event": "USER_CREATED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_driver_mvze92g3",
+        "name": "Murugan K",
+        "email": "murugan.1793632116289@sairam.edu.in",
+        "role": "driver"
+      }
+    },
+    {
+      "id": "aud_1793632116534_rjg3",
+      "timestamp": "2026-11-02T15:08:36.535Z",
+      "event": "USER_CREATED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_parent_mvze92i0",
+        "name": "Ramesh Sundaram (Parent)",
+        "email": "ramesh.1793632116289@sairam.edu.in",
+        "role": "parent"
+      }
+    },
+    {
+      "id": "aud_1793632116609_wu56",
+      "timestamp": "2026-11-02T15:08:36.609Z",
+      "event": "USER_CREATED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_admin_mvze92ke",
+        "name": "Prof. Anitha Transport Officer",
+        "email": "anitha.1793632116289@sairam.edu.in",
+        "role": "admin"
+      }
+    },
+    {
+      "id": "aud_1793632116622_ccxv",
+      "timestamp": "2026-11-02T15:08:36.622Z",
+      "event": "USER_STATUS_CHANGED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_student_mvze92dp",
+        "status": "inactive"
+      }
+    },
+    {
+      "id": "aud_1793632116630_3eel",
+      "timestamp": "2026-11-02T15:08:36.630Z",
+      "event": "USER_STATUS_CHANGED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_student_mvze92dp",
+        "status": "active"
+      }
+    },
+    {
+      "id": "aud_1793632116698_d8b7",
+      "timestamp": "2026-11-02T15:08:36.698Z",
+      "event": "PASSWORD_RESET_BY_ADMIN",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_student_mvze92dp",
+        "email": "gowtham.1793632116289@sairam.edu.in"
+      }
+    },
+    {
+      "id": "aud_1793632116799_9wmu",
+      "timestamp": "2026-11-02T15:08:36.799Z",
+      "event": "STUDENT_ASSIGNMENT_CHANGED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_student_mvze92dp",
+        "route_id": "route_1",
+        "bus_id": "bus_1",
+        "boarding_stop_id": "stop_1_1"
+      }
+    },
+    {
+      "id": "aud_1793632149053_id6y",
+      "timestamp": "2026-11-02T15:09:09.053Z",
+      "event": "USER_CREATED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_student_mvze9rlm",
+        "name": "Gowtham Ramesh",
+        "email": "gowtham.1793632148974@sairam.edu.in",
+        "role": "student"
+      }
+    },
+    {
+      "id": "aud_1793632149127_ry35",
+      "timestamp": "2026-11-02T15:09:09.127Z",
+      "event": "USER_CREATED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_driver_mvze9rnn",
+        "name": "Murugan K",
+        "email": "murugan.1793632148974@sairam.edu.in",
+        "role": "driver"
+      }
+    },
+    {
+      "id": "aud_1793632149205_6w4y",
+      "timestamp": "2026-11-02T15:09:09.205Z",
+      "event": "USER_CREATED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_parent_mvze9rpo",
+        "name": "Ramesh Sundaram (Parent)",
+        "email": "ramesh.1793632148974@sairam.edu.in",
+        "role": "parent"
+      }
+    },
+    {
+      "id": "aud_1793632149286_hmej",
+      "timestamp": "2026-11-02T15:09:09.286Z",
+      "event": "USER_CREATED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_admin_mvze9rry",
+        "name": "Prof. Anitha Transport Officer",
+        "email": "anitha.1793632148974@sairam.edu.in",
+        "role": "admin"
+      }
+    },
+    {
+      "id": "aud_1793632149296_xtef",
+      "timestamp": "2026-11-02T15:09:09.296Z",
+      "event": "USER_STATUS_CHANGED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_student_mvze9rlm",
+        "status": "inactive"
+      }
+    },
+    {
+      "id": "aud_1793632149305_kox3",
+      "timestamp": "2026-11-02T15:09:09.305Z",
+      "event": "USER_STATUS_CHANGED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_student_mvze9rlm",
+        "status": "active"
+      }
+    },
+    {
+      "id": "aud_1793632149375_u7r3",
+      "timestamp": "2026-11-02T15:09:09.375Z",
+      "event": "PASSWORD_RESET_BY_ADMIN",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_student_mvze9rlm",
+        "email": "gowtham.1793632148974@sairam.edu.in"
+      }
+    },
+    {
+      "id": "aud_1793632149461_rj3t",
+      "timestamp": "2026-11-02T15:09:09.461Z",
+      "event": "STUDENT_ASSIGNMENT_CHANGED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_student_mvze9rlm",
+        "route_id": "route_1",
+        "bus_id": "bus_1",
+        "boarding_stop_id": "stop_1_1"
+      }
+    },
+    {
+      "id": "aud_1793632149566_ymxh",
+      "timestamp": "2026-11-02T15:09:09.566Z",
+      "event": "USER_CREATED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_student_mvze9rzr",
+        "name": "Overflow Student Test",
+        "email": "overflow.1793632148974@sairam.edu.in",
+        "role": "student"
+      }
+    },
+    {
+      "id": "aud_1793632276558_hwy9",
+      "timestamp": "2026-11-02T15:11:16.558Z",
+      "event": "USER_CREATED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_student_mvzechza",
+        "name": "Gowtham Ramesh",
+        "email": "gowtham.1793632276460@sairam.edu.in",
+        "role": "student"
+      }
+    },
+    {
+      "id": "aud_1793632276627_g3gm",
+      "timestamp": "2026-11-02T15:11:16.627Z",
+      "event": "USER_CREATED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_driver_mvzeci1f",
+        "name": "Murugan K",
+        "email": "murugan.1793632276460@sairam.edu.in",
+        "role": "driver"
+      }
+    },
+    {
+      "id": "aud_1793632276697_33l6",
+      "timestamp": "2026-11-02T15:11:16.697Z",
+      "event": "USER_CREATED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_parent_mvzeci3c",
+        "name": "Ramesh Sundaram (Parent)",
+        "email": "ramesh.1793632276460@sairam.edu.in",
+        "role": "parent"
+      }
+    },
+    {
+      "id": "aud_1793632276766_f9f5",
+      "timestamp": "2026-11-02T15:11:16.766Z",
+      "event": "USER_CREATED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_admin_mvzeci5b",
+        "name": "Prof. Anitha Transport Officer",
+        "email": "anitha.1793632276460@sairam.edu.in",
+        "role": "admin"
+      }
+    },
+    {
+      "id": "aud_1793632276784_ics6",
+      "timestamp": "2026-11-02T15:11:16.784Z",
+      "event": "USER_STATUS_CHANGED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_student_mvzechza",
+        "status": "inactive"
+      }
+    },
+    {
+      "id": "aud_1793632276793_sywd",
+      "timestamp": "2026-11-02T15:11:16.793Z",
+      "event": "USER_STATUS_CHANGED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_student_mvzechza",
+        "status": "active"
+      }
+    },
+    {
+      "id": "aud_1793632276863_15bl",
+      "timestamp": "2026-11-02T15:11:16.863Z",
+      "event": "PASSWORD_RESET_BY_ADMIN",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_student_mvzechza",
+        "email": "gowtham.1793632276460@sairam.edu.in"
+      }
+    },
+    {
+      "id": "aud_1793632276950_9hm1",
+      "timestamp": "2026-11-02T15:11:16.950Z",
+      "event": "STUDENT_ASSIGNMENT_CHANGED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_student_mvzechza",
+        "route_id": "route_1",
+        "bus_id": "bus_1",
+        "boarding_stop_id": "stop_1_1"
+      }
+    },
+    {
+      "id": "aud_1793632277025_dakj",
+      "timestamp": "2026-11-02T15:11:17.025Z",
+      "event": "USER_CREATED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_student_mvzecice",
+        "name": "Overflow Student Test",
+        "email": "overflow.1793632276460@sairam.edu.in",
+        "role": "student"
+      }
+    },
+    {
+      "id": "aud_1793632277032_mowv",
+      "timestamp": "2026-11-02T15:11:17.032Z",
+      "event": "STUDENT_ASSIGNMENT_CHANGED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_student_mvzecice",
+        "route_id": "route_1",
+        "bus_id": "bus_1"
+      }
+    },
+    {
+      "id": "aud_1793632277048_zsal",
+      "timestamp": "2026-11-02T15:11:17.048Z",
+      "event": "USER_DELETED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_student_mvzechza",
+        "name": "Gowtham Ramesh",
+        "role": "student"
+      }
+    },
+    {
+      "id": "aud_1793632277054_f3vj",
+      "timestamp": "2026-11-02T15:11:17.054Z",
+      "event": "USER_DELETED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_student_mvzecice",
+        "name": "Overflow Student Test",
+        "role": "student"
+      }
+    },
+    {
+      "id": "aud_1793632277061_2he4",
+      "timestamp": "2026-11-02T15:11:17.061Z",
+      "event": "USER_DELETED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_driver_mvzeci1f",
+        "name": "Murugan K",
+        "role": "driver"
+      }
+    },
+    {
+      "id": "aud_1793632277069_bb5j",
+      "timestamp": "2026-11-02T15:11:17.069Z",
+      "event": "USER_DELETED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_parent_mvzeci3c",
+        "name": "Ramesh Sundaram (Parent)",
+        "role": "parent"
+      }
+    },
+    {
+      "id": "aud_1793632277076_suhp",
+      "timestamp": "2026-11-02T15:11:17.076Z",
+      "event": "USER_DELETED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_admin_mvzeci5b",
+        "name": "Prof. Anitha Transport Officer",
+        "role": "admin"
+      }
+    },
+    {
+      "id": "aud_1793632397397_ob19",
+      "timestamp": "2026-11-02T15:13:17.397Z",
+      "event": "USER_CREATED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_student_mvzef374",
+        "name": "Gowtham Ramesh",
+        "email": "gowtham.1793632397262@sairam.edu.in",
+        "role": "student"
+      }
+    },
+    {
+      "id": "aud_1793632397506_ax2p",
+      "timestamp": "2026-11-02T15:13:17.506Z",
+      "event": "USER_CREATED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_driver_mvzef3a8",
+        "name": "Murugan K",
+        "email": "murugan.1793632397262@sairam.edu.in",
+        "role": "driver"
+      }
+    },
+    {
+      "id": "aud_1793632397622_2761",
+      "timestamp": "2026-11-02T15:13:17.622Z",
+      "event": "USER_CREATED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_parent_mvzef3d9",
+        "name": "Ramesh Sundaram (Parent)",
+        "email": "ramesh.1793632397262@sairam.edu.in",
+        "role": "parent"
+      }
+    },
+    {
+      "id": "aud_1793632397714_1dp4",
+      "timestamp": "2026-11-02T15:13:17.714Z",
+      "event": "USER_CREATED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_admin_mvzef3gh",
+        "name": "Prof. Anitha Transport Officer",
+        "email": "anitha.1793632397262@sairam.edu.in",
+        "role": "admin"
+      }
+    },
+    {
+      "id": "aud_1793632397751_1bjg",
+      "timestamp": "2026-11-02T15:13:17.751Z",
+      "event": "USER_STATUS_CHANGED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_student_mvzef374",
+        "status": "inactive"
+      }
+    },
+    {
+      "id": "aud_1793632397772_ua7s",
+      "timestamp": "2026-11-02T15:13:17.772Z",
+      "event": "USER_STATUS_CHANGED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_student_mvzef374",
+        "status": "active"
+      }
+    },
+    {
+      "id": "aud_1793632397863_8kd6",
+      "timestamp": "2026-11-02T15:13:17.863Z",
+      "event": "PASSWORD_RESET_BY_ADMIN",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_student_mvzef374",
+        "email": "gowtham.1793632397262@sairam.edu.in"
+      }
+    },
+    {
+      "id": "aud_1793632398076_49x5",
+      "timestamp": "2026-11-02T15:13:18.076Z",
+      "event": "STUDENT_ASSIGNMENT_CHANGED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_student_mvzef374",
+        "route_id": "route_1",
+        "bus_id": "bus_1",
+        "boarding_stop_id": "stop_1_1"
+      }
+    },
+    {
+      "id": "aud_1793632398185_zjnn",
+      "timestamp": "2026-11-02T15:13:18.185Z",
+      "event": "USER_CREATED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_student_mvzef3th",
+        "name": "Overflow Student Test",
+        "email": "overflow.1793632397262@sairam.edu.in",
+        "role": "student"
+      }
+    },
+    {
+      "id": "aud_1793632398236_6pmn",
+      "timestamp": "2026-11-02T15:13:18.236Z",
+      "event": "USER_DELETED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_student_mvzef374",
+        "name": "Gowtham Ramesh",
+        "role": "student"
+      }
+    },
+    {
+      "id": "aud_1793632398253_nj4z",
+      "timestamp": "2026-11-02T15:13:18.253Z",
+      "event": "USER_DELETED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_student_mvzef3th",
+        "name": "Overflow Student Test",
+        "role": "student"
+      }
+    },
+    {
+      "id": "aud_1793632398265_e37j",
+      "timestamp": "2026-11-02T15:13:18.265Z",
+      "event": "USER_DELETED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_driver_mvzef3a8",
+        "name": "Murugan K",
+        "role": "driver"
+      }
+    },
+    {
+      "id": "aud_1793632398280_ndcu",
+      "timestamp": "2026-11-02T15:13:18.280Z",
+      "event": "USER_DELETED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_parent_mvzef3d9",
+        "name": "Ramesh Sundaram (Parent)",
+        "role": "parent"
+      }
+    },
+    {
+      "id": "aud_1793632398297_eens",
+      "timestamp": "2026-11-02T15:13:18.297Z",
+      "event": "USER_DELETED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_admin_mvzef3gh",
+        "name": "Prof. Anitha Transport Officer",
+        "role": "admin"
+      }
+    },
+    {
+      "id": "aud_1793632445568_eknu",
+      "timestamp": "2026-11-02T15:14:05.568Z",
+      "event": "USER_CREATED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_student_mvzeg4db",
+        "name": "Gowtham Ramesh",
+        "email": "gowtham.1793632445447@sairam.edu.in",
+        "role": "student"
+      }
+    },
+    {
+      "id": "aud_1793632445706_8ih3",
+      "timestamp": "2026-11-02T15:14:05.706Z",
+      "event": "USER_CREATED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_driver_mvzeg4go",
+        "name": "Murugan K",
+        "email": "murugan.1793632445447@sairam.edu.in",
+        "role": "driver"
+      }
+    },
+    {
+      "id": "aud_1793632445837_2m18",
+      "timestamp": "2026-11-02T15:14:05.838Z",
+      "event": "USER_CREATED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_parent_mvzeg4kd",
+        "name": "Ramesh Sundaram (Parent)",
+        "email": "ramesh.1793632445447@sairam.edu.in",
+        "role": "parent"
+      }
+    },
+    {
+      "id": "aud_1793632445986_jp50",
+      "timestamp": "2026-11-02T15:14:05.986Z",
+      "event": "USER_CREATED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_admin_mvzeg4nz",
+        "name": "Prof. Anitha Transport Officer",
+        "email": "anitha.1793632445447@sairam.edu.in",
+        "role": "admin"
+      }
+    },
+    {
+      "id": "aud_1793632446027_46k1",
+      "timestamp": "2026-11-02T15:14:06.027Z",
+      "event": "USER_STATUS_CHANGED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_student_mvzeg4db",
+        "status": "inactive"
+      }
+    },
+    {
+      "id": "aud_1793632446052_nshz",
+      "timestamp": "2026-11-02T15:14:06.052Z",
+      "event": "USER_STATUS_CHANGED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_student_mvzeg4db",
+        "status": "active"
+      }
+    },
+    {
+      "id": "aud_1793632446153_6xji",
+      "timestamp": "2026-11-02T15:14:06.153Z",
+      "event": "PASSWORD_RESET_BY_ADMIN",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_student_mvzeg4db",
+        "email": "gowtham.1793632445447@sairam.edu.in"
+      }
+    },
+    {
+      "id": "aud_1793632446343_7p3j",
+      "timestamp": "2026-11-02T15:14:06.343Z",
+      "event": "STUDENT_ASSIGNMENT_CHANGED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_student_mvzeg4db",
+        "route_id": "route_1",
+        "bus_id": "bus_1",
+        "boarding_stop_id": "stop_1_1"
+      }
+    },
+    {
+      "id": "aud_1793632446454_lzvg",
+      "timestamp": "2026-11-02T15:14:06.454Z",
+      "event": "USER_CREATED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_student_mvzeg523",
+        "name": "Overflow Student Test",
+        "email": "overflow.1793632445447@sairam.edu.in",
+        "role": "student"
+      }
+    },
+    {
+      "id": "aud_1793632446486_nqoa",
+      "timestamp": "2026-11-02T15:14:06.486Z",
+      "event": "USER_DELETED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_student_mvzeg4db",
+        "name": "Gowtham Ramesh",
+        "role": "student"
+      }
+    },
+    {
+      "id": "aud_1793632446496_eych",
+      "timestamp": "2026-11-02T15:14:06.496Z",
+      "event": "USER_DELETED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_student_mvzeg523",
+        "name": "Overflow Student Test",
+        "role": "student"
+      }
+    },
+    {
+      "id": "aud_1793632446507_h7o4",
+      "timestamp": "2026-11-02T15:14:06.507Z",
+      "event": "USER_DELETED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_driver_mvzeg4go",
+        "name": "Murugan K",
+        "role": "driver"
+      }
+    },
+    {
+      "id": "aud_1793632446520_i73n",
+      "timestamp": "2026-11-02T15:14:06.520Z",
+      "event": "USER_DELETED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_parent_mvzeg4kd",
+        "name": "Ramesh Sundaram (Parent)",
+        "role": "parent"
+      }
+    },
+    {
+      "id": "aud_1793632446530_jgit",
+      "timestamp": "2026-11-02T15:14:06.530Z",
+      "event": "USER_DELETED",
+      "admin_id": "usr_admin_1",
+      "admin_name": "Principal Mehra",
+      "details": {
+        "user_id": "usr_admin_mvzeg4nz",
+        "name": "Prof. Anitha Transport Officer",
+        "role": "admin"
+      }
+    }
+  ],
+  "drivers": [
+    {
+      "user_id": "usr_driver_mvze3xd4",
+      "license_number": "TN-05-2018-0098765",
+      "bus_id": null
+    },
+    {
+      "user_id": "usr_driver_mvze92g3",
+      "license_number": "TN-05-2018-0098765",
+      "bus_id": null
+    },
+    {
+      "user_id": "usr_driver_mvze9rnn",
+      "license_number": "TN-05-2018-0098765",
+      "bus_id": null
     }
   ]
 }

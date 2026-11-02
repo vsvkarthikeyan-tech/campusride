@@ -6,13 +6,17 @@
   "scripts": {
     "start": "node server.js",
     "dev": "node server.js",
-    "test": "node test/suite.js"
+    "test": "node test/suite.js && node test/bulk-attendance.test.js && node test/admin-upgrade.test.js",
+    "test:admin": "node test/admin-upgrade.test.js",
+    "test:bulk": "node test/bulk-attendance.test.js"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
     "dotenv": "^18.0.9",
+    "exceljs": "^4.4.0",
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.3",
+    "multer": "^2.5.0",
     "ws": "^8.16.0"
   },
   "author": "Antigravity",

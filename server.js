@@ -2,16 +2,33 @@ const express = require('express');
 const http = require('http');
 const WebSocket = require('ws');
 const path = require('path');
+const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
+const multer = require('multer');
 const config = require('./config');
 const db = require('./db');
 const { ROUTE_GEOMETRIES, getRouteGeometry } = require('./routes-geometry');
+const excelService = require('./excel-service');
 
 const app = express();
 const PORT = config.PORT;
 
+// Multer memory storage configuration for secure Excel upload (limit: 5MB)
+const excelUpload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5 MB max
+  fileFilter: (req, file, cb) => {
+    const ext = path.extname(file.originalname).toLowerCase();
+    if (ext !== '.xlsx' && ext !== '.xls') {
+      return cb(new Error('Invalid file format: Only Excel (.xlsx and .xls) files are accepted.'));
+    }
+    cb(null, true);
+  }
+});
+
 // Middleware
-app.use(express.json({ limit: '1mb' }));
+app.use(express.json({ limit: '5mb' }));
+app.use(express.urlencoded({ extended: true, limit: '5mb' }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // In-memory registration OTP store: { [email]: { code, expiresAt, userData } }
@@ -108,6 +125,14 @@ app.post('/api/auth/register', (req, res) => {
     return res.status(400).json({ error: 'Self-registration is only allowed for Student and Parent roles' });
   }
 
+  // Academic Year Validation (Module 2: Strictly reject school classes)
+  const incomingYear = req.body.academic_year || req.body.class_grade || req.body.year;
+  if (incomingYear && db.isSchoolGrade(incomingYear)) {
+    return res.status(400).json({
+      error: 'Invalid academic year. School class grades (9th-12th) are not permitted. CampusRide is for Sri Sairam Engineering College (1st - 4th Year only).'
+    });
+  }
+
   // Check if user exists
   const existing = db.findUserByEmail(email);
   if (existing) {
@@ -119,7 +144,15 @@ app.post('/api/auth/register', (req, res) => {
   activeOTPs[email.toLowerCase()] = {
     code: otpCode,
     expiresAt: Date.now() + 600000, // 10 minutes
-    userData: { name, email: email.toLowerCase(), phone, password, role }
+    userData: {
+      name,
+      email: email.toLowerCase(),
+      phone,
+      password,
+      role,
+      department: req.body.department || 'CSE',
+      year: db.parseAcademicYear(incomingYear) || 1
+    }
   };
 
   console.log(`\n--- [SMS/EMAIL OTP GATEWAY SIMULATOR] ---`);
@@ -178,11 +211,16 @@ app.post('/api/auth/verify-otp', (req, res) => {
 
   // Role-specific setup
   if (u.role === 'student') {
+    const studentYear = u.year || 1;
     db.insertStudent({
       user_id: userId,
+      student_id: `SEC-${Date.now().toString().slice(-4)}`,
       rfid_tag: `RFID_SEC_${Date.now().toString().slice(-4)}`,
-      class_grade: "1st Year",
+      department: u.department || 'CSE',
+      year: studentYear,
+      class_grade: db.formatAcademicYear(studentYear),
       route_id: "route_1",
+      bus_id: "bus_1",
       boarding_stop_id: "stop_1_1"
     });
 
@@ -209,7 +247,7 @@ app.post('/api/auth/verify-otp', (req, res) => {
   res.json({ message: 'Verification successful! Your account is activated.', role: u.role });
 });
 
-// User Login (Bcrypt verified + JWT issued)
+// User Login (Bcrypt verified + JWT issued + Status Check + Last Login Audit)
 app.post('/api/auth/login', (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
@@ -221,12 +259,23 @@ app.post('/api/auth/login', (req, res) => {
     return res.status(400).json({ error: 'Invalid email or password' });
   }
 
+  // Account Status Check (Module 1)
+  if (user.status === 'inactive') {
+    return res.status(403).json({ error: 'Your account has been deactivated by administrator. Please contact transport admin.' });
+  }
+
+  // Audit: Record Last Login Timestamp
+  user.last_login_at = new Date().toISOString();
+  db.save();
+
   const payload = {
     id: user.id,
     name: user.name,
     email: user.email,
     role: user.role,
-    phone: user.phone
+    phone: user.phone,
+    status: user.status || 'active',
+    must_change_password: !!user.must_change_password
   };
 
   const token = jwt.sign(payload, config.JWT_SECRET, { expiresIn: config.JWT_EXPIRES_IN });
@@ -234,8 +283,31 @@ app.post('/api/auth/login', (req, res) => {
   res.json({
     message: 'Login successful',
     token,
-    user: payload
+    user: payload,
+    must_change_password: !!user.must_change_password
   });
+});
+
+// User Self Password Change (Module 1: Force password change on first login or user update)
+app.post('/api/auth/change-password', authenticateToken, (req, res) => {
+  const { current_password, new_password } = req.body;
+  if (!current_password || !new_password) {
+    return res.status(400).json({ error: 'current_password and new_password are required' });
+  }
+  if (new_password.length < 6) {
+    return res.status(400).json({ error: 'New password must be at least 6 characters long' });
+  }
+
+  const user = db.findUserById(req.user.id);
+  if (!user || !db.verifyPassword(user, current_password)) {
+    return res.status(400).json({ error: 'Current password is incorrect' });
+  }
+
+  user.password_hash = db.hashPassword(new_password);
+  user.must_change_password = false;
+  db.save();
+
+  res.json({ success: true, message: 'Password updated successfully. You can now use your new password.' });
 });
 
 // ----------------------------------------------------
@@ -416,6 +488,7 @@ app.get('/api/parent/children', authenticateToken, requireRole('parent'), (req, 
     const stops = db.getStops().filter(s => s.route_id === details.route_id);
 
     return {
+      user_id: link.student_id,
       profile: details,
       route,
       stops,
@@ -646,26 +719,545 @@ app.post('/api/admin/attendance/mark', authenticateToken, requireRole('admin'), 
   res.json({ message: 'Attendance records updated successfully', records: results });
 });
 
-app.get('/api/admin/routes', authenticateToken, requireRole('admin'), (req, res) => {
+// ----------------------------------------------------
+// EXCEL BULK ATTENDANCE MANAGEMENT SYSTEM ENDPOINTS
+// ----------------------------------------------------
+
+// 1. Download Excel Template
+app.get('/api/admin/bulk-attendance/template', authenticateToken, requireRole('admin'), async (req, res) => {
+  try {
+    const students = db.getStudents().map(s => {
+      const u = db.findUserById(s.user_id);
+      return {
+        student_id: s.student_id || 'ST001',
+        student_name: u ? u.name : 'Student Name',
+        department: s.department || 'CSE',
+        year: s.year || 1
+      };
+    });
+
+    const buffer = await excelService.generateTemplate(students);
+    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    res.setHeader('Content-Disposition', 'attachment; filename="CampusRide_Bulk_Attendance_Template.xlsx"');
+    res.setHeader('Content-Length', buffer.length);
+    res.send(Buffer.from(buffer));
+  } catch (err) {
+    console.error('Failed to generate attendance template:', err);
+    res.status(500).json({ error: `Template generation failed: ${err.message}` });
+  }
+});
+
+// 2. Upload and Preview Excel Attendance File
+app.post('/api/admin/bulk-attendance/preview', authenticateToken, requireRole('admin'), (req, res) => {
+  excelUpload.single('file')(req, res, async (uploadErr) => {
+    if (uploadErr) {
+      if (uploadErr instanceof multer.MulterError && uploadErr.code === 'LIMIT_FILE_SIZE') {
+        return res.status(400).json({ error: 'File size exceeds limit: Maximum allowed size is 5MB' });
+      }
+      return res.status(400).json({ error: uploadErr.message || 'File upload failed' });
+    }
+
+    if (!req.file) {
+      return res.status(400).json({ error: 'No Excel file provided. Please select or drag a .xlsx or .xls file.' });
+    }
+
+    const attendanceDate = req.body.attendance_date || new Date().toISOString().split('T')[0];
+    const session = req.body.session || 'Morning';
+
+    // Validate date format (YYYY-MM-DD)
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(attendanceDate)) {
+      return res.status(400).json({ error: 'Invalid attendance date format. Expected YYYY-MM-DD.' });
+    }
+
+    // Validate session
+    const allowedSessions = ['Morning', 'Afternoon', 'Full Day'];
+    if (!allowedSessions.includes(session)) {
+      return res.status(400).json({ error: `Invalid session. Allowed sessions: [${allowedSessions.join(', ')}]` });
+    }
+
+    try {
+      const validationResult = await excelService.parseAndValidateExcel(req.file.buffer, {
+        attendanceDate,
+        session,
+        db
+      });
+
+      res.json({
+        success: true,
+        filename: req.file.originalname,
+        file_size: req.file.size,
+        attendance_date: attendanceDate,
+        session: session,
+        summary: validationResult.summary,
+        rows: validationResult.rows
+      });
+    } catch (err) {
+      console.error('Excel validation failed:', err);
+      res.status(400).json({ error: err.message || 'Validation error while parsing Excel file' });
+    }
+  });
+});
+
+// 3. Confirm and Mark Bulk Attendance
+app.post('/api/admin/bulk-attendance/confirm', authenticateToken, requireRole('admin'), (req, res) => {
+  const {
+    attendance_date,
+    session,
+    filename,
+    file_size,
+    eligible_records,
+    preview_summary,
+    all_rows
+  } = req.body;
+
+  if (!attendance_date || !session) {
+    return res.status(400).json({ error: 'Attendance date and session are required.' });
+  }
+
+  if (!eligible_records || !Array.isArray(eligible_records) || eligible_records.length === 0) {
+    return res.status(400).json({ error: 'No eligible student records available to mark as Present.' });
+  }
+
+  const uploadId = `upl_${Date.now()}_${Math.random().toString(36).substr(2, 6)}`;
+  const adminName = req.user.name || 'Principal Mehra';
+
+  try {
+    // 1. Mark attendance for eligible students in database
+    const markedRecords = db.markExcelBulkAttendance({
+      upload_id: uploadId,
+      date: attendance_date,
+      session,
+      records: eligible_records,
+      admin_id: req.user.id,
+      admin_name: adminName
+    });
+
+    // 2. Create and persist Upload History Record
+    const uploadRecord = {
+      id: uploadId,
+      filename: filename || 'attendance_upload.xlsx',
+      file_size: file_size || 0,
+      admin_id: req.user.id,
+      admin_name: adminName,
+      upload_timestamp: new Date().toISOString(),
+      attendance_date,
+      session,
+      total_records: preview_summary ? preview_summary.total : eligible_records.length,
+      marked_present: markedRecords.length,
+      failed_records: preview_summary ? (preview_summary.invalid + preview_summary.duplicates + preview_summary.alreadyPresent) : 0,
+      status: 'COMPLETED',
+      details: {
+        preview_summary: preview_summary || null,
+        all_rows: all_rows || eligible_records
+      },
+      rollback_info: null
+    };
+
+    db.saveAttendanceUpload(uploadRecord);
+
+    // 3. Broadcast real-time WebSocket event
+    broadcastSocketMessage({
+      type: 'attendance_bulk_upload',
+      uploadId,
+      attendanceDate: attendance_date,
+      session,
+      markedCount: markedRecords.length,
+      admin: adminName
+    });
+
+    res.json({
+      message: `Successfully marked ${markedRecords.length} student(s) as PRESENT for ${attendance_date} (${session}).`,
+      upload_id: uploadId,
+      marked_present: markedRecords.length,
+      upload: uploadRecord
+    });
+  } catch (err) {
+    console.error('Confirm bulk attendance failed:', err);
+    res.status(500).json({ error: `Failed to confirm and mark attendance: ${err.message}` });
+  }
+});
+
+// 4. Attendance Upload History List
+app.get('/api/admin/bulk-attendance/history', authenticateToken, requireRole('admin'), (req, res) => {
+  try {
+    const uploads = db.getAttendanceUploads();
+    const auditLogs = db.getAttendanceAuditLog();
+    res.json({ uploads, audit_logs: auditLogs });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// 5. Attendance Upload Details
+app.get('/api/admin/bulk-attendance/history/:id', authenticateToken, requireRole('admin'), (req, res) => {
+  const upload = db.getAttendanceUploadById(req.params.id);
+  if (!upload) {
+    return res.status(404).json({ error: `Upload with ID '${req.params.id}' not found.` });
+  }
+  res.json({ upload });
+});
+
+// 6. Undo / Rollback Attendance Upload
+app.post('/api/admin/bulk-attendance/rollback', authenticateToken, requireRole('admin'), (req, res) => {
+  const { upload_id } = req.body;
+  if (!upload_id) {
+    return res.status(400).json({ error: 'upload_id is required for rollback.' });
+  }
+
+  const adminName = req.user.name || 'Principal Mehra';
+  const result = db.rollbackExcelUpload({
+    upload_id,
+    admin_id: req.user.id,
+    admin_name: adminName
+  });
+
+  if (!result.success) {
+    return res.status(400).json({ error: result.error });
+  }
+
+  // Broadcast WebSocket notification for rollback
+  broadcastSocketMessage({
+    type: 'attendance_rollback',
+    uploadId: upload_id,
+    reversedCount: result.reversed_count,
+    manualReviewCount: result.manual_review_count,
+    admin: adminName
+  });
+
   res.json({
-    routes: db.getRoutes(),
+    message: `Upload ${upload_id} reversed successfully. ${result.reversed_count} attendance records reversed.`,
+    upload_id,
+    reversed_count: result.reversed_count,
+    manual_review_count: result.manual_review_count,
+    upload: result.upload
+  });
+});
+
+// 7. Download Filtered Attendance Report (Excel)
+app.get('/api/admin/bulk-attendance/reports/attendance-excel', authenticateToken, requireRole('admin'), async (req, res) => {
+  try {
+    const { date, department, year, session } = req.query;
+    let attendance = db.getAttendance();
+
+    // Enrich attendance records
+    let enriched = attendance.map(a => {
+      const student = db.getStudents().find(s => s.user_id === a.student_id);
+      const user = db.findUserById(a.student_id);
+      return {
+        ...a,
+        student_code: (student && student.student_id) || a.student_code || a.student_id,
+        student_name: (user && user.name) || a.student_name || 'Unknown',
+        department: (student && student.department) || a.department || 'General',
+        year: (student && student.year) || a.year || '-'
+      };
+    });
+
+    // Apply filters
+    if (date) enriched = enriched.filter(a => a.date === date);
+    if (department && department !== 'all') enriched = enriched.filter(a => (a.department || '').toUpperCase() === department.toUpperCase());
+    if (year && year !== 'all') enriched = enriched.filter(a => String(a.year) === String(year));
+    if (session && session !== 'all') enriched = enriched.filter(a => (a.session || 'Full Day').toLowerCase() === session.toLowerCase());
+
+    const buffer = await excelService.generateAttendanceReportExcel({
+      attendanceRecords: enriched,
+      filters: { date, department, year, session }
+    });
+
+    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    res.setHeader('Content-Disposition', `attachment; filename="CampusRide_Attendance_Report_${date || 'all'}.xlsx"`);
+    res.setHeader('Content-Length', buffer.length);
+    res.send(Buffer.from(buffer));
+  } catch (err) {
+    console.error('Failed to export attendance report:', err);
+    res.status(500).json({ error: `Export failed: ${err.message}` });
+  }
+});
+
+// 8. Download Specific Upload Report (Excel)
+app.get('/api/admin/bulk-attendance/reports/upload/:id/excel', authenticateToken, requireRole('admin'), async (req, res) => {
+  try {
+    const upload = db.getAttendanceUploadById(req.params.id);
+    if (!upload) {
+      return res.status(404).json({ error: 'Upload record not found' });
+    }
+
+    const buffer = await excelService.generateUploadReportExcel(upload);
+    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    res.setHeader('Content-Disposition', `attachment; filename="Upload_Report_${upload.id}.xlsx"`);
+    res.setHeader('Content-Length', buffer.length);
+    res.send(Buffer.from(buffer));
+  } catch (err) {
+    res.status(500).json({ error: `Export failed: ${err.message}` });
+  }
+});
+
+// 9. Download Upload History & Audit Report (Excel)
+app.get('/api/admin/bulk-attendance/reports/history-excel', authenticateToken, requireRole('admin'), async (req, res) => {
+  try {
+    const uploads = db.getAttendanceUploads();
+    const auditLogs = db.getAttendanceAuditLog();
+
+    const buffer = await excelService.generateUploadHistoryReportExcel(uploads, auditLogs);
+    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    res.setHeader('Content-Disposition', 'attachment; filename="CampusRide_Upload_History_Audit.xlsx"');
+    res.setHeader('Content-Length', buffer.length);
+    res.send(Buffer.from(buffer));
+  } catch (err) {
+    res.status(500).json({ error: `Export failed: ${err.message}` });
+  }
+});
+
+// ----------------------------------------------------
+// ROUTE & STOP MANAGEMENT (MODULES 3, 4, 5)
+// Sri Sairam Engineering College Bus Routes
+// ----------------------------------------------------
+
+// Public / Authenticated Route Directory for map display & student dashboards
+app.get('/api/routes', (req, res) => {
+  const routes = db.getRoutes().map(r => {
+    const stops = db.getStops()
+      .filter(s => s.route_id === r.id)
+      .sort((a, b) => a.sequence_order - b.sequence_order);
+    const bus = db.getBuses().find(b => b.route_id === r.id);
+    const studentCount = db.getRouteStudentCount ? db.getRouteStudentCount(r.id) : 0;
+    return {
+      ...r,
+      stops,
+      bus_number: bus ? bus.bus_number : 'Unassigned',
+      bus_id: bus ? bus.id : null,
+      student_count: studentCount,
+      verification_status: r.verification_status || 'DEMO – PENDING TRANSPORT OFFICE VERIFICATION'
+    };
+  });
+  res.json({ routes, campus: config.CAMPUS });
+});
+
+app.get('/api/routes/:id', (req, res) => {
+  const route = db.findRouteById ? db.findRouteById(req.params.id) : db.getRoutes().find(r => r.id === req.params.id);
+  if (!route) return res.status(404).json({ error: 'Route not found' });
+
+  const stops = db.getStops()
+    .filter(s => s.route_id === route.id)
+    .sort((a, b) => a.sequence_order - b.sequence_order);
+  const bus = db.getBuses().find(b => b.route_id === route.id);
+  const studentCount = db.getRouteStudentCount ? db.getRouteStudentCount(route.id) : 0;
+
+  res.json({
+    route: {
+      ...route,
+      stops,
+      bus: bus || null,
+      student_count: studentCount
+    }
+  });
+});
+
+// Admin Route List with full relations
+app.get('/api/admin/routes', authenticateToken, requireRole('admin'), (req, res) => {
+  const enrichedRoutes = db.getRoutes().map(r => {
+    const stops = db.getStops()
+      .filter(s => s.route_id === r.id)
+      .sort((a, b) => a.sequence_order - b.sequence_order);
+    const bus = db.getBuses().find(b => b.route_id === r.id);
+    const driver = bus ? db.findUserById(bus.driver_id) : null;
+    const studentCount = db.getRouteStudentCount ? db.getRouteStudentCount(r.id) : 0;
+
+    return {
+      ...r,
+      stops,
+      stop_count: stops.length,
+      bus_id: bus ? bus.id : null,
+      bus_number: bus ? bus.bus_number : 'Unassigned',
+      driver_name: driver ? driver.name : 'Unassigned',
+      driver_phone: driver ? driver.phone : 'N/A',
+      student_count: studentCount,
+      verification_status: r.verification_status || 'DEMO – PENDING TRANSPORT OFFICE VERIFICATION'
+    };
+  });
+
+  res.json({
+    routes: enrichedRoutes,
     stops: db.getStops(),
     buses: db.getBuses(),
     campus: config.CAMPUS
   });
 });
 
+// Create new Route (Module 4)
+app.post('/api/admin/routes', authenticateToken, requireRole('admin'), (req, res) => {
+  const routeName = (req.body.name || req.body.route_name || '').trim();
+  const routeNumber = (req.body.route_number || req.body.routeNumber || '').trim();
+  const { start_location, destination, description, stops } = req.body;
+
+  if (!routeName || !routeNumber) {
+    return res.status(400).json({ error: 'Route Number and Route Name are required.' });
+  }
+
+  // Prevent duplicate route numbers
+  const existing = db.getRoutes().find(r => (r.route_number || '').trim().toUpperCase() === routeNumber.toUpperCase());
+  if (existing) {
+    return res.status(400).json({ error: `Route number '${routeNumber}' is already assigned to ${existing.name}.` });
+  }
+
+  const routeId = `route_${Date.now()}`;
+  const newRoute = {
+    id: routeId,
+    route_number: routeNumber,
+    name: routeName,
+    start_location: start_location || 'Pickup Point',
+    destination: destination || 'Sri Sairam Engineering College',
+    description: description || `Route ${routeNumber}: ${routeName}`,
+    status: 'active',
+    verification_status: 'DEMO – PENDING TRANSPORT OFFICE VERIFICATION',
+    created_at: new Date().toISOString()
+  };
+
+  db.insertRoute(newRoute);
+
+  // If initial stops provided
+  if (Array.isArray(stops) && stops.length > 0) {
+    stops.forEach((s, idx) => {
+      const sLat = s.latitude !== undefined ? s.latitude : (s.coordinates ? s.coordinates[0] : (s.lat || 12.9601));
+      const sLng = s.longitude !== undefined ? s.longitude : (s.coordinates ? s.coordinates[1] : (s.lng || 80.0574));
+      db.insertStop({
+        id: `stop_${Date.now()}_${idx}`,
+        route_id: routeId,
+        name: s.name || s.stop_name,
+        latitude: parseFloat(sLat),
+        longitude: parseFloat(sLng),
+        sequence_order: idx + 1,
+        pickup_time: s.pickup_time || '07:30 AM'
+      });
+    });
+  }
+
+  res.status(201).json({ message: 'Route registered successfully', route: newRoute });
+});
+
+// Backward-compatible alias for route creation
 app.post('/api/admin/routes/create', authenticateToken, requireRole('admin'), (req, res) => {
-  const { name, description } = req.body;
+  const name = req.body.name || req.body.route_name;
+  const { description, route_number } = req.body;
   if (!name) return res.status(400).json({ error: 'Route name is required' });
 
   const routeId = `route_${Date.now()}`;
-  db.data.routes.push({ id: routeId, name, description });
-  db.save();
-
-  res.json({ message: 'Route created successfully', routeId });
+  const newRoute = {
+    id: routeId,
+    route_number: route_number || `R-${Date.now().toString().slice(-2)}`,
+    name,
+    description: description || name,
+    start_location: 'Boarding Locality',
+    destination: 'Sri Sairam Engineering College',
+    status: 'active',
+    verification_status: 'DEMO – PENDING TRANSPORT OFFICE VERIFICATION',
+    created_at: new Date().toISOString()
+  };
+  db.insertRoute(newRoute);
+  res.json({ message: 'Route created successfully', routeId, route: newRoute });
 });
 
+// Update Route (Module 4)
+app.put('/api/admin/routes/:id', authenticateToken, requireRole('admin'), (req, res) => {
+  const route = db.findRouteById(req.params.id);
+  if (!route) return res.status(404).json({ error: 'Route not found' });
+
+  const routeNumber = req.body.route_number || req.body.routeNumber;
+  const name = req.body.name || req.body.route_name;
+  const { start_location, destination, description, status, verification_status } = req.body;
+
+  if (routeNumber && routeNumber !== route.route_number) {
+    const dup = db.getRoutes().find(r => r.id !== req.params.id && (r.route_number || '').trim().toUpperCase() === routeNumber.trim().toUpperCase());
+    if (dup) return res.status(400).json({ error: `Route number '${routeNumber}' is already assigned to ${dup.name}.` });
+  }
+
+  const updated = db.updateRoute(req.params.id, {
+    ...(routeNumber ? { route_number: routeNumber.trim() } : {}),
+    ...(name ? { name: name.trim() } : {}),
+    ...(start_location ? { start_location: start_location.trim() } : {}),
+    ...(destination ? { destination: destination.trim() } : {}),
+    ...(description !== undefined ? { description } : {}),
+    ...(status ? { status } : {}),
+    ...(verification_status ? { verification_status } : {})
+  });
+
+  res.json({ message: 'Route details updated successfully', route: updated });
+});
+
+// Delete or Deactivate Route (Module 4)
+app.delete('/api/admin/routes/:id', authenticateToken, requireRole('admin'), (req, res) => {
+  const route = db.findRouteById(req.params.id);
+  if (!route) return res.status(404).json({ error: 'Route not found' });
+
+  const studentCount = db.getRouteStudentCount ? db.getRouteStudentCount(route.id) : 0;
+  if (studentCount > 0 && req.query.force !== 'true') {
+    return res.status(400).json({
+      error: `Cannot delete route with ${studentCount} active students assigned. Please reassign students or pass force=true to unassign them.`
+    });
+  }
+
+  db.deleteRoute(req.params.id);
+  res.json({ message: `Route '${route.name}' removed successfully.` });
+});
+
+// Add Stop to Route (Module 4)
+app.post('/api/admin/routes/:id/stops', authenticateToken, requireRole('admin'), (req, res) => {
+  const route = db.findRouteById(req.params.id);
+  if (!route) return res.status(404).json({ error: 'Route not found' });
+
+  const stopName = (req.body.name || req.body.stop_name || '').trim();
+  const lat = req.body.latitude !== undefined ? req.body.latitude : (req.body.coordinates ? req.body.coordinates[0] : req.body.lat);
+  const lng = req.body.longitude !== undefined ? req.body.longitude : (req.body.coordinates ? req.body.coordinates[1] : req.body.lng);
+  const { pickup_time, sequence_order, stop_sequence } = req.body;
+
+  if (!stopName || lat === undefined || lng === undefined) {
+    return res.status(400).json({ error: 'Stop name, latitude, and longitude are required.' });
+  }
+
+  const existingStops = db.getStops().filter(s => s.route_id === route.id);
+  const nextSeq = sequence_order !== undefined ? parseInt(sequence_order, 10) : (stop_sequence !== undefined ? parseInt(stop_sequence, 10) : existingStops.length + 1);
+
+  const newStop = {
+    id: `stop_${Date.now()}`,
+    route_id: route.id,
+    name: stopName,
+    stop_name: stopName,
+    latitude: parseFloat(lat),
+    longitude: parseFloat(lng),
+    pickup_time: pickup_time || '07:30 AM',
+    sequence_order: nextSeq
+  };
+
+  db.insertStop(newStop);
+  res.status(201).json({ message: 'Boarding stop added successfully', stop: newStop });
+});
+
+// Update Stop (Module 4)
+app.put('/api/admin/stops/:id', authenticateToken, requireRole('admin'), (req, res) => {
+  const stop = db.findStopById(req.params.id);
+  if (!stop) return res.status(404).json({ error: 'Stop not found' });
+
+  const { name, latitude, longitude, pickup_time, sequence_order } = req.body;
+  const updated = db.updateStop(req.params.id, {
+    ...(name ? { name: name.trim() } : {}),
+    ...(latitude !== undefined ? { latitude: parseFloat(latitude) } : {}),
+    ...(longitude !== undefined ? { longitude: parseFloat(longitude) } : {}),
+    ...(pickup_time ? { pickup_time } : {}),
+    ...(sequence_order !== undefined ? { sequence_order: parseInt(sequence_order, 10) } : {})
+  });
+
+  res.json({ message: 'Stop updated successfully', stop: updated });
+});
+
+// Delete Stop (Module 4)
+app.delete('/api/admin/stops/:id', authenticateToken, requireRole('admin'), (req, res) => {
+  const stop = db.findStopById(req.params.id);
+  if (!stop) return res.status(404).json({ error: 'Stop not found' });
+
+  db.deleteStop(req.params.id);
+  res.json({ message: 'Stop removed successfully.' });
+});
+
+// Backward-compatible bulk stop replace
 app.post('/api/admin/stops/create', authenticateToken, requireRole('admin'), (req, res) => {
   const { routeId, stops } = req.body;
   if (!routeId || !stops || !Array.isArray(stops)) {
@@ -673,14 +1265,14 @@ app.post('/api/admin/stops/create', authenticateToken, requireRole('admin'), (re
   }
 
   db.data.stops = db.data.stops.filter(s => s.route_id !== routeId);
-
   stops.forEach((s, idx) => {
     db.data.stops.push({
       id: `stop_${Date.now()}_${idx}`,
       route_id: routeId,
       name: s.name,
-      latitude: parseFloat(s.lat),
-      longitude: parseFloat(s.lng),
+      latitude: parseFloat(s.lat || s.latitude),
+      longitude: parseFloat(s.lng || s.longitude),
+      pickup_time: s.pickup_time || '07:30 AM',
       sequence_order: idx + 1
     });
   });
@@ -720,120 +1312,684 @@ app.post('/api/admin/alerts/action', authenticateToken, requireRole('admin'), (r
   }
 });
 
+// ----------------------------------------------------
+// SECURE TEMPORARY PASSWORD GENERATOR (MODULE 1)
+// Generates single-use temporary password; never stored in plaintext
+// ----------------------------------------------------
+function generateTemporaryPassword() {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789!@#$';
+  let pass = 'SEC@';
+  for (let i = 0; i < 6; i++) {
+    pass += chars.charAt(crypto.randomInt(0, chars.length));
+  }
+  return pass;
+}
+
+// ----------------------------------------------------
+// CENTRAL USER MANAGEMENT (MODULE 1 & 2)
+// Super Admin / Admin, Student, Driver, Parent
+// ----------------------------------------------------
+
+// List all registered users with search, role, department, year, status filters
 app.get('/api/admin/users', authenticateToken, requireRole('admin'), (req, res) => {
-  const enrichedStudents = db.getStudents().map(s => {
-    const usr = db.findUserById(s.user_id);
-    const rt = db.getRoutes().find(r => r.id === s.route_id);
-    const st = db.getStops().find(stop => stop.id === s.boarding_stop_id);
-    return {
-      user_id: s.user_id,
-      rfid_tag: s.rfid_tag || 'N/A',
-      class_grade: s.class_grade,
-      route_id: s.route_id,
-      routeName: rt ? rt.name : 'None',
-      boarding_stop_id: s.boarding_stop_id,
-      stopName: st ? st.name : 'None',
-      name: usr ? usr.name : 'Deleted',
-      email: usr ? usr.email : '',
-      phone: usr ? usr.phone : '',
-      created_at: usr ? usr.created_at : ''
-    };
-  });
+  const { search, role, department, year, status } = req.query;
+  const enrichedUsers = db.getEnrichedUsers({ search, role, department, year, status });
+
+  // Retain legacy structure if needed, plus complete modern users list
+  const enrichedStudents = enrichedUsers.filter(u => u.role === 'student');
 
   res.json({
+    users: enrichedUsers,
+    total: enrichedUsers.length,
     students: enrichedStudents,
-    users: db.getUsers().filter(u => u.role !== 'admin')
+    legacy_users: enrichedUsers.filter(u => u.role !== 'admin')
   });
 });
 
-app.post('/api/admin/users/create', authenticateToken, requireRole('admin'), (req, res) => {
-  const { name, email, phone, password, role, class_grade, route_id, boarding_stop_id, rfid_tag } = req.body;
-  if (!name || !email || !phone || !password || !role) {
-    return res.status(400).json({ error: 'Required fields missing' });
-  }
-
-  const existing = db.findUserByEmail(email);
-  if (existing) return res.status(400).json({ error: 'Email already registered' });
-
-  const userId = `usr_${Date.now()}`;
-  db.insertUser({
-    id: userId,
+// Create Account (Module 1: Admin, Student, Driver, Parent)
+app.post(['/api/admin/users', '/api/admin/users/create'], authenticateToken, requireRole('admin'), (req, res) => {
+  const {
     name,
     email,
-    password_hash: db.hashPassword(password),
-    role,
     phone,
-    created_at: new Date().toISOString()
-  });
+    role,
+    password,
+    department,
+    academic_year,
+    year,
+    class_grade,
+    route_id,
+    bus_id,
+    boarding_stop_id,
+    student_id,
+    rfid_tag,
+    license_number,
+    linked_student_id
+  } = req.body;
 
-  if (role === 'student') {
-    db.insertStudent({
-      user_id: userId,
-      rfid_tag: rfid_tag || `RFID_SEC_${Date.now().toString().slice(-4)}`,
-      class_grade: class_grade || 'Unassigned',
-      route_id: route_id || 'route_1',
-      boarding_stop_id: boarding_stop_id || 'stop_1_1'
+  const incomingYear = academic_year || year || class_grade;
+  // Module 2: Strictly reject school-level class grades (9th-12th)
+  if (role === 'student' && incomingYear && db.isSchoolGrade(incomingYear)) {
+    return res.status(400).json({
+      error: 'Invalid academic year. School class grades (9th-12th) are not permitted. CampusRide is for Sri Sairam Engineering College (1st - 4th Year only).'
     });
   }
 
-  res.json({ message: 'User created successfully', userId });
+  if (!name || !email || !role) {
+    return res.status(400).json({ error: 'Name, email, and user role are required.' });
+  }
+
+  const validRoles = ['admin', 'student', 'driver', 'parent'];
+  if (!validRoles.includes(role)) {
+    return res.status(400).json({ error: `Invalid role. Must be one of: ${validRoles.join(', ')}` });
+  }
+
+  // Email format & uniqueness
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    return res.status(400).json({ error: 'Invalid email address format' });
+  }
+
+  const existing = db.findUserByEmail(email);
+  if (existing) {
+    return res.status(400).json({ error: `An account with email '${email}' already exists.` });
+  }
+
+  // Module 8: Bus Capacity validation if bus_id is specified
+  if (role === 'student' && bus_id) {
+    const bus = db.findBusById(bus_id);
+    if (bus && bus.capacity) {
+      const assignedCount = db.getBusStudentCount(bus_id);
+      if (assignedCount >= bus.capacity) {
+        return res.status(400).json({
+          error: `Cannot assign student: Bus ${bus.bus_number} capacity exceeded. Maximum capacity is ${bus.capacity}, currently assigned: ${assignedCount}.`
+        });
+      }
+    }
+  }
+
+  // Password handling: Secure Temporary Password generation
+  let tempPassword = null;
+  let rawPassword = password;
+  let mustChangePassword = false;
+
+  if (!rawPassword || rawPassword.trim() === '') {
+    tempPassword = generateTemporaryPassword();
+    rawPassword = tempPassword;
+    mustChangePassword = true; // Required password change on first login
+  }
+
+  const userId = `usr_${role}_${Date.now().toString(36)}`;
+  const passwordHash = db.hashPassword(rawPassword);
+
+  const newUser = db.insertUser({
+    id: userId,
+    name: name.trim(),
+    email: email.trim().toLowerCase(),
+    phone: (phone || '').trim(),
+    role,
+    password_hash: passwordHash,
+    status: 'active',
+    must_change_password: mustChangePassword,
+    created_at: new Date().toISOString(),
+    last_login_at: null
+  });
+
+  // Role-specific records
+  let parsedYear = 1;
+  const userEnriched = {
+    id: newUser.id,
+    name: newUser.name,
+    email: newUser.email,
+    role: newUser.role,
+    phone: newUser.phone,
+    status: newUser.status,
+    created_at: newUser.created_at
+  };
+
+  if (role === 'student') {
+    parsedYear = db.parseAcademicYear(incomingYear) || 1;
+    const stdId = student_id || `SEC-${Date.now().toString().slice(-4)}`;
+    db.insertStudent({
+      user_id: userId,
+      student_id: stdId,
+      rfid_tag: rfid_tag || `RFID_SEC_${Date.now().toString().slice(-4)}`,
+      department: department || 'CSE',
+      year: parsedYear,
+      class_grade: db.formatAcademicYear(parsedYear),
+      route_id: route_id || null,
+      bus_id: bus_id || null,
+      boarding_stop_id: boarding_stop_id || null
+    });
+    userEnriched.academic_year = parsedYear;
+    userEnriched.year = db.formatAcademicYear(parsedYear);
+    userEnriched.department = department || 'CSE';
+  } else if (role === 'driver') {
+    const lic = license_number || req.body.licenseNumber || `TN-09-${Date.now().toString().slice(-6)}`;
+    db.insertDriver({
+      user_id: userId,
+      license_number: lic,
+      bus_id: bus_id || null
+    });
+    if (bus_id) {
+      db.updateBus(bus_id, { driver_id: userId });
+    }
+    userEnriched.licenseNumber = lic;
+  } else if (role === 'parent') {
+    const lkId = linked_student_id || req.body.linkedStudentId || null;
+    db.insertParent({ user_id: userId });
+    if (lkId) {
+      db.linkParentStudent(userId, lkId);
+      userEnriched.linkedStudentId = lkId;
+    }
+  }
+
+  // Audit log
+  db.logAudit({
+    event: 'USER_CREATED',
+    admin_id: req.user.id,
+    admin_name: req.user.name,
+    details: { user_id: userId, name: newUser.name, email: newUser.email, role }
+  });
+
+  const responsePayload = {
+    success: true,
+    message: `Account for ${newUser.name} (${role}) created successfully.`,
+    user: userEnriched
+  };
+
+  // Temporary password returned ONLY ONCE to authorized administrator
+  if (tempPassword) {
+    responsePayload.temp_password = tempPassword;
+    responsePayload.tempPassword = tempPassword;
+    responsePayload.notice = 'Temporary password generated securely. Share this once with the user. They must change it upon initial login.';
+  }
+
+  res.status(201).json(responsePayload);
 });
 
-app.post('/api/admin/users/update', authenticateToken, requireRole('admin'), (req, res) => {
-  const { user_id, name, email, phone, class_grade, route_id, boarding_stop_id, rfid_tag } = req.body;
+// Edit User Profile (Module 1)
+app.put('/api/admin/users/:id', authenticateToken, requireRole('admin'), (req, res) => {
+  const userId = req.params.id;
+  const user = db.findUserById(userId);
+  if (!user) return res.status(404).json({ error: 'User not found' });
 
+  const {
+    name,
+    email,
+    phone,
+    department,
+    academic_year,
+    year,
+    class_grade,
+    route_id,
+    bus_id,
+    boarding_stop_id,
+    student_id,
+    rfid_tag,
+    license_number,
+    linked_student_id
+  } = req.body;
+
+  // Strict school-grade rejection
+  const incomingYear = academic_year || year || class_grade;
+  if (incomingYear && db.isSchoolGrade(incomingYear)) {
+    return res.status(400).json({
+      error: 'Invalid academic year. School class grades (9th-12th) are not permitted. CampusRide is for Sri Sairam Engineering College (1st - 4th Year only).'
+    });
+  }
+
+  // Module 8: Bus Capacity validation if bus is changed
+  if (user.role === 'student' && bus_id) {
+    const studentRecord = db.getStudents().find(s => s.user_id === userId);
+    if (!studentRecord || studentRecord.bus_id !== bus_id) {
+      const bus = db.findBusById(bus_id);
+      if (bus && bus.capacity) {
+        const assignedCount = db.getBusStudentCount(bus_id);
+        if (assignedCount >= bus.capacity) {
+          return res.status(400).json({
+            error: `Cannot assign student: Bus ${bus.bus_number} capacity exceeded. Maximum capacity is ${bus.capacity}, currently assigned: ${assignedCount}.`
+          });
+        }
+      }
+    }
+  }
+
+  // Update user
+  db.updateUser(userId, {
+    ...(name ? { name: name.trim() } : {}),
+    ...(email ? { email: email.trim().toLowerCase() } : {}),
+    ...(phone ? { phone: phone.trim() } : {}),
+    ...(department ? { department } : {}),
+    ...(incomingYear ? { year: db.parseAcademicYear(incomingYear), class_grade: db.formatAcademicYear(db.parseAcademicYear(incomingYear)) } : {}),
+    ...(route_id ? { route_id } : {}),
+    ...(bus_id ? { bus_id } : {}),
+    ...(boarding_stop_id ? { boarding_stop_id } : {}),
+    ...(student_id ? { student_id } : {}),
+    ...(rfid_tag ? { rfid_tag } : {}),
+    ...(license_number ? { license_number } : {}),
+    ...(linked_student_id ? { linked_student_id } : {})
+  });
+
+  db.logAudit({
+    event: 'USER_UPDATED',
+    admin_id: req.user.id,
+    admin_name: req.user.name,
+    details: { user_id: userId, changes: req.body }
+  });
+
+  res.json({ message: 'User profile updated successfully.' });
+});
+
+// Backward-compatible alias for update
+app.post('/api/admin/users/update', authenticateToken, requireRole('admin'), (req, res) => {
+  const { user_id } = req.body;
+  if (!user_id) return res.status(400).json({ error: 'user_id is required' });
+  req.params.id = user_id;
+  // Delegate to PUT handler logic
   const user = db.findUserById(user_id);
   if (!user) return res.status(404).json({ error: 'User not found' });
 
-  if (name) user.name = name;
-  if (email) user.email = email;
-  if (phone) user.phone = phone;
-
-  if (user.role === 'student') {
-    const student = db.getStudents().find(s => s.user_id === user_id);
-    if (student) {
-      if (class_grade) student.class_grade = class_grade;
-      if (route_id) student.route_id = route_id;
-      if (boarding_stop_id) student.boarding_stop_id = boarding_stop_id;
-      if (rfid_tag) student.rfid_tag = rfid_tag;
-    }
+  const { name, email, phone, class_grade, academic_year, route_id, bus_id, boarding_stop_id, rfid_tag } = req.body;
+  const incomingYear = academic_year || class_grade;
+  if (incomingYear && db.isSchoolGrade(incomingYear)) {
+    return res.status(400).json({ error: 'School classes (9th-12th) are not permitted.' });
   }
-  db.save();
+
+  db.updateUser(user_id, {
+    ...(name ? { name } : {}),
+    ...(email ? { email } : {}),
+    ...(phone ? { phone } : {}),
+    ...(incomingYear ? { year: db.parseAcademicYear(incomingYear), class_grade: db.formatAcademicYear(db.parseAcademicYear(incomingYear)) } : {}),
+    ...(route_id ? { route_id } : {}),
+    ...(bus_id ? { bus_id } : {}),
+    ...(boarding_stop_id ? { boarding_stop_id } : {}),
+    ...(rfid_tag ? { rfid_tag } : {})
+  });
 
   res.json({ message: 'User profile updated successfully' });
 });
 
+// Activate or Deactivate Account (Module 1)
+app.patch('/api/admin/users/:id/status', authenticateToken, requireRole('admin'), (req, res) => {
+  const { status } = req.body;
+  if (!['active', 'inactive'].includes(status)) {
+    return res.status(400).json({ error: "Status must be 'active' or 'inactive'." });
+  }
+
+  if (req.params.id === req.user.id && status === 'inactive') {
+    return res.status(400).json({ error: 'Safety precaution: You cannot deactivate your own administrative account.' });
+  }
+
+  const updated = db.setUserStatus(req.params.id, status);
+  if (!updated) return res.status(404).json({ error: 'User not found' });
+
+  db.logAudit({
+    event: 'USER_STATUS_CHANGED',
+    admin_id: req.user.id,
+    admin_name: req.user.name,
+    details: { user_id: req.params.id, status }
+  });
+
+  res.json({ message: `Account has been set to ${status}.`, user: updated });
+});
+
+// Backward-compatible POST alias for status
+app.post('/api/admin/users/status', authenticateToken, requireRole('admin'), (req, res) => {
+  const { user_id, status } = req.body;
+  if (!user_id || !status) return res.status(400).json({ error: 'user_id and status are required' });
+  if (user_id === req.user.id && status === 'inactive') {
+    return res.status(400).json({ error: 'Cannot deactivate your own account.' });
+  }
+  const updated = db.setUserStatus(user_id, status);
+  if (!updated) return res.status(404).json({ error: 'User not found' });
+  res.json({ message: `Account status updated to ${status}.` });
+});
+
+// Reset Password: Generates new secure temporary password shown ONCE to admin (Module 1)
+app.post('/api/admin/users/:id/reset-password', authenticateToken, requireRole('admin'), (req, res) => {
+  const user = db.findUserById(req.params.id);
+  if (!user) return res.status(404).json({ error: 'User not found' });
+
+  const tempPassword = generateTemporaryPassword();
+  db.resetUserPassword(req.params.id, tempPassword);
+
+  db.logAudit({
+    event: 'PASSWORD_RESET_BY_ADMIN',
+    admin_id: req.user.id,
+    admin_name: req.user.name,
+    details: { user_id: req.params.id, email: user.email }
+  });
+
+  res.json({
+    success: true,
+    message: `Password reset successfully for ${user.name}.`,
+    temp_password: tempPassword,
+    tempPassword: tempPassword,
+    user: {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      mustChangePassword: true,
+      must_change_password: true
+    },
+    notice: 'Show this temporary password only once to the user. They will be forced to change it upon next login.'
+  });
+});
+
+// Delete User safely (Module 1)
+app.delete('/api/admin/users/:id', authenticateToken, requireRole('admin'), (req, res) => {
+  if (req.params.id === req.user.id) {
+    return res.status(400).json({ error: 'Safety precaution: You cannot delete your own administrative account.' });
+  }
+
+  const user = db.findUserById(req.params.id);
+  if (!user) return res.status(404).json({ error: 'User not found' });
+
+  db.deleteUser(req.params.id);
+
+  db.logAudit({
+    event: 'USER_DELETED',
+    admin_id: req.user.id,
+    admin_name: req.user.name,
+    details: { user_id: req.params.id, name: user.name, role: user.role }
+  });
+
+  res.json({ message: `User account for ${user.name} removed successfully.` });
+});
+
+// Backward-compatible POST alias for delete
 app.post('/api/admin/users/delete', authenticateToken, requireRole('admin'), (req, res) => {
   const { user_id } = req.body;
   if (!user_id) return res.status(400).json({ error: 'user_id is required' });
+  if (user_id === req.user.id) return res.status(400).json({ error: 'Cannot delete your own account.' });
 
-  db.data.users = db.data.users.filter(u => u.id !== user_id);
-  db.data.students = db.data.students.filter(s => s.user_id !== user_id);
-  db.data.parents = db.data.parents.filter(p => p.user_id !== user_id);
-  db.data.parent_student = db.data.parent_student.filter(ps => ps.student_id !== user_id && ps.parent_id !== user_id);
-  db.save();
+  const user = db.findUserById(user_id);
+  if (!user) return res.status(404).json({ error: 'User not found' });
 
+  db.deleteUser(user_id);
   res.json({ message: 'User deleted successfully' });
 });
 
+// Export Users to Excel (Module 1)
+app.get('/api/admin/users/export-excel', authenticateToken, requireRole('admin'), async (req, res) => {
+  try {
+    const { search, role, department, year, status } = req.query;
+    const users = db.getEnrichedUsers({ search, role, department, year, status });
+
+    const buffer = await excelService.generateUserExportExcel(users);
+    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    res.setHeader('Content-Disposition', 'attachment; filename="Sri_Sairam_CampusRide_Users.xlsx"');
+    res.setHeader('Content-Length', buffer.length);
+    res.send(Buffer.from(buffer));
+  } catch (err) {
+    console.error('Failed to export user directory:', err);
+    res.status(500).json({ error: `User export failed: ${err.message}` });
+  }
+});
+
+// ----------------------------------------------------
+// BUS AND STUDENT ASSIGNMENT MANAGEMENT (MODULE 8)
+// ----------------------------------------------------
+
+// Assignment overview
+app.get('/api/admin/assignments', authenticateToken, requireRole('admin'), (req, res) => {
+  const buses = db.getBuses().map(b => {
+    const assignedStudents = db.getBusStudentCount(b.id);
+    const capacity = b.capacity || 50;
+    const route = db.getRoutes().find(r => r.id === b.route_id);
+    const driver = db.findUserById(b.driver_id);
+    return {
+      ...b,
+      capacity,
+      assigned_students: assignedStudents,
+      available_seats: Math.max(0, capacity - assignedStudents),
+      percent_full: Math.round((assignedStudents / capacity) * 100),
+      is_full: assignedStudents >= capacity,
+      route_name: route ? route.name : 'Unassigned',
+      route_number: route ? route.route_number : 'N/A',
+      driver_name: driver ? driver.name : 'Unassigned Driver'
+    };
+  });
+
+  const routes = db.getRoutes().map(r => {
+    const studentCount = db.getRouteStudentCount(r.id);
+    const bus = db.getBuses().find(b => b.route_id === r.id);
+    return {
+      ...r,
+      student_count: studentCount,
+      bus_number: bus ? bus.bus_number : 'Unassigned'
+    };
+  });
+
+  const allStudents = db.getStudents();
+  const unassignedStudents = allStudents.filter(s => !s.route_id || !s.bus_id).length;
+
+  res.json({ buses, routes, total_students: allStudents.length, unassigned_students: unassignedStudents });
+});
+
+// Assign Bus to Route
+app.post('/api/admin/assignments/bus-route', authenticateToken, requireRole('admin'), (req, res) => {
+  const bus_id = req.body.bus_id || req.body.busId;
+  const route_id = req.body.route_id || req.body.routeId;
+  if (!bus_id || !route_id) {
+    return res.status(400).json({ error: 'bus_id and route_id are required' });
+  }
+
+  const bus = db.findBusById(bus_id);
+  if (!bus) return res.status(404).json({ error: 'Bus not found' });
+
+  const route = db.findRouteById(route_id);
+  if (!route) return res.status(404).json({ error: 'Route not found' });
+
+  db.updateBus(bus_id, { route_id });
+  res.json({ message: `Bus ${bus.bus_number} assigned to Route ${route.route_number} (${route.name}).` });
+});
+
+// Assign Driver to Bus
+app.post('/api/admin/assignments/bus-driver', authenticateToken, requireRole('admin'), (req, res) => {
+  const bus_id = req.body.bus_id || req.body.busId;
+  const driver_id = req.body.driver_id || req.body.driverId;
+  if (!bus_id || !driver_id) {
+    return res.status(400).json({ error: 'bus_id and driver_id are required' });
+  }
+
+  const bus = db.findBusById(bus_id);
+  if (!bus) return res.status(404).json({ error: 'Bus not found' });
+
+  const driver = db.findUserById(driver_id);
+  if (!driver || driver.role !== 'driver') {
+    return res.status(400).json({ error: 'Invalid driver account.' });
+  }
+
+  db.updateBus(bus_id, { driver_id });
+  res.json({ message: `Driver ${driver.name} assigned to Bus ${bus.bus_number}.` });
+});
+
+// Assign Student to Route and Bus (WITH STRICT BUS CAPACITY ENFORCEMENT)
+app.post('/api/admin/assignments/student', authenticateToken, requireRole('admin'), (req, res) => {
+  const user_id = req.body.user_id || req.body.userId;
+  const route_id = req.body.route_id || req.body.routeId;
+  const bus_id = req.body.bus_id || req.body.busId;
+  const boarding_stop_id = req.body.boarding_stop_id || req.body.boardingStopId;
+  if (!user_id) {
+    return res.status(400).json({ error: 'user_id is required' });
+  }
+
+  const studentUser = db.findUserById(user_id);
+  if (!studentUser || studentUser.role !== 'student') {
+    return res.status(400).json({ error: 'Valid student user_id is required' });
+  }
+
+  const studentRecord = db.getStudents().find(s => s.user_id === user_id);
+
+  // CRITICAL MODULE 8: Bus Capacity Validation
+  if (bus_id) {
+    const bus = db.findBusById(bus_id);
+    if (!bus) return res.status(404).json({ error: 'Selected bus does not exist' });
+
+    const isAlreadyOnThisBus = studentRecord && studentRecord.bus_id === bus_id;
+    if (!isAlreadyOnThisBus) {
+      const currentCount = db.getBusStudentCount(bus_id);
+      const capacity = bus.capacity !== undefined ? bus.capacity : 50;
+      if (currentCount >= capacity) {
+        return res.status(400).json({
+          error: `Bus Capacity Exceeded! Bus ${bus.bus_number} is full (${currentCount}/${capacity} seats occupied). Please select another bus.`
+        });
+      }
+    }
+  }
+
+  const updatedStudent = db.assignStudent(user_id, {
+    ...(route_id ? { route_id } : {}),
+    ...(bus_id ? { bus_id } : {}),
+    ...(boarding_stop_id ? { boarding_stop_id } : {})
+  });
+
+  db.logAudit({
+    event: 'STUDENT_ASSIGNMENT_CHANGED',
+    admin_id: req.user.id,
+    admin_name: req.user.name,
+    details: { user_id, route_id, bus_id, boarding_stop_id }
+  });
+
+  res.json({
+    message: `Student ${studentUser.name} assigned successfully.`,
+    student: updatedStudent
+  });
+});
+
+// View all students assigned to a specific bus
+app.get('/api/admin/buses/:id/students', authenticateToken, requireRole('admin'), (req, res) => {
+  const bus = db.findBusById(req.params.id);
+  if (!bus) return res.status(404).json({ error: 'Bus not found' });
+
+  const students = db.getStudents()
+    .filter(s => s.bus_id === bus.id)
+    .map(s => {
+      const u = db.findUserById(s.user_id);
+      const r = db.findRouteById(s.route_id);
+      const st = db.findStopById(s.boarding_stop_id);
+      return {
+        user_id: s.user_id,
+        student_id: s.student_id,
+        name: u ? u.name : 'Unknown',
+        email: u ? u.email : '',
+        department: s.department,
+        year: s.year,
+        year_display: db.formatAcademicYear(s.year),
+        route_name: r ? r.name : 'Unassigned',
+        stop_name: st ? st.name : 'Unassigned'
+      };
+    });
+
+  res.json({
+    bus,
+    assigned_count: students.length,
+    capacity: bus.capacity || 50,
+    available_seats: Math.max(0, (bus.capacity || 50) - students.length),
+    students
+  });
+});
+
+// View all students assigned to a specific route
+app.get('/api/admin/routes/:id/students', authenticateToken, requireRole('admin'), (req, res) => {
+  const route = db.findRouteById(req.params.id);
+  if (!route) return res.status(404).json({ error: 'Route not found' });
+
+  const students = db.getStudents()
+    .filter(s => s.route_id === route.id)
+    .map(s => {
+      const u = db.findUserById(s.user_id);
+      const b = db.findBusById(s.bus_id);
+      const st = db.findStopById(s.boarding_stop_id);
+      return {
+        user_id: s.user_id,
+        student_id: s.student_id,
+        name: u ? u.name : 'Unknown',
+        department: s.department,
+        year: s.year,
+        year_display: db.formatAcademicYear(s.year),
+        bus_number: b ? b.bus_number : 'Unassigned',
+        stop_name: st ? st.name : 'Unassigned'
+      };
+    });
+
+  res.json({
+    route,
+    student_count: students.length,
+    students
+  });
+});
+
+// Update Bus configuration (capacity, driver, route, status) (Module 8)
+app.put('/api/admin/buses/:id', authenticateToken, requireRole('admin'), (req, res) => {
+  const bus = db.findBusById(req.params.id);
+  if (!bus) return res.status(404).json({ error: 'Bus not found' });
+
+  const { capacity, route_id, driver_id, status, bus_number } = req.body;
+  const updated = db.updateBus(req.params.id, {
+    ...(capacity !== undefined ? { capacity: parseInt(capacity, 10) } : {}),
+    ...(route_id ? { route_id } : {}),
+    ...(driver_id ? { driver_id } : {}),
+    ...(status ? { status } : {}),
+    ...(bus_number ? { bus_number: bus_number.trim() } : {})
+  });
+
+  res.json({ message: 'Bus updated successfully', bus: updated });
+});
+
+// ----------------------------------------------------
+// DASHBOARD STATISTICS & INSTITUTIONAL REPORTS (MODULE 9)
+// ----------------------------------------------------
+
+// High-level analytics endpoint computed directly from real database records
+app.get('/api/admin/stats', authenticateToken, requireRole('admin'), (req, res) => {
+  try {
+    const stats = db.getAdminStats();
+    res.json({
+      ...stats,
+      byAcademicYear: stats.studentsByYear || stats.byAcademicYear,
+      byDepartment: stats.studentsByDepartment || stats.studentsByDept
+    });
+  } catch (err) {
+    console.error('Failed to compute admin stats:', err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Comprehensive institutional reports endpoint
 app.get('/api/admin/reports', authenticateToken, requireRole('admin'), (req, res) => {
   const payments = db.getPayments();
   const attendance = db.getAttendance();
+  const todayStr = new Date().toISOString().split('T')[0];
 
   const collected = payments.filter(p => p.status === 'completed').reduce((sum, p) => sum + p.amount, 0);
   const outstanding = payments.filter(p => p.status === 'pending').reduce((sum, p) => sum + p.amount, 0);
 
-  const totalAtt = attendance.length;
-  const present = attendance.filter(a => a.status === 1).length;
-  const absent = totalAtt - present;
+  const todayAtt = attendance.filter(a => a.date === todayStr);
+  const present = todayAtt.filter(a => a.status === 1).length;
+  const totalEnrolled = db.getStudents().length;
+  const absent = Math.max(0, totalEnrolled - present);
+
+  const stats = db.getAdminStats();
 
   res.json({
     collected,
     outstanding,
     present,
     absent,
-    totalBuses: db.getBuses().length,
-    totalStudents: db.getStudents().length
+    attendance_rate: totalEnrolled > 0 ? Math.round((present / totalEnrolled) * 100) : 0,
+    totalBuses: stats.totalBuses,
+    totalRoutes: stats.totalRoutes,
+    activeRoutes: stats.activeRoutes,
+    totalStudents: stats.totalStudents,
+    totalDrivers: stats.totalDrivers,
+    totalParents: stats.totalParents,
+    studentsByYear: stats.studentsByYear,
+    studentsByDept: stats.studentsByDept,
+    routeCapacityStats: stats.routeCapacityStats
   });
 });
 

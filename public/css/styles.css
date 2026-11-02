@@ -1092,3 +1092,421 @@ tr:hover td {
   color: #94a3b8;
 }
 
+/* ====================================================
+   EXCEL BULK ATTENDANCE MANAGEMENT SYSTEM STYLES
+   ==================================================== */
+
+.bulk-upload-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 20px;
+  margin-bottom: 25px;
+}
+
+@media (max-width: 992px) {
+  .bulk-upload-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Drag and Drop Dropzone */
+.excel-dropzone {
+  border: 2px dashed rgba(99, 102, 241, 0.4);
+  background: rgba(16, 22, 42, 0.5);
+  border-radius: 14px;
+  padding: 28px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  position: relative;
+  overflow: hidden;
+}
+
+.excel-dropzone:hover, .excel-dropzone.dragover {
+  border-color: var(--accent-indigo);
+  background: rgba(99, 102, 241, 0.08);
+  box-shadow: 0 0 25px rgba(99, 102, 241, 0.2);
+  transform: translateY(-2px);
+}
+
+.excel-dropzone-icon {
+  font-size: 2.4rem;
+  margin-bottom: 10px;
+  display: inline-block;
+  animation: floatIcon 3s ease-in-out infinite alternate;
+}
+
+@keyframes floatIcon {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-4px); }
+}
+
+.excel-file-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(99, 102, 241, 0.15);
+  border: 1px solid rgba(99, 102, 241, 0.4);
+  color: #c7d2fe;
+  padding: 8px 14px;
+  border-radius: 10px;
+  margin-top: 12px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+/* Summary Cards Grid */
+.summary-cards-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.summary-cards-container .stat-card-span-2 {
+  grid-column: span 2;
+}
+
+.stat-metric-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-glass);
+  border-radius: 12px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  transition: var(--transition-smooth);
+}
+
+.stat-metric-card:hover {
+  background: rgba(255, 255, 255, 0.04);
+  transform: translateY(-1px);
+}
+
+.stat-metric-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.stat-metric-icon.indigo { background: rgba(99, 102, 241, 0.15); color: #818cf8; }
+.stat-metric-icon.green  { background: rgba(16, 185, 129, 0.15); color: #34d399; }
+.stat-metric-icon.red    { background: rgba(239, 68, 68, 0.15); color: #f87171; }
+.stat-metric-icon.amber  { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
+.stat-metric-icon.purple { background: rgba(139, 92, 246, 0.15); color: #a78bfa; }
+
+.stat-metric-number {
+  font-size: 1.45rem;
+  font-weight: 700;
+  line-height: 1.1;
+  color: #fff;
+}
+
+.stat-metric-label {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+/* Status Badges */
+.badge-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.badge-valid {
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  color: #34d399;
+}
+
+.badge-invalid {
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  color: #f87171;
+}
+
+.badge-duplicate {
+  background: rgba(245, 158, 11, 0.15);
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  color: #fbbf24;
+}
+
+.badge-already-present {
+  background: rgba(139, 92, 246, 0.15);
+  border: 1px solid rgba(139, 92, 246, 0.4);
+  color: #c084fc;
+}
+
+.badge-completed {
+  background: rgba(16, 185, 129, 0.2);
+  border: 1px solid rgba(16, 185, 129, 0.5);
+  color: #6ee7b7;
+}
+
+.badge-undone {
+  background: rgba(239, 68, 68, 0.2);
+  border: 1px solid rgba(239, 68, 68, 0.5);
+  color: #fca5a5;
+  text-decoration: line-through;
+}
+
+/* Filter Pills */
+.filter-pills-bar {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.filter-pill {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-glass);
+  color: var(--text-muted);
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  cursor: pointer;
+  font-weight: 500;
+  transition: var(--transition-smooth);
+}
+
+.filter-pill:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.filter-pill.active {
+  background: var(--accent-indigo);
+  border-color: var(--accent-indigo);
+  color: #fff;
+  font-weight: 600;
+  box-shadow: 0 0 12px rgba(99, 102, 241, 0.4);
+}
+
+/* Report Filter Bar */
+.report-filter-bar {
+  display: flex;
+  gap: 12px;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-glass);
+  padding: 16px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+.report-filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+  min-width: 140px;
+}
+
+.report-filter-group label {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.report-filter-group select, .report-filter-group input {
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  background: rgba(22, 30, 56, 0.95);
+  color: #fff;
+  border: 1px solid var(--border-glass);
+}
+
+/* ====================================================
+   MODULE 1, 2, 3, 4, 8: UPGRADED ADMIN UI STYLES
+   ==================================================== */
+
+/* Role Badges */
+.badge-role {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 9px;
+  border-radius: 20px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.badge-role-admin {
+  background: rgba(139, 92, 246, 0.18);
+  color: #c4b5fd;
+  border: 1px solid rgba(139, 92, 246, 0.4);
+}
+.badge-role-student {
+  background: rgba(59, 130, 246, 0.18);
+  color: #93c5fd;
+  border: 1px solid rgba(59, 130, 246, 0.4);
+}
+.badge-role-driver {
+  background: rgba(245, 158, 11, 0.18);
+  color: #fcd34d;
+  border: 1px solid rgba(245, 158, 11, 0.4);
+}
+.badge-role-parent {
+  background: rgba(16, 185, 129, 0.18);
+  color: #6ee7b7;
+  border: 1px solid rgba(16, 185, 129, 0.4);
+}
+
+/* Academic Year Badge */
+.badge-academic-year {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  background: rgba(99, 102, 241, 0.15);
+  border: 1px solid rgba(99, 102, 241, 0.35);
+  color: #a5b4fc;
+  border-radius: 6px;
+  font-size: 0.76rem;
+  font-weight: 600;
+}
+
+/* Account Status Toggle Pill */
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 100px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+.status-pill.active {
+  background: rgba(16, 185, 129, 0.15);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.4);
+}
+.status-pill.active::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #34d399;
+  box-shadow: 0 0 6px #34d399;
+}
+.status-pill.inactive {
+  background: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.4);
+}
+.status-pill.inactive::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #f87171;
+}
+
+/* Route Verification Badges */
+.badge-verification-demo {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(245, 158, 11, 0.15);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+/* Temporary Password Card */
+.temp-password-card {
+  background: rgba(15, 23, 42, 0.95);
+  border: 2px dashed rgba(99, 102, 241, 0.5);
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  margin: 15px 0;
+}
+.temp-password-display {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  color: #a5b4fc;
+  background: rgba(99, 102, 241, 0.15);
+  padding: 10px 16px;
+  border-radius: 8px;
+  display: inline-block;
+  margin: 10px 0;
+  user-select: all;
+  border: 1px solid rgba(99, 102, 241, 0.3);
+}
+
+/* Bus Capacity Meter */
+.capacity-meter-wrap {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  height: 10px;
+  width: 100%;
+  overflow: hidden;
+  margin: 6px 0;
+}
+.capacity-meter-bar {
+  height: 100%;
+  border-radius: 8px;
+  transition: width 0.4s ease;
+}
+.capacity-meter-bar.green {
+  background: linear-gradient(90deg, #10b981, #059669);
+}
+.capacity-meter-bar.yellow {
+  background: linear-gradient(90deg, #f59e0b, #d97706);
+}
+.capacity-meter-bar.red {
+  background: linear-gradient(90deg, #ef4444, #dc2626);
+}
+
+/* Route Cards Grid */
+.routes-catalog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 18px;
+  margin-top: 15px;
+}
+.route-catalog-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-glass);
+  border-radius: 14px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: var(--transition-smooth);
+}
+.route-catalog-card:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(99, 102, 241, 0.35);
+  transform: translateY(-2px);
+}
+
+
+

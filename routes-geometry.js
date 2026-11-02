@@ -6,55 +6,80 @@
  */
 
 const ROUTE_GEOMETRIES = {
+  // Route 1: Valasaravakkam – Porur – Kundrathur
   route_1: [
-    // 1. Guindy Kathipara Junction
-    [13.0067, 80.2025],
-    [13.0035, 80.1980],
-    [12.9970, 80.1905],
-    [12.9890, 80.1810],
-    [12.9810, 80.1700], // Chennai Airport / Meenambakkam GST Rd
-    [12.9740, 80.1590],
-    // 2. Pallavaram Bus Stand
-    [12.9680, 80.1490],
-    [12.9610, 80.1450],
-    // 3. Chromepet MIT Gate
-    [12.9516, 80.1408],
-    [12.9440, 80.1340],
-    [12.9360, 80.1260], // Tambaram Sanatorium
-    [12.9300, 80.1170],
-    // 4. Tambaram West Bus Terminus
-    [12.9249, 80.1000],
-    [12.9305, 80.0880], // Mudichur Road
-    [12.9410, 80.0760], // Kishkinta Road turn
-    [12.9500, 80.0660], // Approaching Sai Leo Nagar
-    [12.9560, 80.0610],
-    // 5. Sri Sairam Engineering College Main Campus Gate
-    [12.9601, 80.0574]
+    [13.0403, 80.1723], // Valasaravakkam
+    [13.0360, 80.1650], // Arcot Rd
+    [13.0336, 80.1585], // Lakshmi Nagar, Porur
+    [13.0280, 80.1470], // Karampakkam
+    [13.0230, 80.1360], // Kundrathur Main Rd
+    [13.0180, 80.1250], // Pannichery
+    [13.0080, 80.1110], // Kovur
+    [12.9976, 80.0964], // Kundrathur
+    [12.9850, 80.0820], // Somangalam Link
+    [12.9720, 80.0710],
+    [12.9601, 80.0574]  // Sri Sairam Engineering College
   ],
 
+  // Route 2: Kandigai – Rathnamangalam – Vandalur
   route_2: [
-    // 1. Koyambedu CMBT
-    [13.0674, 80.2057],
-    [13.0600, 80.2010],
-    [13.0510, 80.1900], // Vadapalani / Arcot Road
-    [13.0420, 80.1760], // Ramapuram
-    // 2. Porur Toll Junction
-    [13.0336, 80.1585],
-    [13.0240, 80.1420], // Kundrathur Main Road
-    [13.0130, 80.1210], // Kovur
-    // 3. Kundrathur Murugan Temple Gate
-    [12.9976, 80.0964],
-    [12.9880, 80.0860],
-    // 4. Somangalam Junction
-    [12.9723, 80.0732],
-    [12.9660, 80.0640], // Somangalam - West Tambaram link
-    // 5. Sri Sairam Engineering College Main Gate
-    [12.9601, 80.0574]
+    [12.8720, 80.1410], // Kandigai Police Quarters
+    [12.8790, 80.1425], // Kandigai
+    [12.8750, 80.1320], // Vandalur-Kelambakkam Rd
+    [12.8680, 80.1210], // Rathnamangalam
+    [12.8760, 80.1100],
+    [12.8850, 80.0980], // Kolapakkam
+    [12.8800, 80.0815], // Vandalur Zoo
+    [12.8980, 80.0810], // GST Rd
+    [12.9150, 80.0840], // Mudichur Link
+    [12.9350, 80.0750], // Kishkinta Rd
+    [12.9601, 80.0574]  // Sri Sairam Engineering College
+  ],
+
+  // Route 3: Pammal – Pozhichallur – Thiruneermalai
+  route_3: [
+    [12.9720, 80.1380], // Pammal
+    [12.9810, 80.1430], // Pozhichallur
+    [12.9710, 80.1370], // Pammal Main Rd
+    [12.9620, 80.1310], // Nagalkeni
+    [12.9570, 80.1150], // Thiruneermalai
+    [12.9540, 80.0950], // Thiruneermalai Bypass / West Tambaram
+    [12.9520, 80.0780], // Kishkinta Rd
+    [12.9601, 80.0574]  // Sri Sairam Engineering College
+  ],
+
+  // Route 4: Mappedu – Thiruvancherry
+  route_4: [
+    [12.8710, 80.1480], // Mappedu
+    [12.8860, 80.1400], // Thiruvancherry
+    [12.8940, 80.1350], // Camp Rd Corridor
+    [12.9020, 80.1310], // Lakshmi Ammal College area
+    [12.9150, 80.1250], // Bharath Univ area
+    [12.9249, 80.1000], // Tambaram West
+    [12.9380, 80.0780], // Kishkinta Rd
+    [12.9601, 80.0574]  // Sri Sairam Engineering College
+  ],
+
+  // Route 5: Tambaram – Perungalathur – College
+  route_5: [
+    [12.9255, 80.1170], // Tambaram Railway Station area
+    [12.9249, 80.1000], // Tambaram West
+    [12.9150, 80.0930], // GST Rd
+    [12.9050, 80.0880], // Perungalathur
+    [12.8910, 80.0810], // Vandalur
+    [12.9120, 80.0760], // Mudichur / Kishkinta Rd
+    [12.9400, 80.0680],
+    [12.9601, 80.0574]  // Sri Sairam Engineering College
   ]
 };
 
-function getRouteGeometry(routeId) {
-  return ROUTE_GEOMETRIES[routeId] || null;
+function getRouteGeometry(routeId, dbStops = []) {
+  if (ROUTE_GEOMETRIES[routeId]) return ROUTE_GEOMETRIES[routeId];
+  if (dbStops && dbStops.length > 0) {
+    const sorted = [...dbStops].sort((a, b) => (a.sequence_order || 0) - (b.sequence_order || 0));
+    return sorted.map(s => [s.latitude, s.longitude]);
+  }
+  return null;
 }
 
 module.exports = {

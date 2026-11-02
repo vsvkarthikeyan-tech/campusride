@@ -130,7 +130,7 @@ async function runTests() {
     // Registration Flow with OTP Verification
     const testRegEmail = `test_${Date.now()}@saitrack.com`;
     const regRes = await request('POST', '/api/auth/register', {
-      name: 'Test Cadet',
+      name: 'Aakash Verma',
       email: testRegEmail,
       phone: '+919876549999',
       password: 'mypassword123',
